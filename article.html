@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles App</title>
+    <link rel="stylesheet" href="./assets/style/article.css">
+</head>
+
+<body>
+
+    <div class="article-app">
+        <!-- HEADER -->
+        <header class="article-header">
+            <div class="article-header-left">
+                <div class="article-back">←</div>
+                <div class="article-header-title">📄 Articles</div>
+            </div>
+        </header>
+
+        <div class="article-body">
+            <!-- SIDEBAR -->
+            <div class="article-sidebar">
+                <div class="article-tool active" data-tab="practice">✏️</div>
+                <div class="article-tool" data-tab="translation">🌍</div>
+                <div class="article-tool" data-tab="lexical">📚</div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="article-content">
+                <!-- PRACTICE PANEL -->
+                <div class="article-panel active" id="practice">
+                    <div class="article-left">
+                        <div class="article-label">📄 Original Article</div>
+                        <div class="article-text">
+                            <!-- Контент будет загружен из JavaScript -->
+                            <p>Loading article...</p>
+                        </div>
+                    </div>
+
+                    <div class="article-right">
+                        <div class="article-label">✏ Write Your Translation</div>
+                        <textarea class="article-editor" placeholder="Введите ваш перевод..."></textarea>
+                        <div class="article-wordcount">0 words</div>
+                    </div>
+                </div>
+
+                <!-- TRANSLATION PANEL -->
+                <div class="article-panel" id="translation">
+                    <div class="article-card">
+                        <h2>Matnning o‘zbekcha tarjimasi</h2>
+                        <p>Loading translation...</p>
+                    </div>
+                </div>
+
+                <!-- LEXICAL PANEL -->
+                <div class="article-panel" id="lexical">
+                    <div class="lexical-wrapper">
+                        <div class="lexical-header">📚 Lexical Resources</div>
+                        <!-- Контент будет загружен из JavaScript -->
+                        <p>Loading vocabulary...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/article.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard - English Practice</title>
+  <link rel="stylesheet" href="./assets/style/flashcard.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <div class="home-btn">← Home</div>
+      </div>
+      <div class="header-center">
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <div class="card-count">Card <span id="cardNum">1</span> of <span id="totalCards">10</span></div>
+      </div>
+      <div class="header-right">
+        <div class="pdf-btn">Download PDF</div>
+      </div>
+    </div>
+
+    <div class="flashcard-container" id="flashcardContainer">
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-inner" id="flashcardInner">
+          <!-- Front of card -->
+          <div class="flashcard-front">
+            <div class="flashcard-content">
+              <div class="flashcard-icon">💬</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="flashcard-back">
+            <div class="flashcard-content">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="control-btn" id="prevBtn">← Previous</button>
+      <button class="control-btn flip-btn" id="flipBtn">Flip Card</button>
+      <button class="control-btn" id="nextBtn">Next →</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./assets//js/config.js"></script>
+  <script src="./assets/js/flashcard.js"></script>
+</body>
+
+</html>

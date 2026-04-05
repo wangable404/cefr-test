@@ -1,0 +1,158 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background: #021d1c;
+    font-family: Arial, sans-serif;
+}
+
+.flashcard {
+    width: 420px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 20px;
+    background: #032b29;
+    border: 2px solid #2ee6c9;
+    color: #eafffb;
+    box-shadow: 0 0 20px rgba(46, 230, 201, 0.2);
+}
+
+.flashcard__header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.flashcard__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.flashcard__title h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.badge {
+    background: #2ee6c9;
+    color: #003b36;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #9fd9d2;
+    margin-top: 5px;
+}
+
+.flashcard__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #022422;
+    border: 1px solid #0c4f49;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.item:hover {
+    background: #033532;
+    border-color: #2ee6c9;
+}
+
+.item__icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #021d1c;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.flashcard__close {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #0c4f49;
+    background: transparent;
+    color: #cffff7;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.flashcard__close:hover {
+    background: #033532;
+    border-color: #2ee6c9;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .flashcard {
+        width: 90%;
+        max-width: 420px;
+        margin: 30px auto;
+        padding: 16px;
+    }
+    
+    .flashcard__title h2 {
+        font-size: 20px;
+    }
+    
+    .item {
+        padding: 12px;
+    }
+    
+    .item__icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .flashcard {
+        margin: 20px auto;
+        padding: 14px;
+        border-radius: 16px;
+    }
+    
+    .flashcard__title h2 {
+        font-size: 18px;
+    }
+    
+    .badge {
+        font-size: 12px;
+    }
+    
+    .subtitle {
+        font-size: 12px;
+    }
+    
+    .item {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .item__icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}

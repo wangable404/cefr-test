@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leave Session Modal</title>
+    <link rel="stylesheet" href="./assets/style/error.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="error-page">Example exam page content</div>
+
+    <div class="error-overlay">
+        <div class="error-modal">
+            <div class="error-warning">!</div>
+
+            <div class="error-title">Leaving Session?</div>
+
+            <div class="error-text">Are you sure you want to leave?</div>
+
+            <div class="error-warning-text">
+                Your current progress will be lost!
+            </div>
+
+            <button class="error-btn-primary">✓ Continue Learning</button>
+
+            <button class="error-btn-secondary">Leave Anyway</button>
+        </div>
+    </div>
+    <div class="error-overlay" id="leaveModal" style="display: none;">
+        <div class="error-modal">
+            <div class="error-warning">!</div>
+
+            <div class="error-title">Leaving Session?</div>
+
+            <div class="error-text">Are you sure you want to leave?</div>
+
+            <div class="error-warning-text">
+                Your current progress will be lost!
+            </div>
+
+            <button class="error-btn-primary" id="continueBtn">
+                ✓ Continue Learning
+            </button>
+
+            <button class="error-btn-secondary" id="leaveBtn">
+                Leave Anyway
+            </button>
+        </div>
+    </div>
+
+    <script src="./assets/js/error.js"></script>
+</body>
+
+</html>

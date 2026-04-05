@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IELTS Mock</title>
+    <link rel="stylesheet" href="../assets/style/IELTS.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="ielts-body">
+    <div class="ielts-card">
+        <div class="ielts-back">←</div>
+
+        <div class="ielts-avatar"></div>
+
+        <div class="ielts-title">IELTS Full Mock Exam</div>
+
+        <div class="ielts-subtitle">Complete 4-Module Assessment</div>
+
+        <form id="ieltsForm">
+            <label class="ielts-label">Full Name</label>
+            <input class="ielts-input ielts-input-success" type="text" id="fullName" placeholder="Enter full name" />
+
+            <label class="ielts-label">Passcode</label>
+            <input class="ielts-input ielts-input-error" type="number" id="passcode" placeholder="Enter passcode" />
+
+            <p id="errorMessage" class="error-message"></p>
+
+            <button type="submit" class="ielts-button">Begin IELTS Mock</button>
+        </form>
+    </div>
+
+    <script src="../assets/js/IELTS.js"></script>
+</body>
+
+</html>

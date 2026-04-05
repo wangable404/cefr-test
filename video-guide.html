@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Guides — CEFR Writing</title>
+
+    <!-- Google Fonts (Inter + Outfit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./assets/style/video-guide.css">
+</head>
+
+<body>
+
+    <!-- ===========================
+         Основная карточка с видео-гайдами
+    ============================ -->
+    <div class="video-guide-container">
+
+        <!-- Заголовок -->
+        <header class="video-guide-header">
+            <div class="video-guide-icon-large">
+                <i class="fas fa-play-circle"></i>
+            </div>
+            <h1 class="video-guide-title">📁 CEFR Writing</h1>
+            <p class="video-guide-subtitle">3 video guides available</p>
+        </header>
+
+        <!-- Список видео-гайдов -->
+        <div class="video-guide-list">
+
+            <div class="video-guide-item" data-video="https://www.youtube.com/watch?v=VIDEO1" tabindex="0" role="button" aria-label="Watch Writing Mock 1 Guide">
+                <div class="video-guide-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="video-guide-info">
+                    <div class="video-guide-name">Writing Mock 1 Guide</div>
+                    <div class="video-guide-desc">Full walkthrough • 15:30</div>
+                </div>
+                <div class="video-guide-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="video-guide-item" data-video="https://www.youtube.com/watch?v=VIDEO2" tabindex="0" role="button" aria-label="Watch Writing Mock 2 Guide">
+                <div class="video-guide-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="video-guide-info">
+                    <div class="video-guide-name">Writing Mock 2 Guide</div>
+                    <div class="video-guide-desc">Full walkthrough • 22:45</div>
+                </div>
+                <div class="video-guide-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="video-guide-item" data-video="https://www.youtube.com/watch?v=VIDEO3" tabindex="0" role="button" aria-label="Watch Writing Mock 3 Guide">
+                <div class="video-guide-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="video-guide-info">
+                    <div class="video-guide-name">Writing Mock 3 Guide</div>
+                    <div class="video-guide-desc">Full walkthrough • 18:20</div>
+                </div>
+                <div class="video-guide-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="video-guide-item" data-video="https://www.youtube.com/watch?v=VIDEO4" tabindex="0" role="button" aria-label="Watch Writing Mock 4 Guide">
+                <div class="video-guide-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="video-guide-info">
+                    <div class="video-guide-name">Writing Mock 4 Guide</div>
+                    <div class="video-guide-desc">Full walkthrough • 25:00</div>
+                </div>
+                <div class="video-guide-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Кнопка назад -->
+        <button class="video-guide-back" id="backBtn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Exam
+        </button>
+
+    </div>
+
+    <!-- Модальное окно для видео -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="video-modal-frame">
+                <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/video-guide.js"></script>
+
+</body>
+
+</html>

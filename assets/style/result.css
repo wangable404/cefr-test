@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f3f3;
+}
+
+.result {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.result__container {
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+    background: #f3f3f3;
+}
+
+/* Заголовок */
+.result__title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Большой score */
+.result__score {
+    font-size: 120px;
+    color: #e11d2e;
+    margin-bottom: 10px;
+}
+
+/* Дата */
+.result__date {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+/* Карточки */
+.result__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.result__card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.result__card p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.result__card span {
+    font-size: 32px;
+    color: #e11d2e;
+    font-weight: bold;
+}
+
+/* 📱 Телефон */
+@media (max-width: 600px) {
+    .result__score {
+        font-size: 80px;
+    }
+
+    .result__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 📲 Планшет */
+@media (max-width: 900px) {
+    .result__score {
+        font-size: 100px;
+    }
+}

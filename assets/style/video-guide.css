@@ -1,0 +1,538 @@
+/* ── Сброс и базовые стили ── */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1e293b;
+    background-image: 
+        url('../img/reading-part-3.png'),
+        radial-gradient(circle at 20% 80%, rgba(15, 155, 142, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+/* ── Основной контейнер-карточка ── */
+.video-guide-container {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    max-width: 480px;
+    width: 100%;
+    padding: 40px 36px;
+    animation: video-guide-fadeInUp 0.6s ease-out both;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-guide-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0f9b8e, #14b8a6, #0f9b8e);
+    background-size: 200% 100%;
+    animation: video-guide-gradientMove 3s ease infinite;
+}
+
+@keyframes video-guide-gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ── Анимация появления карточки ── */
+@keyframes video-guide-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Заголовок секции ── */
+.video-guide-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.video-guide-icon-large {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #0f9b8e 0%, #0d8377 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 8px 24px rgba(15, 155, 142, 0.25);
+    animation: video-guide-iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes video-guide-iconPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(15, 155, 142, 0.25);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 12px 32px rgba(15, 155, 142, 0.35);
+    }
+}
+
+.video-guide-icon-large i {
+    font-size: 2rem;
+    color: white;
+}
+
+.video-guide-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.video-guide-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* ── Список видео-гайдов ── */
+.video-guide-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+/* ── Карточка видео-гайда ── */
+.video-guide-item {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 18px 16px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: video-guide-cardAppear 0.5s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-guide-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #0f9b8e, #14b8a6);
+    transform: scaleY(0);
+    transition: transform 0.25s ease;
+}
+
+/* Задержки появления для каждой карточки */
+.video-guide-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.video-guide-item:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.video-guide-item:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.video-guide-item:nth-child(4) {
+    animation-delay: 0.5s;
+}
+
+.video-guide-item:nth-child(5) {
+    animation-delay: 0.6s;
+}
+
+@keyframes video-guide-cardAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Эффект при наведении на карточку */
+.video-guide-item:hover,
+.video-guide-item:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(15, 155, 142, 0.15);
+    border-color: #0f9b8e;
+    background: #f1f5f9;
+    outline: none;
+}
+
+.video-guide-item:hover::before,
+.video-guide-item:focus::before {
+    transform: scaleY(1);
+}
+
+.video-guide-item:active {
+    transform: translateY(-1px);
+}
+
+/* ── Иконка видео ── */
+.video-guide-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #0f9b8e 0%, #0d8377 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(15, 155, 142, 0.2);
+}
+
+.video-guide-icon i {
+    color: white;
+}
+
+.video-guide-item:hover .video-guide-icon,
+.video-guide-item:focus .video-guide-icon {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0 6px 16px rgba(15, 155, 142, 0.3);
+}
+
+/* ── Информация о видео ── */
+.video-guide-info {
+    flex: 1;
+    text-align: left;
+    margin-left: 14px;
+    padding-right: 8px;
+}
+
+.video-guide-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.video-guide-desc {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.video-guide-desc::before {
+    content: '•';
+    color: #94a3b8;
+}
+
+/* ── Стрелка ── */
+.video-guide-arrow {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: transparent;
+}
+
+.video-guide-item:hover .video-guide-arrow,
+.video-guide-item:focus .video-guide-arrow {
+    transform: translateX(4px);
+    color: #0f9b8e;
+    background: rgba(15, 155, 142, 0.1);
+}
+
+/* ── Кнопка «Back» ── */
+.video-guide-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 28px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50px;
+    background: transparent;
+    color: #475569;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.video-guide-back i {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+}
+
+.video-guide-back:hover {
+    background: #f1f5f9;
+    border-color: #0f9b8e;
+    color: #0f9b8e;
+}
+
+.video-guide-back:hover i {
+    transform: translateX(-4px);
+}
+
+.video-guide-back:active {
+    transform: scale(0.98);
+}
+
+/* ── Модальное окно для видео ── */
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.video-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.video-modal.active .video-modal-content {
+    transform: scale(1);
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.video-modal-frame {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-modal-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Адаптивность: планшеты ── */
+@media (max-width: 768px) {
+    body {
+        padding: 24px 12px;
+    }
+
+    .video-guide-container {
+        padding: 32px 24px 28px;
+        border-radius: 20px;
+    }
+
+    .video-guide-title {
+        font-size: 1.4rem;
+    }
+
+    .video-guide-icon-large {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+    }
+
+    .video-guide-icon-large i {
+        font-size: 1.75rem;
+    }
+
+    .video-guide-item {
+        padding: 16px 14px;
+    }
+
+    .video-guide-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
+    }
+
+    .video-guide-name {
+        font-size: 0.95rem;
+    }
+
+    .video-guide-desc {
+        font-size: 0.75rem;
+    }
+
+    .video-modal-content {
+        max-width: 100%;
+    }
+}
+
+/* ── Адаптивность: мобильные устройства ── */
+@media (max-width: 480px) {
+    body {
+        padding: 16px 8px;
+        align-items: flex-start;
+    }
+
+    .video-guide-container {
+        padding: 24px 16px 20px;
+        border-radius: 16px;
+    }
+
+    .video-guide-title {
+        font-size: 1.25rem;
+    }
+
+    .video-guide-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .video-guide-icon-large {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        margin-bottom: 14px;
+    }
+
+    .video-guide-icon-large i {
+        font-size: 1.5rem;
+    }
+
+    .video-guide-list {
+        gap: 12px;
+    }
+
+    .video-guide-item {
+        padding: 14px 12px;
+        border-radius: 14px;
+    }
+
+    .video-guide-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    .video-guide-info {
+        margin-left: 12px;
+    }
+
+    .video-guide-name {
+        font-size: 0.9rem;
+    }
+
+    .video-guide-desc {
+        font-size: 0.7rem;
+    }
+
+    .video-guide-arrow {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+
+    .video-guide-back {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+    }
+
+    .video-modal-close {
+        top: -44px;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+}
+
+/* ── Утилиты для доступности ── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

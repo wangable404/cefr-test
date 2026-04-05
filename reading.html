@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style/reading.css">
+    <style>
+        /* ========================================
+   READING - Part 1, 2 & 3 Styles
+   ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .reading {
+            background: #f4f6f7;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #0f7f6d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-actions button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s ease;
+        }
+
+        .header-actions button:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-back {
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header-timer {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Steps */
+        .reading-steps {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            background: white;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .reading-steps .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e0e0e0;
+            color: #666;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reading-steps .step:hover {
+            background: #d0d0d0;
+        }
+
+        .reading-steps .step.active {
+            background: #0f7f6d;
+            color: white;
+            box-shadow: 0 4px 8px rgba(15, 127, 109, 0.3);
+        }
+
+        /* Content Area */
+        .reading-content,
+        .reading-part2,
+        .reading-part3 {
+            max-width: 100%;
+            margin: 0 auto 30px;
+            background: white;
+            padding: 30px 40px;
+            margin: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .reading-content h3,
+        .reading-part2 h3,
+        .reading-part3 h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f7f6d;
+            margin-bottom: 12px;
+        }
+
+        .reading-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        .instruction {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-left: 4px solid #0f7f6d;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .reading-content p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        /* Gap inputs */
+        .gap {
+            width: 100px;
+            border: none;
+            border-bottom: 2px solid #bbb;
+            background: transparent;
+            padding: 4px 8px;
+            font-size: 15px;
+            text-align: center;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .gap:focus {
+            border-bottom-color: #0f7f6d;
+        }
+
+        .gap::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        /* Part 2 */
+        .part-title {
+            color: #0f7f6d;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .part2-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .reference {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .reference h4 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ref-item {
+            background: white;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #444;
+            border: 1px solid #e8e8e8;
+            transition: all 0.2s ease;
+        }
+
+        .ref-item:hover {
+            border-color: #0f7f6d;
+            box-shadow: 0 2px 6px rgba(15, 127, 109, 0.15);
+        }
+
+        .questions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .q-card {
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-left: 4px solid #0f7f6d;
+            padding: 16px 20px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .q-card:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .q-card p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .q-card b {
+            color: #0f7f6d;
+            font-weight: 600;
+        }
+
+        .q-card select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .q-card select:hover {
+            border-color: #0f7f6d;
+        }
+
+        .q-card select:focus {
+            outline: none;
+            border-color: #0f7f6d;
+            box-shadow: 0 0 0 3px rgba(15, 127, 109, 0.15);
+        }
+
+        .q-card select.has-value {
+            border-color: #0f7f6d;
+            background-color: #f0f9f7;
+        }
+
+        /* Part 3 */
+        .part3-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .part3-text {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .part3-text h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        .part3-text p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 14px;
+        }
+
+        .part3-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #e8e8e8;
+        }
+
+        .action-buttons button {
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-check {
+            background: #0f7f6d;
+            color: white;
+            border: none;
+        }
+
+        .btn-check:hover {
+            background: #0a6b5d;
+            box-shadow: 0 4px 12px rgba(15, 127, 109, 0.3);
+        }
+
+        .btn-next {
+            background: white;
+            color: #0f7f6d;
+            border: 2px solid #0f7f6d;
+        }
+
+        .btn-next:hover {
+            background: #f0f9f7;
+        }
+
+        .btn-finish-action {
+            background: transparent;
+            color: #666;
+            border: 1px solid #ccc;
+        }
+
+        .btn-finish-action:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+
+            .part2-grid,
+            .part3-content {
+                grid-template-columns: 1fr;
+            }
+
+            .reference {
+                order: 2;
+            }
+
+            .questions {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .header-actions {
+                order: 2;
+            }
+
+            .header-title {
+                order: 1;
+            }
+
+            .header-timer {
+                order: 3;
+            }
+
+            .reading-content,
+            .reading-part2,
+            .reading-part3 {
+                padding: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="reading">
+
+    <header class="header">
+        <div class="header-actions">
+            <button class="btn-back" onclick="goBack()">←</button>
+            <button class="btn-pause" id="pauseBtn">Pause</button>
+            <button class="btn-finish" onclick="finishTest()">Finish</button>
+        </div>
+        <div class="header-title">Reading</div>
+        <div class="header-timer" id="timer">31:22</div>
+    </header>
+
+    <div class="reading-steps">
+        <span class="step active" id="step-1">1</span>
+        <span class="step" id="step-2">2</span>
+        <span class="step" id="step-3">3</span>
+        <span class="step" id="step-4">4</span>
+        <span class="step" id="step-5">5</span>
+    </div>
+
+    <div class="reading-content">
+
+        <h3>Part 1</h3>
+        <p class="instruction">
+            Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the
+            text.
+        </p>
+
+        <h2>Can Machines Think?</h2>
+
+        <p>
+            How can you tell if you are talking to a computer? New
+            <input type="text" class="gap"> programs called language models have gotten very good at mimicking people.
+            It can be really hard to tell if you're talking to a person or a computer.
+        </p>
+
+        <p>
+            Can a machine think? Philosophers have been trying to answer this question for hundreds of years.
+            It's surprisingly tricky to come up with a good answer!
+            Alan Turing was a computer scientist who thought a lot about artificial intelligence (AI).
+            He had an idea for a different way to test intelligence. Instead of measuring
+            <input type="text" class="gap"> directly, what if you measured intelligent behavior?
+        </p>
+
+        <p>
+            Can a computer answer questions in a human-like way? If a computer can respond to you so well
+            that you can't tell whether it is a computer or a person, we say that it passes the Turing test.
+        </p>
+
+        <p>
+            Recently, computer programs called language models have gotten much better at mimicking
+            <input type="text" class="gap"> language. These AI
+            <input type="text" class="gap"> analyze millions of sentences from books and websites to learn hidden
+            patterns in
+            language.
+        </p>
+
+        <p>
+            It's exciting to see AI generating realistic sentences. But there are also problems with AI-generated
+            <input type="text" class="gap"> to cheat on tests. Chatbots can give harmful advice.
+            And scammers can use AI to generate fake information so they can trick
+            <input type="text" class="gap">.
+        </p>
+
+    </div>
+
+    <div class="reading-part2">
+
+        <h3 class="part-title">Part 2</h3>
+        Read the texts 7-14 and the statements A-J. Decide which text matches with the situation described in the
+        statements. Each statement can be used ONCE only. There are TWO extra statements which you do not need to use.
+        </p>
+
+        <div class="part2-grid">
+
+            <!-- LEFT - Reference A-J -->
+            <div class="reference">
+                <h4>Reference</h4>
+
+                <div class="ref-item">A) You want a personal service.</div>
+                <div class="ref-item">B) You want visit a lakeside hotel during summer.</div>
+                <div class="ref-item">C) You want someone to go fishing for you.</div>
+                <div class="ref-item">D) You want to go someplace unique with nice foods during your holidays.</div>
+                <div class="ref-item">E) This hotel is suitable for exploration, visiting a beach etc.</div>
+                <div class="ref-item">F) This hotel is near docks.</div>
+                <div class="ref-item">G) You are looking for a reliable hotel to visit in autumn.</div>
+                <div class="ref-item">H) You want to visit beaches during September and October.</div>
+                <div class="ref-item">I) This hotel is a beach and has some relaxing facilities.</div>
+                <div class="ref-item">J) This place has golf and a fitness centre.</div>
+            </div>
+
+            <!-- RIGHT - Questions 7-14 -->
+            <div class="questions">
+
+                <div class="q-card">
+                    <p><b>7.</b>7.
+                        Phone 876451 to book a table
+                        <br>
+                        Pizzas from $6 each
+                        <br>
+                        Student Thursdays! Pizzas only $4.75!
+                        <br>
+                        Every day until 9.00 p.m.
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>8.</b> Dishes from all over the world
+                        <br>
+                        Next to the museum
+                        <br>
+                        Main courses – only br£10!
+                        <br>
+                        Monday – Saturday 11 a.m.-3 p.m.
+                        <br>
+                        Visit: www.worldcafe.com
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>9.</b> Opposite the library
+                        <br>
+                        Cheap snacks
+                        <br>
+                        Soups 75p
+                        <br>
+                        All cans 50p
+                        <br>
+                        Every break time
+                        <br>
+                        Email: jenny@snackshop.com
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>10.</b> The best Chinese food in town!
+                        <br>
+                        **Special meals for children**
+                        <br>
+                        Also 10 tables in our pretty garden
+                        <br>
+                        To book a table – call 813729
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>11.</b> - opposite Star Cinema -
+                        <br>
+                        Open 5p.m. – 11 p.m.
+                        <br>
+                        Burgers! Chips! Pizzas!
+                        <br>
+                        special takeaway lunch £5.50
+                        <br>
+                        closed Mondays
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>12.</b> MONDAY – SATURDAY
+                        <br>
+                        6.00 a.m. – midnight
+                        <br>
+                        TAKE AWAY & EAT IN
+                        <br>
+                        NO SMOKING
+                        <br>
+                        Sandwiches from £1.50 | Pizzas from £5.30 | Juices 90p
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>13.</b> £1 for 30 minutes on computer
+                        <br>
+                        Tuesday – Sunday 8 am – 8 pm
+                        <br>
+                        Cake, cold drinks, coffee
+                        <br>
+                        23 GEORGE STREET
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>14.</b> We make 100 different sandwiches!
+                        <br>
+                        Hot soup | Orange juice | Coffee
+                        <br>
+                        £2.80 each sandwich
+                        <br>
+                        Car park behind shop
+                        <br>
+                        Closed on Mondays
+                    </p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) You want a personal service.</option>
+                        <option value="B">B) You want visit a lakeside hotel during summer</option>
+                        <option value="C">C) You want someone to go fishing for you.</option>
+                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
+                        </option>
+                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
+                        <option value="F">F) This hotel is near docks.</option>
+                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
+                        <option value="H">H) You want to visit beaches during September and October.</option>
+                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
+                        <option value="J">J) This place has golf and a fitness centre.</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="reading-part3">
+
+        <h3 class="part-title">Part 3</h3>
+        <p class="instruction">
+            Read the text and choose the correct heading for each paragraph from the list of headings below. There are
+            more headings than paragraphs, so you will not use all of them. You cannot use any heading more than once.
+            Mark your answers on the answer sheet.
+        </p>
+
+        <div class="part3-content">
+            <div class="part3-text">
+                <h2>Western Theatre</h2>
+                <p>
+                    <span class="part3-text-name">Paragraph I</span>
+                    <br>
+                    Modern Western theatre comes in large measure from ancient Greek drama, from which it takes
+                    technical terminology, classification into genres, and many of its themes, stock characters, and
+                    plot elements. The Greeks also developed the concepts of dramatic criticism, acting as a career, and
+                    theatre architecture. The theatre of ancient Greece consisted of three types of drama: tragedy,
+                    comedy, and the satyr play.
+                </p>
+                <p>
+                    <span class="part3-text-name">Paragraph II</span>
+                    <br>
+                    Western theatre developed and expanded considerably under the Romans. The Roman historian Livy wrote
+                    that the Romans first experienced theatre in the 4th century BC. The theatre of ancient Rome was a
+                    thriving and diverse art form, ranging from festival performances of street theatre, nude dancing,
+                    and acrobatics, to the staging of broadly appealing situation comedies, to the high-style, verbally
+                    elaborate tragedies.
+                </p>
+                <p>
+                    <span class="part3-text-name">Paragraph III</span>
+                    <br>
+                    Theatre took on many different forms in the West between the 15th and 19th centuries, including
+                    commedia dell'arte and melodrama. The general trend was away from the poetic drama of the Greeks and
+                    the Renaissance and toward a more naturalistic prose style of dialogue, especially following the
+                    Industrial Revolution. Theatre today, broadly defined, includes performances of plays and musicals,
+                    ballets, operas and various other forms.
+                </p>
+                <p>
+                    <span class="part3-text-name">Paragraph IV</span>
+                    <br>
+                    The eighteenth century in Britain introduced women to the stage, which would have been extremely
+                    inappropriate before. These women were looked at as celebrities but on the other hand, it was still
+                    very new and revolutionary that they were on the stage and some said they were unladylike and looked
+                    down on. Charles II did not like young men playing the parts of young women, so he asked that women
+                    play their own parts.
+                </p>
+                <p>
+                    <span class="part3-text-name">Paragraph V</span>
+                    <br>
+                    Theatre took a big pause during 1642 and 1660 in England because of Cromwell's Interregnum. Theatre
+                    was seen as something sinful and the Puritans tried very hard to drive it out of their society.
+                    Because of this stagnant period, once Charles II came back to the throne in 1660, theatre (among
+                    other arts) exploded because of a lot of influence from France, where Charles was in exile the years
+                    previous to his reign.
+                </p>
+                <p>
+                    <span class="part3-text-name">Paragraph VI</span>
+                    <br>
+                    Stagecraft is a term referring to the technical aspects of theatrical, film, and video production.
+                    It includes constructing scenery, hanging and focusing of lighting, design and procurement of
+                    costumes, makeup, props, stage management, and recording and mixing of sound. Considered a technical
+                    rather than an artistic field, it is equally crucial for the practical implementation of a
+                    designer's artistic idea.
+                </p>
+            </div>
+
+            <div class="part3-questions">
+                <div class="reference">
+                    <h4>Available Headings</h4>
+
+                    <div class="ref-item">A) theatre and politics</div>
+                    <div class="ref-item">B) Ladies enter</div>
+                    <div class="ref-item">C) Orign of theatre</div>
+                    <div class="ref-item">D) Not the last important</div>
+                    <div class="ref-item">E) Varieties of theatres</div>
+                    <div class="ref-item">F) Stars for a repertoire</div>
+                    <div class="ref-item">G) A step to a wider variety</div>
+                    <div class="ref-item">H) Modern problems </div>
+                </div>
+                <div class="q-card">
+                    <p><b>15.</b> What is the main topic of the passage?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>16.</b> According to the passage, how do some people feel about AI?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>17.</b> What does the passage say about experts' predictions?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>18.</b> What ethical question does the passage mention?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>19.</b> What is the author's main conclusion?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+                <div class="q-card">
+                    <p><b>20.</b> What is the tone of the passage?</p>
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="A">A) theatre and politics</option>
+                        <option value="B">B) Ladies enter</option>
+                        <option value="C">C) Orign of theatre</option>
+                        <option value="D">D) Not the last important</option>
+                        <option value="E">E) Varieties of theatres</option>
+                        <option value="F">F) Stars for a repertoire</option>
+                        <option value="G">G) A step to a wider variety</option>
+                        <option value="H">H) Modern problems</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <section class="reading-part-4-container">
+
+            <div class="reading-part-4-left">
+                <h2>The Power of Nothing</h2>
+                <p><i>Geoff Watts, New Scientist (May 26th, 2001)</i></p>
+
+                <p>
+                    Placebos are treatments that have no direct effect on the body, yet still, work because the patient
+                    has faith in their power to heal. Most often the term refers to a dummy pill, but it applies just as
+                    much to any device or procedure, from a sticking plaster to a crystal to an operation. The existence
+                    of the placebo effect implies that even quackery may confer real benefits, which is why any mention
+                    of placebo is a touchy subject for many practitioners of complementary and alternative medicine, who
+                    are likely to regard it as tantamount to a charge of charlatanism. In fact, the placebo effect is a
+                    powerful part of all medical care, orthodox or otherwise, though its role is often neglected or
+                    misunderstood.
+                </p>
+
+                <p>
+                    One of the great strengths of CAM may be its practitioners’ skill in deploying the placebo effect to
+                    accomplish real healing. “Complementary practitioners are miles better at producing non-specific
+                    effects and good therapeutic relationships,” says Edzard Ernst, professor of CAM at Exeter
+                    University. The question is whether CAM could be integrated into conventional medicines, as some
+                    would like, without losing much of this power.
+                </p>
+
+                <p>
+                    At one level, it should come as no surprise that our state of mind can influence our physiology:
+                    anger opens the superficial blood vessels of the face; sadness pumps the tear glands. But exactly
+                    how placebos work their medical magic is still largely unknown. Most of the scant research done so
+                    far has focused on the control of pain because it’s one of the commonest complaints and lends itself
+                    to experimental study. Here, attention has turned to the endorphins, morphine-like neurochemicals
+                    known to help control pain.
+                </p>
+
+                <p>
+                    But exactly how placebos work their medical magic is still largely unknown. Most of the scant
+                    research to date has focused on the control of pain because it’s one of the commonest complaints and
+                    lends itself to experimental study. Here, attention has turned to the endorphins, natural
+                    counterparts of morphine that are known to help control pain. “Any of the neurochemicals involved in
+                    transmitting pain impulses or modulating them might also be involved in generating the placebo
+                    response,” says Don Price, an oral surgeon at the University of Florida who studies the placebo
+                    effect in dental pain.
+                </p>
+
+                <p>
+                    “But endorphins are still out in front.” That case has been strengthened by the recent work of
+                    Fabrizio Benedetti of the University of Turin, who showed that the placebo effect can be abolished
+                    by a drug, naloxone, which blocks the effects of endorphins. Benedetti induced pain in human
+                    volunteers by inflating a blood-pressure cuff on the forearm. He did this several times a day for
+                    several days, using morphine each time to control the pain. On the final day, without saying
+                    anything, he replaced the morphine with a saline solution. This still relieved the subjects’ pain: a
+                    placebo effect. But when he added naloxone to the saline the pain relief disappeared. Here was
+                    direct proof that placebo analgesia is mediated, at least in part, by these natural opiates.
+                </p>
+
+                <p>
+                    Still, no one knows how belief triggers endorphin release, or why most people can’t achieve placebo
+                    pain relief simply by willing it. Though scientists don’t know exactly how placebos work, they have
+                    accumulated a fair bit of knowledge about how to trigger the effect. A London rheumatologist found,
+                    for example, that red dummy capsules made more effective painkillers than blue, green or yellow
+                    ones. Research on American students revealed that blue pills make better sedatives than pink, a
+                    colour more suitable for stimulants. Even branding can make a difference: if Aspro or Tylenol is
+                    what you like to take for a headache, their chemically identical generic equivalents may be less
+                    effective.
+                </p>
+
+                <p>
+                    It matters, too, how the treatment is delivered. Decades ago, when the major tranquilliser
+                    chlorpromazine was being introduced, a doctor in Kansas categorised his colleagues according to
+                    whether they were keen on it, openly skeptical of its benefits, or took a “let’s try and see”
+                    attitude. His conclusion: the more enthusiastic the doctor, the better the drug performed. And this
+                    year Ernst surveyed published studies that compared doctors’ bedside manners. The studies turned up
+                    one consistent finding: “Physicians who adopt a warm, friendly and reassuring manner,” he reported,
+                    “are more effective than those whose consultations are formal and do not offer reassurance.”
+                </p>
+            </div>
+
+            <div class="reading-part-4-right">
+
+                <div class="reading-part-4-part">
+                    <h3>Part 4</h3>
+                    <p>Read the following text for questions 21-29.</p>
+                </div>
+
+                <div class="reading-part-4-question">
+                    <h4>21. Placebos work because ...</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>22. According to the passage, what have most studies on placebos focused on?</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>23. The placebo effect, despite it's neglected status …</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>24. Endorphins …</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>25.The placebo effect only works for controlling pain.</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>26. Endorphins are believed to play a role in the placebo effect.</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>27. Naloxone, a drug that blocks endorphins, can eliminate the placebo effect for pain relief.
+                    </h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>28. Scientists fully understand how placebos trigger the release of endorphins.</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>29. The color, branding, and delivery of placebo treatments can influence their effectiveness.
+                    </h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+        <!-- ___________part-5________________ -->
+        <section class="reading-part-4-container">
+
+            <div class="reading-part-4-left">
+                <h2>DIRTY RIVER BUT CLEAN WATER</h2>
+
+                <p>
+                    Floods can occur in rivers when the flow rate exceeds the capacity of the river channel,
+                    particularly at bends or meanders in the waterway. Floods often cause damage to homes and businesses
+                    if they are in the natural flood plains of rivers. While riverine flood damage can be eliminated by
+                    moving away from rivers and other bodies of water, people have traditionally lived and worked by
+                    rivers because the land is usually flat and fertile and because rivers provide easy travel and
+                    access to commerce and industry.
+                </p>
+
+                <p>
+                    FIRE and flood are two of humanity’s worst nightmares. People have, therefore, always sought to
+                    control them. Forest fires are snuffed out quickly. The flow of rivers is regulated by weirs and
+                    dams. At least, that is how it used to be. But foresters have learned that forests need fires to
+                    clear out the brush and even to get seeds to germinate. And a similar revelation is now dawning on
+                    hydrologists. Rivers – and the ecosystems they support – need floods. That is why a man-made torrent
+                    has been surging down the Grand Canyon. By Thursday, March 6th it was running at full throttle,
+                    which was expected to be sustained for 60 hours.
+                </p>
+
+                <p>
+                    Floods once raged through the canyon every year. Spring Snow from as far away as Wyoming would melt
+                    and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a
+                    second. Every eight years or so, that figure rose to almost 3,000 cubic metres. These floods infused
+                    the river with sediment, carved its beaches and built its sandbars.
+                </p>
+
+                <p>
+                    However, in the four decades since the building of the Glen Canyon dam, just upstream of the Grand
+                    Canyon, the only sediment that it has collected has come from tiny, undammed tributaries. Even that
+                    has not been much use as those tributaries are not powerful enough to distribute the sediment in an
+                    ecologically valuable way.
+
+                    This lack of flooding has harmed local wildlife. The humpback chub, for example, thrived in the
+                    rust-red waters of Colorado. Recently, though, its population has crashed. At first sight, it looked
+                    as if the reason was that the chub were being eaten by trout introduced for sport fishing in the
+                    mid-20th century. But trout and chub co-existed until the Glen Canyon dam was built, so something
+                    else is going on. Steve Gloss, of the United States Geological Survey (USGS), reckons that the
+                    chub’s decline is the result of their losing their most valuable natural defense, Colorado’s rusty
+                    sediment. The chub were well adapted to the poor visibility created by the chick, red water which
+                    gave the river its name and depended on it to hide from predators. Without the cloudy water, the
+                    chub became vulnerable.
+                </p>
+
+                <p>
+                    And the chub are not alone. In the years since the Glen Canyon dam was built, several species have
+                    vanished altogether. These include the Colorado pike-minnow, the razorback sucker and the roundtail
+                    chub. Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have
+                    been hard, put to survive in the savage waters of the undammed canyon, have moved in.
+                </p>
+
+                <p>
+                    So flooding is the obvious answer. Unfortunately, it is easier said than done. Floods were sent down
+                    the Grand Canyon in 1996 and 2004 and the results were mixed. In 1996 the flood was allowed to go on
+                    too long. To start with, all seemed well. The floodwaters built up sandbanks and infused the river
+                    with sediment. Eventually, however, the continued flow washed most of the sediment out of the
+                    canyon. This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand
+                    available behind the dam was too low to rebuild the sandbanks. This time, the USGS is convinced that
+                    things will be better. The amount of sediment available is three times greater than it was in 2004.
+                    So if a flood is going to do some good, this is the time to unleash one.
+                </p>
+
+                <p>
+                    Even so, it may turn out to be an empty gesture. At less than 1,200 cubic metres a second, this
+                    flood is smaller than even an average spring flood, let alone one of the mightier deluges of the
+                    past. Those glorious inundations moved massive quantities of sediment through the Grand Canyon,
+                    wiping the slate dirty, and making a muddy mess of silt and muck that would make modern river
+                    rafters cringe.
+                </p>
+            </div>
+
+
+
+            <div class="reading-part-4-right ">
+
+                <div class="reading-part-4-part">
+                    <h3>Part 5</h3>
+                    <p>Read the following text for questions 30-35.</p>
+                </div>
+                <div class="reading-part-5-text">
+
+                    <div class="reading-part-5-text-title">
+                        The eco-impact of the Canyon Dam
+                    </div>
+
+                    <p>
+                        Floods are people’s nightmare. In the past, the canyon was raged by flood every year.
+                        The snow from far Wyoming would melt in the season of
+
+                        <span class="reading-part-5-blank">
+                            <span class="reading-part-5-number">30</span>
+                            <input class="reading-part-5-input" type="text">
+                        </span>
+
+                        and caused a flood flow peak in Colorado river. In the four decades after people built
+                        the Glen Canyon Dam, it only could gather
+
+                        <span class="reading-part-5-blank">
+                            <span class="reading-part-5-number">31</span>
+                            <input class="reading-part-5-input" type="text">
+                        </span>
+
+                        together from tiny, undammed tributaries. humpback chub population reduced, why?
+                        The non-stopped flow led to the washing away of the sediment out of the canyon,
+                        which poses a great threat to the chubs because it has poor
+
+                        <span class="reading-part-5-blank">
+                            <span class="reading-part-5-number">32</span>
+                            <input class="reading-part-5-input" type="text">
+                        </span>
+
+                        away from predators. In addition, the volume of
+
+                        <span class="reading-part-5-blank">
+                            <span class="reading-part-5-number">33</span>
+                            <input class="reading-part-5-input" type="text">
+                        </span>
+
+                        available behind the dam was too low to rebuild the bars and flooding became more serious.
+                    </p>
+
+                </div>
+
+                <div class="reading-part-4-question">
+                    <h4>34. Placebos work because ...</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+                <div class="reading-part-4-question">
+                    <h4>35. According to the passage, what have most studies on placebos focused on?</h4>
+                    <div class="reading-part-4-answers">
+                        <div>A it has an effect on the body</div>
+                        <div>B it grows patient's faith</div>
+                        <div>C it enhances the power to heal</div>
+                        <div>D people believe in their effect</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="./assets/js/reading.js"></script>
+</body>
+
+</html>

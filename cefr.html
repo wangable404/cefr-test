@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CEFR Mock Exam</title>
+    <link rel="stylesheet" href="./assets/style/CEFR.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="cefr-body">
+    <div class="cefr-card">
+        <div class="cefr-back">←</div>
+
+        <div class="cefr-avatar"></div>
+
+        <div class="cefr-title">CEFR Full Mock Exam</div>
+
+        <div class="cefr-subtitle">Complete 4-Module Assessment</div>
+
+        <form id="cefrForm">
+            <label class="cefr-label">Full Name</label>
+            <input class="cefr-input cefr-input-success" type="text" id="fullName" placeholder="Enter full name" />
+
+            <label class="cefr-label">Passcode</label>
+            <input class="cefr-input cefr-input-error" type="number" id="passcode" placeholder="Enter passcode" />
+
+            <p id="errorMessage" class="error-message"></p>
+
+            <button type="submit" class="cefr-button">Begin CEFR Mock</button>
+        </form>
+    </div>
+
+    <script src="./assets/js/CEFR.js"></script>
+</body>
+
+</html>

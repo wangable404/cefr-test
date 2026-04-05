@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Exam — Exam Instructions</title>
+
+    <!-- Google Fonts (Inter + Outfit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/style/mock-exam.css">
+</head>
+
+<body>
+
+    <!-- ===========================
+         HTML — Основная карточка инструкций
+    ============================ -->
+    <div class="mock-exam-container">
+
+        <!-- Заголовок -->
+        <header class="mock-exam-header">
+            <h1 class="mock-exam-title">Exam Instructions</h1>
+            <p class="mock-exam-subtitle">Please read the following rules and structure carefully</p>
+        </header>
+
+        <!-- Сетка карточек с правилами -->
+        <div class="mock-exam-grid">
+
+            <!-- Карточка 1: 4 Sections -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">📋</span>
+                <h3 class="mock-exam-card-title">4 Sections</h3>
+                <p class="mock-exam-card-desc">
+                    The mock consists of Listening, Reading, Writing, and Speaking modules.
+                </p>
+            </div>
+
+            <!-- Карточка 2: 3 Hours Duration -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">⏳</span>
+                <h3 class="mock-exam-card-title">3 Hours Duration</h3>
+                <p class="mock-exam-card-desc">
+                    The entire assessment takes approximately 3 hours to complete.
+                </p>
+            </div>
+
+            <!-- Карточка 3: Auto-Advancing -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">⚡</span>
+                <h3 class="mock-exam-card-title">Auto-Advancing</h3>
+                <p class="mock-exam-card-desc">
+                    In <strong>Listening</strong> and <strong>Speaking</strong>, parts and questions turn automatically.
+                </p>
+            </div>
+
+            <!-- Карточка 4: Section Breaks -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">🍩</span>
+                <h3 class="mock-exam-card-title">Section Breaks</h3>
+                <p class="mock-exam-card-desc">
+                    After each module, you have a <strong>30-second</strong> break to rest or review.
+                </p>
+            </div>
+
+            <!-- Карточка 5: AI Assessment -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">🤖</span>
+                <h3 class="mock-exam-card-title">AI Assessment</h3>
+                <p class="mock-exam-card-desc">
+                    Writing and Speaking tasks are evaluated by advanced <strong>Gemini AI</strong> systems.
+                </p>
+            </div>
+
+            <!-- Карточка 6: Results & Certificate -->
+            <div class="mock-exam-card">
+                <span class="mock-exam-card-icon">📊</span>
+                <h3 class="mock-exam-card-title">Results &amp; Certificate</h3>
+                <p class="mock-exam-card-desc">
+                    At the end, you will receive your overall CEFR score, module scores, and a
+                    <strong>downloadable certificate</strong>.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Кнопка запуска экзамена -->
+        <div class="mock-exam-action">
+            <button class="mock-exam-button" id="mockExamStartBtn">
+                I Understand, Start Exam
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         Модальное окно подтверждения
+    ============================ -->
+    <div class="mock-exam-overlay" id="mockExamOverlay">
+        <div class="mock-exam-modal">
+            <div class="mock-exam-modal-icon">🚀</div>
+            <h2 class="mock-exam-modal-title">Ready to begin?</h2>
+            <p class="mock-exam-modal-text">
+                Once you start, the timer will begin immediately. Make sure you have a stable internet connection
+                and a quiet environment.
+            </p>
+            <div class="mock-exam-modal-actions">
+                <button class="mock-exam-btn-cancel" id="mockExamCancelBtn">Go Back</button>
+                <button class="mock-exam-btn-confirm" id="mockExamConfirmBtn">Start Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         Экран загрузки
+    ============================ -->
+    <div class="mock-exam-loading" id="mockExamLoading">
+        <div class="mock-exam-spinner"></div>
+        <p class="mock-exam-loading-text">Preparing your exam…</p>
+    </div>
+<script src="./assets/js/mock-exam.js"></script>
+    <script src="./mock-exam/start-now.js"></script>
+
+</body>
+
+</html>

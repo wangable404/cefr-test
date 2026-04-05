@@ -1,0 +1,297 @@
+/* assets/style/article.css */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: #f3f4f6;
+}
+
+/* HEADER */
+.article-header {
+    background: #ff6a00;
+    color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.article-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.article-back {
+    cursor: pointer;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.article-header-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* BODY */
+.article-body {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+/* SIDEBAR */
+.article-sidebar {
+    width: 70px;
+    background: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    gap: 15px;
+}
+
+.article-tool {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.article-tool.active {
+    background: #16a34a;
+    color: white;
+}
+
+/* CONTENT */
+.article-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.article-panel {
+    display: none;
+    height: 100%;
+}
+
+.article-panel.active {
+    display: flex;
+    gap: 20px;
+}
+
+/* LEFT & RIGHT PANELS */
+.article-left,
+.article-right {
+    flex: 1;
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    /* чтобы внутренние скроллы работали правильно */
+}
+
+/* LABEL */
+.article-label {
+    color: #22c55e;
+    margin-bottom: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+    /* не сжимается */
+}
+
+/* ARTICLE TEXT - СКРОЛЛ */
+.article-text {
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-y: auto;
+    /* скролл если текста много */
+    flex: 1;
+    padding-right: 10px;
+}
+
+.article-highlight {
+    color: #ff6a00;
+    font-weight: 600;
+}
+
+/* EDITOR */
+.article-editor {
+    width: 100%;
+    flex: 1;
+    /* занимает всё место */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: none;
+}
+
+.article-wordcount {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* TRANSLATION CARD */
+.article-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    line-height: 1.7;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* LEXICAL */
+.lexical-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.lexical-header {
+    font-size: 20px;
+    font-weight: 600;
+    color: #7c3aed;
+    margin-bottom: 20px;
+}
+
+.lex-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+}
+
+.lex-title {
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: #7c3aed;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.lex-desc {
+    margin-top: 8px;
+    color: #444;
+}
+
+.lex-translate {
+    margin-top: 12px;
+    background: #f1efff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #6d28d9;
+    font-weight: 500;
+}
+
+.lex-example {
+    margin-top: 14px;
+    background: #f9fafb;
+    padding: 12px;
+    border-left: 4px solid orange;
+    border-radius: 8px;
+}
+
+.lex-example p {
+    margin: 0 0 6px 0;
+    font-style: italic;
+}
+
+.lex-example span {
+    display: block;
+    margin-top: 6px;
+    color: #555;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .article-body {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .article-sidebar {
+        width: 100%;
+        flex-direction: row;
+        padding: 10px;
+        justify-content: space-around;
+    }
+    
+    .article-content {
+        height: auto;
+        min-height: calc(100vh - 110px);
+    }
+    
+    .article-panel.active {
+        flex-direction: column;
+    }
+    
+    .article-left,
+    .article-right {
+        flex: none;
+        height: auto;
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-header {
+        padding: 0 10px;
+    }
+    
+    .article-header-title {
+        font-size: 14px;
+    }
+    
+    .article-content {
+        padding: 10px;
+    }
+    
+    .article-left,
+    .article-right {
+        padding: 15px;
+    }
+    
+    .article-text {
+        font-size: 14px;
+    }
+    
+    .lex-card {
+        padding: 15px;
+    }
+    
+    .lex-title {
+        font-size: 16px;
+    }
+}

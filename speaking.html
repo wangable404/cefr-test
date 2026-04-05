@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="IELTS Speaking Practice - Part 1.1" />
+    <title>Speaking Practice - IELTS</title>
+    <link rel="stylesheet" href="assets/style/speaking.css" />
+  </head>
+  <body>
+    <!-- Навигационная панель -->
+    <header class="header">
+      <nav class="nav">
+        <div class="nav__logo">
+          <a href="index.html" class="logo-link">
+            <span class="logo-text">IELTS</span>
+            <span class="logo-accent">Practice</span>
+          </a>
+        </div>
+        <div class="nav__controls">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Переключить тему"
+          >
+            <span class="theme-icon sun">☀️</span>
+            <span class="theme-icon moon">🌙</span>
+          </button>
+          <button class="nav__menu-btn" id="menuBtn" aria-label="Меню">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu__content">
+        <a href="index.html" class="mobile-menu__link">Главная</a>
+        <a href="listening.html" class="mobile-menu__link">Listening</a>
+        <a href="reading.html" class="mobile-menu__link">Reading</a>
+        <a href="writing.html" class="mobile-menu__link">Writing</a>
+        <a href="speaking.html" class="mobile-menu__link active">Speaking</a>
+      </div>
+    </div>
+
+    <!-- Основной контент -->
+    <main class="main">
+      <!-- Секция заголовка -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero__content">
+            <h1 class="hero__title">Speaking Practice</h1>
+            <p class="hero__subtitle">Part 1.1 - Introduction & Interview</p>
+            <button class="btn btn--primary" id="instructionsBtn">
+              <span class="btn__icon">📖</span>
+              Инструкции
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Прогресс секция -->
+      <section class="progress-section">
+        <div class="container">
+          <div class="progress-wrapper">
+            <div class="progress-info">
+              <span class="progress-label">Прогресс</span>
+              <span class="progress-text" id="progressText">0 / 10</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar__fill" id="progressFill"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Секция таймера -->
+      <section class="timer-section">
+        <div class="container">
+          <div class="timer-wrapper">
+            <div class="timer-card" id="prepTimer">
+              <div class="timer-card__header">
+                <span class="timer-card__icon">⏱️</span>
+                <span class="timer-card__title">Подготовка</span>
+              </div>
+              <div class="timer-card__time" id="prepTime">00:30</div>
+            </div>
+            <div class="timer-card" id="answerTimer">
+              <div class="timer-card__header">
+                <span class="timer-card__icon">🎤</span>
+                <span class="timer-card__title">Ответ</span>
+              </div>
+              <div class="timer-card__time" id="answerTime">01:00</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Секция вопросов -->
+      <section class="questions-section">
+        <div class="container">
+          <div class="questions-header">
+            <h2 class="section-title">Вопросы</h2>
+            <div class="question-counter">
+              <span id="currentQuestion">1</span> /
+              <span id="totalQuestions">10</span>
+            </div>
+          </div>
+
+          <!-- Карточки вопросов -->
+          <div class="questions-grid" id="questionsGrid">
+            <!-- Карточки будут добавлены через JavaScript -->
+          </div>
+
+          <!-- Навигация между вопросами -->
+          <div class="questions-nav">
+            <button class="btn btn--outline" id="prevBtn" disabled>
+              <span class="btn__icon">←</span>
+              Назад
+            </button>
+            <div class="question-dots" id="questionDots">
+              <!-- Точки навигации будут добавлены через JavaScript -->
+            </div>
+            <button class="btn btn--primary" id="nextBtn">
+              Далее
+              <span class="btn__icon">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Секция активного вопроса -->
+      <section class="active-question-section">
+        <div class="container">
+          <div class="active-question-card" id="activeQuestionCard">
+            <div class="active-question-card__header">
+              <span
+                class="active-question-card__number"
+                id="activeQuestionNumber"
+                >Вопрос 1</span
+              >
+              <span
+                class="active-question-card__category"
+                id="activeQuestionCategory"
+                >Home & Accommodation</span
+              >
+            </div>
+            <div class="active-question-card__content">
+              <p class="active-question-card__text" id="activeQuestionText">
+                Нажмите "Начать тест" для начала практики
+              </p>
+            </div>
+            <div class="active-question-card__footer">
+              <button class="btn btn--success btn--large" id="startAnswerBtn">
+                <span class="btn__icon">🎤</span>
+                Ответить на вопрос
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Статус записи -->
+      <div class="voice-recording-section">
+        <div class="container">
+          <h3 class="voice-title">🎙️ Статус записи</h3>
+          <div class="recording-status" id="recordingStatus">
+            🎤 Готов к записи
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Кнопка завершения теста (появляется в конце) -->
+    <div
+      class="container"
+      style="justify-content: center; display: flex; margin-bottom: 30px"
+      id="finishButtonContainer"
+      style="display: none"
+    >
+      <button class="btn btn--success btn--large" id="finishTestBtn">
+        <span class="btn__icon">✓</span>
+        Завершить тест и отправить все ответы
+      </button>
+    </div>
+
+    <!-- Модальное окно с инструкциями -->
+    <div class="modal" id="instructionsModal">
+      <div class="modal__overlay" id="modalOverlay"></div>
+      <div class="modal__content">
+        <div class="modal__header">
+          <h2 class="modal__title">Инструкции</h2>
+          <button class="modal__close" id="modalClose" aria-label="Закрыть">
+            <span>×</span>
+          </button>
+        </div>
+        <div class="modal__body">
+          <div class="instructions">
+            <h3>Part 1.1 - Introduction & Interview</h3>
+            <p>
+              В этой части экзаменатор задаст вам общие вопросы о себе и
+              знакомых темах.
+            </p>
+
+            <h4>Структура:</h4>
+            <ul>
+              <li>
+                <strong>Подготовка:</strong> 30 секунд на обдумывание ответа
+              </li>
+              <li><strong>Ответ:</strong> 1 минута на ответ</li>
+              <li><strong>Количество вопросов:</strong> 10 вопросов</li>
+            </ul>
+
+            <h4>Как это работает:</h4>
+            <ul>
+              <li>Нажмите "Начать тест" для начала</li>
+              <li>Начинается таймер подготовки (30 сек)</li>
+              <li>
+                После подготовки автоматически начинается запись ответа (60 сек)
+              </li>
+              <li>
+                После окончания записи автоматически переходите к следующему
+                вопросу
+              </li>
+              <li>
+                В конце нажмите "Завершить тест" для отправки всех записей
+              </li>
+            </ul>
+
+            <h4>Советы:</h4>
+            <ul>
+              <li>Говорите ясно и уверенно</li>
+              <li>Развивайте свои ответы, приводя примеры</li>
+              <li>Используйте разнообразную лексику</li>
+              <li>Не бойтесь пауз для обдумывания</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button class="btn btn--primary" id="modalGotItBtn">Понятно</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__content">
+          <div class="footer__section">
+            <h3 class="footer__title">IELTS Practice</h3>
+            <p class="footer__text">
+              Подготовка к экзамену IELTS с интерактивными упражнениями
+            </p>
+          </div>
+          <div class="footer__section">
+            <h4 class="footer__subtitle">Разделы</h4>
+            <ul class="footer__links">
+              <li><a href="listening.html">Listening</a></li>
+              <li><a href="reading.html">Reading</a></li>
+              <li><a href="writing.html">Writing</a></li>
+              <li><a href="speaking.html">Speaking</a></li>
+            </ul>
+          </div>
+          <div class="footer__section">
+            <h4 class="footer__subtitle">Поддержка</h4>
+            <ul class="footer__links">
+              <li><a href="#">Помощь</a></li>
+              <li><a href="#">Контакты</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>&copy; 2024 IELTS Practice. Все права защищены.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="assets/js/speaking.js"></script>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+body {
+    background: #051a18;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.cefr-container {
+    width: 360px;
+    border: 2px solid #00ffd0;
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 0 10px #00ffd0;
+}
+
+.cefr-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+.cefr-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 45px !important;
+}
+
+.cefr-title-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cefr-title-text h2 {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(47, 172, 172) !important;
+}
+
+.cefr-arrow-download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.cefr-badge {
+    background: #1ad1a5;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.cefr-subtitle {
+    color: #8aa;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.cefr-cards {
+    height: 420px;
+    overflow-y: auto;
+}
+
+.cefr-card {
+    background: #071f1d;
+    border: 1px solid #0b3b38;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cefr-card:hover {
+    background: #0c2d2a;
+}
+
+.cefr-icon {
+    width: 32px;
+    height: 32px;
+    background: #0c2d2a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cefr-back {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    background: #071f1d;
+    cursor: pointer;
+    border: 1px solid #1f5550;
+    background: transparent;
+    transition: 0.3s;
+    color: #ccc;
+}
+
+.cefr-back:hover {
+    background: #0b3a35;
+    border-color: #19c2b0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .cefr-container {
+        width: 90%;
+        max-width: 360px;
+    }
+    
+    .cefr-title-wrapper {
+        gap: 20px !important;
+    }
+    
+    .cefr-title-text h2 {
+        font-size: 20px;
+    }
+    
+    .cefr-cards {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cefr-container {
+        padding: 15px;
+        border-radius: 14px;
+    }
+    
+    .cefr-title-text h2 {
+        font-size: 18px;
+    }
+    
+    .cefr-arrow-download {
+        font-size: 28px;
+    }
+    
+    .cefr-card {
+        padding: 12px;
+    }
+    
+    .cefr-cards {
+        height: 300px;
+    }
+}

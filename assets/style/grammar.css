@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+        sans-serif;
+    background: linear-gradient(135deg, #2b2d42 0%, #1e1f2e 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Grammar Container */
+.grammar-container {
+    max-width: 600px;
+    width: 100%;
+    background: #031212;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Grammar Header */
+.grammar-header {
+    margin-bottom: 40px;
+}
+
+.grammar-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #00d1b2;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.grammar-subtitle {
+    font-size: 18px;
+    color: #666;
+    font-weight: 400;
+}
+
+/* Grammar List */
+.grammar-list {
+    list-style: none;
+    margin-bottom: 40px;
+}
+
+/* Grammar Items - Each with unique class containing "grammar" */
+.grammar-item-subjunctive {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid #9b59b6;
+    box-shadow: 0 2px 4px rgba(155, 89, 182, 0.1);
+}
+
+.grammar-item-subjunctive:hover {
+    background: linear-gradient(95deg, #f9f0ff, #ffffff);
+    border-left-color: #8e44ad;
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(155, 89, 182, 0.3);
+    color: #8e44ad;
+}
+
+.grammar-item-questions {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+.grammar-item-questions:hover {
+    background: linear-gradient(95deg, #f0f9ff, #ffffff);
+    border-left-color: #2980b9;
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(52, 152, 219, 0.3);
+    color: #2980b9;
+}
+
+.grammar-item-present {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid #e67e22;
+    box-shadow: 0 2px 4px rgba(230, 126, 52, 0.1);
+}
+
+.grammar-item-present:hover {
+    background: linear-gradient(95deg, #fff4e6, #ffffff);
+    border-left-color: #d35400;
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(230, 126, 52, 0.3);
+    color: #d35400;
+}
+
+.grammar-item-gerunds {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid #2ecc71;
+    box-shadow: 0 2px 4px rgba(46, 204, 113, 0.1);
+}
+
+.grammar-item-gerunds:hover {
+    background: linear-gradient(95deg, #f0fff4, #ffffff);
+    border-left-color: #27ae60;
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(46, 204, 113, 0.3);
+    color: #27ae60;
+}
+
+/* Grammar Back Button */
+.grammar-back {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #f1f3f5;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.grammar-back:hover {
+    background: white;
+    border-color: #2b2d42;
+    color: #2b2d42;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(43, 45, 66, 0.3);
+}
+
+.grammar-back:active {
+    transform: translateY(0);
+}
+
+/* Grammar Dots - for visual indicator */
+.grammar-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.grammar-item-subjunctive .grammar-dot {
+    background-color: #9b59b6;
+    box-shadow: 0 0 10px #9b59b6;
+}
+
+.grammar-item-questions .grammar-dot {
+    background-color: #3498db;
+    box-shadow: 0 0 10px #3498db;
+}
+ .grammar-item-present .grammar-dot {
+    background-color: #e67e22;
+    box-shadow: 0 0 10px #e67e22;
+}
+
+.grammar-item-gerunds .grammar-dot {
+    background-color: #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+/* Grammar Item Content */
+.grammar-item-content {
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .grammar-container {
+        padding: 30px 20px;
+    }
+
+    .grammar-title {
+        font-size: 32px;
+    }
+
+    .grammar-subtitle {
+        font-size: 16px;
+    }
+
+    .grammar-item-subjunctive,
+    .grammar-item-questions,
+    .grammar-item-present,
+    .grammar-item-gerunds {
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+}
+
+/* Animations */
+@keyframes grammarSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.grammar-item-subjunctive {
+    animation: grammarSlideIn 0.4s ease 0.1s forwards;
+    opacity: 0;
+}
+
+.grammar-item-questions {
+    animation: grammarSlideIn 0.4s ease 0.2s forwards;
+    opacity: 0;
+}
+
+.grammar-item-present {
+    animation: grammarSlideIn 0.4s ease 0.3s forwards;
+    opacity: 0;
+}
+
+.grammar-item-gerunds {
+    animation: grammarSlideIn 0.4s ease 0.4s forwards;
+    opacity: 0;
+}
+
+.grammar-back {
+    animation: grammarSlideIn 0.4s ease 0.5s forwards;
+    opacity: 0;
+}

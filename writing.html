@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/style/writing.css">
+</head>
+
+<body class="writing">
+    <!-- HEADER -->
+    <div class="writing-header">
+        <div>Xz Xz</div>
+
+        <div class="writing-center">
+            <div class="writing-circle">L</div>
+            <div class="writing-circle">R</div>
+            <div class="writing-circle">W</div>
+            <div class="writing-circle">S</div>
+            <div class="writing-timer">53:28</div>
+        </div>
+
+        <div class="writing-header-right">
+            <button class="writing-btn">Back</button>
+            <button class="writing-btn">Pause</button>
+            <button class="writing-finish">Finish</button>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="writing-tabs">
+        <div class="writing-tab active" data-tab="1">Task 1.1</div>
+        <div class="writing-tab" data-tab="2">Task 1.2</div>
+        <div class="writing-tab">Task 2</div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="writing-container">
+
+        <!-- LEFT -->
+        <div class="writing-left" id="task-content">
+
+            <!-- dynamic content -->
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="writing-right">
+            <div class="writing-answer-header">
+                <b>Your Answer</b>
+                <span id="word-count">0 words</span>
+            </div>
+
+            <textarea class="writing-textarea" placeholder="Start writing your answer here..."></textarea>
+
+            <div class="writing-footer">
+                <span>0 words</span>
+                <span class="writing-target" id="target">Target: 50-70 words</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./assets/js/writing.js"></script>
+</body>
+
+</html>

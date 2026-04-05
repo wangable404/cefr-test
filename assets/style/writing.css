@@ -1,0 +1,204 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.writing {
+    background: #f4f6f7;
+}
+
+/* HEADER */
+.writing-header {
+    background: #1c8c7d;
+    color: #fff;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.writing-header-right button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.writing-btn {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.writing-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.writing-finish {
+    border: 1px solid #ff4d4d;
+    background: transparent;
+}
+
+.writing-finish:hover {
+    background: #ff4d4d;
+}
+
+.writing-center {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.writing-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.writing-timer {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 15px;
+    border-radius: 8px;
+}
+
+/* TABS */
+.writing-tabs {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+}
+
+.writing-tab {
+    padding: 15px 40px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.writing-tab.active {
+    border-bottom: 3px solid #1c8c7d;
+    color: #1c8c7d;
+    font-weight: bold;
+}
+
+/* MAIN */
+.writing-container {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* LEFT */
+.writing-left {
+    width: 45%;
+}
+
+.writing-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.writing-context {
+    border-left: 4px solid #1c8c7d;
+}
+
+.writing-task {
+    background: #e8f3f1;
+}
+
+.writing-card p {
+    line-height: 1.6;
+}
+
+/* RIGHT */
+.writing-right {
+    width: 55%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.writing-answer-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.writing-textarea {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    resize: none;
+    outline: none;
+}
+
+.writing-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.writing-target {
+    background: #ffe5e5;
+    color: red;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.title {
+    text-align: center;
+    color: #0a8a7a;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.line {
+    height: 2px;
+    background: #cfd8dc;
+    margin-bottom: 25px;
+}
+
+/* CONTEXT BLOCK */
+.context {
+    background: #f8f9f8;
+    border-left: 6px solid #1aa38c;
+    border-radius: 12px;
+    padding: 20px 22px;
+    max-width: 900px;
+}
+
+/* label */
+.context h3 {
+    color: #1aa38c;
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+/* text */
+.context p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2c2c2c;
+}
+
+/* highlight */
+.highlight {
+    background: #ffe66d;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}

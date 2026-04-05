@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grammar Test</title>
+    <link rel="stylesheet" href="./assets/style/grammar-test.css" />
+  </head>
+
+  <body class="grammar-test-body">
+    <div class="grammar-test-header">
+      <button class="grammar-test-home">← Home</button>
+
+      <div class="grammar-test-user">
+        <div class="grammar-test-avatar"></div>
+        <span>Bekzods Multilevel</span>
+      </div>
+
+      <button class="grammar-test-download">⬇ Download PDF</button>
+    </div>
+
+    <div class="grammar-test-top">
+      <h1 class="grammar-test-title">📄 Grammar Test</h1>
+      <p class="grammar-test-progress">
+        Question <span id="qNum">1</span> of <span id="qTotal">5</span>
+      </p>
+    </div>
+
+    <div class="grammar-test-card">
+      <div id="loader" class="grammar-test-loader">
+        <div class="loader-spinner"></div>
+        <p>Loading questions...</p>
+      </div>
+      <div style="display: none" class="grammar-test-question-box">
+        <div class="grammar-test-q-label">QUESTION 1</div>
+
+        <h2 class="grammar-test-question"></h2>
+
+        <div class="grammar-test-answers"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/grammar-test.js"></script>
+  </body>
+</html>
