@@ -13,6 +13,19 @@
             flex-direction: column;
         }
 
+        
+        .help {
+            border: 2px solid #7c6cff;
+        }
+
+        .help h3 span {
+            padding-right: 5px;
+        }
+
+        .help a {
+            text-decoration: none;
+            color: #FFFFFF;
+        }
         .container-card {
             width: 100%;
             height: 100vh;
