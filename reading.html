@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style/reading.css">
+    <title>IELTS Reading Test Simulator | Full Practice Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ========================================
-   READING - Part 1, 2 & 3 Styles
-   ======================================== */
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        .reading {
+        body {
             background: #f4f6f7;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
         }
 
-        /* Header */
         .header {
             background: #0f7f6d;
             color: white;
@@ -35,6 +28,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .header-actions {
@@ -58,34 +53,29 @@
             background: rgba(255, 255, 255, 0.25);
         }
 
-        .btn-back {
-            font-size: 18px;
-        }
-
         .header-title {
             font-size: 18px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .header-timer {
             background: rgba(255, 255, 255, 0.15);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             font-family: 'Courier New', monospace;
         }
 
-        /* Steps */
         .reading-steps {
             display: flex;
             justify-content: center;
             gap: 12px;
             padding: 20px;
             background: white;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
         }
 
         .reading-steps .step {
@@ -113,91 +103,95 @@
             box-shadow: 0 4px 8px rgba(15, 127, 109, 0.3);
         }
 
-        /* Content Area */
-        .reading-content,
-        .reading-part2,
-        .reading-part3 {
-            max-width: 100%;
-            margin: 0 auto 30px;
+        .reading-section {
+            max-width: 1400px;
+            margin: 30px auto;
             background: white;
-            padding: 30px 40px;
-            margin: 30px 40px;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
         }
 
-        .reading-content h3,
-        .reading-part2 h3,
-        .reading-part3 h3 {
+        .section-header {
+            background: #0f7f6d;
+            color: white;
+            padding: 15px 25px;
             font-size: 18px;
             font-weight: 600;
-            color: #0f7f6d;
-            margin-bottom: 12px;
         }
 
-        .reading-content h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e8e8e8;
+        .section-content {
+            padding: 30px 40px;
         }
 
         .instruction {
             color: #666;
             font-size: 14px;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding: 12px 16px;
             background: #f8f9fa;
             border-left: 4px solid #0f7f6d;
             border-radius: 0 6px 6px 0;
         }
 
-        .reading-content p {
+        .reading-text {
             font-size: 15px;
             line-height: 1.8;
             color: #333;
-            margin-bottom: 16px;
         }
 
-        /* Gap inputs */
+        .reading-text p {
+            margin-bottom: 20px;
+        }
+
         .gap {
-            width: 100px;
+            width: 130px;
             border: none;
             border-bottom: 2px solid #bbb;
             background: transparent;
             padding: 4px 8px;
             font-size: 15px;
             text-align: center;
-            color: #333;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .gap:focus {
             border-bottom-color: #0f7f6d;
         }
 
-        .gap::placeholder {
-            color: #aaa;
-            font-style: italic;
+        .gap.correct {
+            border-bottom-color: #27ae60;
+            background: #e8f8f0;
         }
 
-        /* Part 2 */
-        .part-title {
-            color: #0f7f6d;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
+        .gap.wrong {
+            border-bottom-color: #e74c3c;
+            background: #fdeaea;
+        }
+
+        .gap.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .correct-answer-hint {
+            font-size: 11px;
+            color: #27ae60;
+            margin-left: 8px;
+        }
+
+        .wrong-answer-hint {
+            font-size: 11px;
+            color: #e74c3c;
+            margin-left: 8px;
         }
 
         .part2-grid {
             display: grid;
             grid-template-columns: 1fr 1.4fr;
             gap: 30px;
-            margin-top: 25px;
         }
 
         .reference {
@@ -212,25 +206,17 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 18px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .ref-item {
             background: white;
-            padding: 14px 16px;
+            padding: 12px 16px;
             border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
             font-weight: 500;
             color: #444;
             border: 1px solid #e8e8e8;
-            transition: all 0.2s ease;
-        }
-
-        .ref-item:hover {
-            border-color: #0f7f6d;
-            box-shadow: 0 2px 6px rgba(15, 127, 109, 0.15);
         }
 
         .questions {
@@ -245,11 +231,6 @@
             border-left: 4px solid #0f7f6d;
             padding: 16px 20px;
             border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .q-card:hover {
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
 
         .q-card p {
@@ -259,11 +240,6 @@
             margin-bottom: 12px;
         }
 
-        .q-card b {
-            color: #0f7f6d;
-            font-weight: 600;
-        }
-
         .q-card select {
             width: 100%;
             padding: 10px 14px;
@@ -271,79 +247,186 @@
             border-radius: 6px;
             background: white;
             font-size: 14px;
-            color: #333;
             cursor: pointer;
-            transition: all 0.2s ease;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
         }
 
-        .q-card select:hover {
-            border-color: #0f7f6d;
+        .q-card select.correct {
+            border-color: #27ae60;
+            background: #e8f8f0;
         }
 
-        .q-card select:focus {
-            outline: none;
-            border-color: #0f7f6d;
-            box-shadow: 0 0 0 3px rgba(15, 127, 109, 0.15);
+        .q-card select.wrong {
+            border-color: #e74c3c;
+            background: #fdeaea;
         }
 
-        .q-card select.has-value {
-            border-color: #0f7f6d;
-            background-color: #f0f9f7;
+        .q-card select.disabled {
+            pointer-events: none;
+            opacity: 0.7;
         }
 
-        /* Part 3 */
         .part3-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin-top: 25px;
         }
 
         .part3-text {
             background: #f8f9fa;
             padding: 25px;
             border-radius: 10px;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
         .part3-text h2 {
             font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
             margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #e8e8e8;
+            color: #0f7f6d;
         }
 
         .part3-text p {
             font-size: 14px;
-            line-height: 1.8;
-            color: #444;
-            margin-bottom: 14px;
+            line-height: 1.7;
+            margin-bottom: 15px;
         }
 
-        .part3-questions {
+        .paragraph-label {
+            font-weight: 700;
+            color: #0f7f6d;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .part4-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .part4-left {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .part4-left h2 {
+            color: #0f7f6d;
+            margin-bottom: 15px;
+        }
+
+        .part4-left p {
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .mc-question, .tf-question {
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .mc-question h4, .tf-question h4 {
+            color: #0f7f6d;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .mc-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 8px;
         }
 
-        /* Action Buttons */
+        .mc-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .mc-option:hover {
+            background: #f0f9f7;
+        }
+
+        .mc-option.selected {
+            background: #e0f2ef;
+            border-left: 3px solid #0f7f6d;
+        }
+
+        .mc-option.correct {
+            background: #e8f8f0;
+            border-left: 3px solid #27ae60;
+        }
+
+        .mc-option.wrong {
+            background: #fdeaea;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .mc-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .tf-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tf-btn {
+            padding: 6px 16px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .tf-btn.selected {
+            background: #0f7f6d;
+            color: white;
+            border-color: #0f7f6d;
+        }
+
+        .tf-btn.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .tf-btn.wrong {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .tf-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
         .action-buttons {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 30px;
-            padding-top: 25px;
+            margin: 30px 0;
+            padding-top: 20px;
             border-top: 2px solid #e8e8e8;
         }
 
-        .action-buttons button {
+        .btn-check, .btn-reset {
             padding: 12px 28px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
@@ -358,896 +441,599 @@
 
         .btn-check:hover {
             background: #0a6b5d;
-            box-shadow: 0 4px 12px rgba(15, 127, 109, 0.3);
         }
 
-        .btn-next {
+        .btn-reset {
             background: white;
             color: #0f7f6d;
             border: 2px solid #0f7f6d;
         }
 
-        .btn-next:hover {
+        .btn-reset:hover {
             background: #f0f9f7;
         }
 
-        .btn-finish-action {
-            background: transparent;
-            color: #666;
-            border: 1px solid #ccc;
+        .result-area {
+            background: #eef3f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1400px;
+            text-align: center;
+            display: none;
         }
 
-        .btn-finish-action:hover {
-            background: #f5f5f5;
-            border-color: #999;
+        .result-area.show {
+            display: block;
         }
 
-        /* Responsive */
+        .score-high {
+            color: #27ae60;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .score-mid {
+            color: #f39c12;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .score-low {
+            color: #e74c3c;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stats-detail {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
         @media (max-width: 900px) {
 
             .part2-grid,
-            .part3-content {
+            .part3-content,
+            .part4-container {
                 grid-template-columns: 1fr;
-            }
-
-            .reference {
-                order: 2;
-            }
-
-            .questions {
-                order: 1;
             }
         }
 
         @media (max-width: 600px) {
+            .section-content {
+                padding: 20px;
+            }
+
             .header {
                 flex-direction: column;
-                gap: 10px;
-                padding: 15px;
-            }
-
-            .header-actions {
-                order: 2;
-            }
-
-            .header-title {
-                order: 1;
-            }
-
-            .header-timer {
-                order: 3;
-            }
-
-            .reading-content,
-            .reading-part2,
-            .reading-part3 {
-                padding: 20px;
+                text-align: center;
             }
 
             .action-buttons {
                 flex-direction: column;
             }
-
-            .action-buttons button {
-                width: 100%;
-            }
         }
     </style>
 </head>
-
-<body class="reading">
+<body>
 
     <header class="header">
         <div class="header-actions">
-            <button class="btn-back" onclick="goBack()">←</button>
-            <button class="btn-pause" id="pauseBtn">Pause</button>
-            <button class="btn-finish" onclick="finishTest()">Finish</button>
+            <button onclick="window.location.reload()">⟳ New Test</button>
         </div>
-        <div class="header-title">Reading</div>
-        <div class="header-timer" id="timer">31:22</div>
+        <div class="header-title">📖 IELTS Reading Practice Test</div>
+        <div class="header-timer" id="timer">60:00</div>
     </header>
 
     <div class="reading-steps">
-        <span class="step active" id="step-1">1</span>
-        <span class="step" id="step-2">2</span>
-        <span class="step" id="step-3">3</span>
-        <span class="step" id="step-4">4</span>
-        <span class="step" id="step-5">5</span>
+        <span class="step active" data-section="part1">1</span>
+        <span class="step" data-section="part2">2</span>
+        <span class="step" data-section="part3">3</span>
+        <span class="step" data-section="part4">4</span>
+        <span class="step" data-section="part5">5</span>
     </div>
 
-    <div class="reading-content">
-
-        <h3>Part 1</h3>
-        <p class="instruction">
-            Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the
-            text.
-        </p>
-
-        <h2>Can Machines Think?</h2>
-
-        <p>
-            How can you tell if you are talking to a computer? New
-            <input type="text" class="gap"> programs called language models have gotten very good at mimicking people.
-            It can be really hard to tell if you're talking to a person or a computer.
-        </p>
-
-        <p>
-            Can a machine think? Philosophers have been trying to answer this question for hundreds of years.
-            It's surprisingly tricky to come up with a good answer!
-            Alan Turing was a computer scientist who thought a lot about artificial intelligence (AI).
-            He had an idea for a different way to test intelligence. Instead of measuring
-            <input type="text" class="gap"> directly, what if you measured intelligent behavior?
-        </p>
-
-        <p>
-            Can a computer answer questions in a human-like way? If a computer can respond to you so well
-            that you can't tell whether it is a computer or a person, we say that it passes the Turing test.
-        </p>
-
-        <p>
-            Recently, computer programs called language models have gotten much better at mimicking
-            <input type="text" class="gap"> language. These AI
-            <input type="text" class="gap"> analyze millions of sentences from books and websites to learn hidden
-            patterns in
-            language.
-        </p>
-
-        <p>
-            It's exciting to see AI generating realistic sentences. But there are also problems with AI-generated
-            <input type="text" class="gap"> to cheat on tests. Chatbots can give harmful advice.
-            And scammers can use AI to generate fake information so they can trick
-            <input type="text" class="gap">.
-        </p>
-
-    </div>
-
-    <div class="reading-part2">
-
-        <h3 class="part-title">Part 2</h3>
-        Read the texts 7-14 and the statements A-J. Decide which text matches with the situation described in the
-        statements. Each statement can be used ONCE only. There are TWO extra statements which you do not need to use.
-        </p>
-
-        <div class="part2-grid">
-
-            <!-- LEFT - Reference A-J -->
-            <div class="reference">
-                <h4>Reference</h4>
-
-                <div class="ref-item">A) You want a personal service.</div>
-                <div class="ref-item">B) You want visit a lakeside hotel during summer.</div>
-                <div class="ref-item">C) You want someone to go fishing for you.</div>
-                <div class="ref-item">D) You want to go someplace unique with nice foods during your holidays.</div>
-                <div class="ref-item">E) This hotel is suitable for exploration, visiting a beach etc.</div>
-                <div class="ref-item">F) This hotel is near docks.</div>
-                <div class="ref-item">G) You are looking for a reliable hotel to visit in autumn.</div>
-                <div class="ref-item">H) You want to visit beaches during September and October.</div>
-                <div class="ref-item">I) This hotel is a beach and has some relaxing facilities.</div>
-                <div class="ref-item">J) This place has golf and a fitness centre.</div>
+    <!-- PART 1 -->
+    <div id="part1" class="reading-section">
+        <div class="section-header">Part 1 — Gap Fill (Words from the text)</div>
+        <div class="section-content">
+            <div class="instruction">📌 Read the text. Fill in each gap with ONE word from the text.</div>
+            <div class="reading-text">
+                <h2 style="color:#0f7f6d; margin-bottom:15px">Can Machines Think?</h2>
+                <p>How can you tell if you are talking to a computer? New <input type="text" class="gap" data-answer="computer" data-idx="0"> programs called language models have gotten very good at mimicking people.</p>
+                <p>Alan Turing was a computer scientist who thought a lot about artificial intelligence (AI). Instead of measuring <input type="text" class="gap" data-answer="intelligence" data-idx="1"> directly, what if you measured intelligent behavior?</p>
+                <p>Recently, computer programs called language models have gotten much better at mimicking <input type="text" class="gap" data-answer="human" data-idx="2"> language. These AI <input type="text" class="gap" data-answer="programs" data-idx="3"> analyze millions of sentences from books and websites.</p>
+                <p>But there are also problems with AI-generated <input type="text" class="gap" data-answer="text" data-idx="4"> to cheat on tests. Scammers can use AI to trick <input type="text" class="gap" data-answer="people" data-idx="5">.</p>
             </div>
-
-            <!-- RIGHT - Questions 7-14 -->
-            <div class="questions">
-
-                <div class="q-card">
-                    <p><b>7.</b>7.
-                        Phone 876451 to book a table
-                        <br>
-                        Pizzas from $6 each
-                        <br>
-                        Student Thursdays! Pizzas only $4.75!
-                        <br>
-                        Every day until 9.00 p.m.
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>8.</b> Dishes from all over the world
-                        <br>
-                        Next to the museum
-                        <br>
-                        Main courses – only br£10!
-                        <br>
-                        Monday – Saturday 11 a.m.-3 p.m.
-                        <br>
-                        Visit: www.worldcafe.com
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>9.</b> Opposite the library
-                        <br>
-                        Cheap snacks
-                        <br>
-                        Soups 75p
-                        <br>
-                        All cans 50p
-                        <br>
-                        Every break time
-                        <br>
-                        Email: jenny@snackshop.com
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>10.</b> The best Chinese food in town!
-                        <br>
-                        **Special meals for children**
-                        <br>
-                        Also 10 tables in our pretty garden
-                        <br>
-                        To book a table – call 813729
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>11.</b> - opposite Star Cinema -
-                        <br>
-                        Open 5p.m. – 11 p.m.
-                        <br>
-                        Burgers! Chips! Pizzas!
-                        <br>
-                        special takeaway lunch £5.50
-                        <br>
-                        closed Mondays
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>12.</b> MONDAY – SATURDAY
-                        <br>
-                        6.00 a.m. – midnight
-                        <br>
-                        TAKE AWAY & EAT IN
-                        <br>
-                        NO SMOKING
-                        <br>
-                        Sandwiches from £1.50 | Pizzas from £5.30 | Juices 90p
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>13.</b> £1 for 30 minutes on computer
-                        <br>
-                        Tuesday – Sunday 8 am – 8 pm
-                        <br>
-                        Cake, cold drinks, coffee
-                        <br>
-                        23 GEORGE STREET
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>14.</b> We make 100 different sandwiches!
-                        <br>
-                        Hot soup | Orange juice | Coffee
-                        <br>
-                        £2.80 each sandwich
-                        <br>
-                        Car park behind shop
-                        <br>
-                        Closed on Mondays
-                    </p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) You want a personal service.</option>
-                        <option value="B">B) You want visit a lakeside hotel during summer</option>
-                        <option value="C">C) You want someone to go fishing for you.</option>
-                        <option value="D">D) You want to go someplace unique with nice foods during your holidays.
-                        </option>
-                        <option value="E">E) This hotel is suitable for exploration, visiting a beach etc.</option>
-                        <option value="F">F) This hotel is near docks.</option>
-                        <option value="G">G) You are looking for a reliable hotel to visit in autumn.</option>
-                        <option value="H">H) You want to visit beaches during September and October.</option>
-                        <option value="I">I) This hotel is a beach and has some relaxing facilities.</option>
-                        <option value="J">J) This place has golf and a fitness centre.</option>
-                    </select>
-                </div>
-
-            </div>
-
         </div>
-
     </div>
 
-    <div class="reading-part3">
-
-        <h3 class="part-title">Part 3</h3>
-        <p class="instruction">
-            Read the text and choose the correct heading for each paragraph from the list of headings below. There are
-            more headings than paragraphs, so you will not use all of them. You cannot use any heading more than once.
-            Mark your answers on the answer sheet.
-        </p>
-
-        <div class="part3-content">
-            <div class="part3-text">
-                <h2>Western Theatre</h2>
-                <p>
-                    <span class="part3-text-name">Paragraph I</span>
-                    <br>
-                    Modern Western theatre comes in large measure from ancient Greek drama, from which it takes
-                    technical terminology, classification into genres, and many of its themes, stock characters, and
-                    plot elements. The Greeks also developed the concepts of dramatic criticism, acting as a career, and
-                    theatre architecture. The theatre of ancient Greece consisted of three types of drama: tragedy,
-                    comedy, and the satyr play.
-                </p>
-                <p>
-                    <span class="part3-text-name">Paragraph II</span>
-                    <br>
-                    Western theatre developed and expanded considerably under the Romans. The Roman historian Livy wrote
-                    that the Romans first experienced theatre in the 4th century BC. The theatre of ancient Rome was a
-                    thriving and diverse art form, ranging from festival performances of street theatre, nude dancing,
-                    and acrobatics, to the staging of broadly appealing situation comedies, to the high-style, verbally
-                    elaborate tragedies.
-                </p>
-                <p>
-                    <span class="part3-text-name">Paragraph III</span>
-                    <br>
-                    Theatre took on many different forms in the West between the 15th and 19th centuries, including
-                    commedia dell'arte and melodrama. The general trend was away from the poetic drama of the Greeks and
-                    the Renaissance and toward a more naturalistic prose style of dialogue, especially following the
-                    Industrial Revolution. Theatre today, broadly defined, includes performances of plays and musicals,
-                    ballets, operas and various other forms.
-                </p>
-                <p>
-                    <span class="part3-text-name">Paragraph IV</span>
-                    <br>
-                    The eighteenth century in Britain introduced women to the stage, which would have been extremely
-                    inappropriate before. These women were looked at as celebrities but on the other hand, it was still
-                    very new and revolutionary that they were on the stage and some said they were unladylike and looked
-                    down on. Charles II did not like young men playing the parts of young women, so he asked that women
-                    play their own parts.
-                </p>
-                <p>
-                    <span class="part3-text-name">Paragraph V</span>
-                    <br>
-                    Theatre took a big pause during 1642 and 1660 in England because of Cromwell's Interregnum. Theatre
-                    was seen as something sinful and the Puritans tried very hard to drive it out of their society.
-                    Because of this stagnant period, once Charles II came back to the throne in 1660, theatre (among
-                    other arts) exploded because of a lot of influence from France, where Charles was in exile the years
-                    previous to his reign.
-                </p>
-                <p>
-                    <span class="part3-text-name">Paragraph VI</span>
-                    <br>
-                    Stagecraft is a term referring to the technical aspects of theatrical, film, and video production.
-                    It includes constructing scenery, hanging and focusing of lighting, design and procurement of
-                    costumes, makeup, props, stage management, and recording and mixing of sound. Considered a technical
-                    rather than an artistic field, it is equally crucial for the practical implementation of a
-                    designer's artistic idea.
-                </p>
-            </div>
-
-            <div class="part3-questions">
+    <!-- PART 2 -->
+    <div id="part2" class="reading-section" style="display:none">
+        <div class="section-header">Part 2 — Matching Information</div>
+        <div class="section-content">
+            <div class="instruction">📌 Match each advertisement (7-14) with the correct statement (A-J). Each statement can be used ONCE.</div>
+            <div class="part2-grid">
                 <div class="reference">
-                    <h4>Available Headings</h4>
-
-                    <div class="ref-item">A) theatre and politics</div>
-                    <div class="ref-item">B) Ladies enter</div>
-                    <div class="ref-item">C) Orign of theatre</div>
-                    <div class="ref-item">D) Not the last important</div>
-                    <div class="ref-item">E) Varieties of theatres</div>
-                    <div class="ref-item">F) Stars for a repertoire</div>
-                    <div class="ref-item">G) A step to a wider variety</div>
-                    <div class="ref-item">H) Modern problems </div>
+                    <h4>Statements A-J</h4>
+                    <div class="ref-item">A) You want a personal service.</div>
+                    <div class="ref-item">B) You want to visit a lakeside hotel during summer.</div>
+                    <div class="ref-item">C) You want someone to go fishing for you.</div>
+                    <div class="ref-item">D) You want to go someplace unique with nice foods.</div>
+                    <div class="ref-item">E) Suitable for exploration and visiting a beach.</div>
+                    <div class="ref-item">F) This hotel is near docks.</div>
+                    <div class="ref-item">G) Reliable hotel to visit in autumn.</div>
+                    <div class="ref-item">H) Visit beaches during September and October.</div>
+                    <div class="ref-item">I) Beach hotel with relaxing facilities.</div>
+                    <div class="ref-item">J) This place has golf and a fitness centre.</div>
                 </div>
-                <div class="q-card">
-                    <p><b>15.</b> What is the main topic of the passage?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>16.</b> According to the passage, how do some people feel about AI?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>17.</b> What does the passage say about experts' predictions?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>18.</b> What ethical question does the passage mention?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>19.</b> What is the author's main conclusion?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
-                <div class="q-card">
-                    <p><b>20.</b> What is the tone of the passage?</p>
-                    <select>
-                        <option value="">Select...</option>
-                        <option value="A">A) theatre and politics</option>
-                        <option value="B">B) Ladies enter</option>
-                        <option value="C">C) Orign of theatre</option>
-                        <option value="D">D) Not the last important</option>
-                        <option value="E">E) Varieties of theatres</option>
-                        <option value="F">F) Stars for a repertoire</option>
-                        <option value="G">G) A step to a wider variety</option>
-                        <option value="H">H) Modern problems</option>
-                    </select>
-                </div>
-
+                <div class="questions" id="part2-questions"></div>
             </div>
-
         </div>
-
-        <section class="reading-part-4-container">
-
-            <div class="reading-part-4-left">
-                <h2>The Power of Nothing</h2>
-                <p><i>Geoff Watts, New Scientist (May 26th, 2001)</i></p>
-
-                <p>
-                    Placebos are treatments that have no direct effect on the body, yet still, work because the patient
-                    has faith in their power to heal. Most often the term refers to a dummy pill, but it applies just as
-                    much to any device or procedure, from a sticking plaster to a crystal to an operation. The existence
-                    of the placebo effect implies that even quackery may confer real benefits, which is why any mention
-                    of placebo is a touchy subject for many practitioners of complementary and alternative medicine, who
-                    are likely to regard it as tantamount to a charge of charlatanism. In fact, the placebo effect is a
-                    powerful part of all medical care, orthodox or otherwise, though its role is often neglected or
-                    misunderstood.
-                </p>
-
-                <p>
-                    One of the great strengths of CAM may be its practitioners’ skill in deploying the placebo effect to
-                    accomplish real healing. “Complementary practitioners are miles better at producing non-specific
-                    effects and good therapeutic relationships,” says Edzard Ernst, professor of CAM at Exeter
-                    University. The question is whether CAM could be integrated into conventional medicines, as some
-                    would like, without losing much of this power.
-                </p>
-
-                <p>
-                    At one level, it should come as no surprise that our state of mind can influence our physiology:
-                    anger opens the superficial blood vessels of the face; sadness pumps the tear glands. But exactly
-                    how placebos work their medical magic is still largely unknown. Most of the scant research done so
-                    far has focused on the control of pain because it’s one of the commonest complaints and lends itself
-                    to experimental study. Here, attention has turned to the endorphins, morphine-like neurochemicals
-                    known to help control pain.
-                </p>
-
-                <p>
-                    But exactly how placebos work their medical magic is still largely unknown. Most of the scant
-                    research to date has focused on the control of pain because it’s one of the commonest complaints and
-                    lends itself to experimental study. Here, attention has turned to the endorphins, natural
-                    counterparts of morphine that are known to help control pain. “Any of the neurochemicals involved in
-                    transmitting pain impulses or modulating them might also be involved in generating the placebo
-                    response,” says Don Price, an oral surgeon at the University of Florida who studies the placebo
-                    effect in dental pain.
-                </p>
-
-                <p>
-                    “But endorphins are still out in front.” That case has been strengthened by the recent work of
-                    Fabrizio Benedetti of the University of Turin, who showed that the placebo effect can be abolished
-                    by a drug, naloxone, which blocks the effects of endorphins. Benedetti induced pain in human
-                    volunteers by inflating a blood-pressure cuff on the forearm. He did this several times a day for
-                    several days, using morphine each time to control the pain. On the final day, without saying
-                    anything, he replaced the morphine with a saline solution. This still relieved the subjects’ pain: a
-                    placebo effect. But when he added naloxone to the saline the pain relief disappeared. Here was
-                    direct proof that placebo analgesia is mediated, at least in part, by these natural opiates.
-                </p>
-
-                <p>
-                    Still, no one knows how belief triggers endorphin release, or why most people can’t achieve placebo
-                    pain relief simply by willing it. Though scientists don’t know exactly how placebos work, they have
-                    accumulated a fair bit of knowledge about how to trigger the effect. A London rheumatologist found,
-                    for example, that red dummy capsules made more effective painkillers than blue, green or yellow
-                    ones. Research on American students revealed that blue pills make better sedatives than pink, a
-                    colour more suitable for stimulants. Even branding can make a difference: if Aspro or Tylenol is
-                    what you like to take for a headache, their chemically identical generic equivalents may be less
-                    effective.
-                </p>
-
-                <p>
-                    It matters, too, how the treatment is delivered. Decades ago, when the major tranquilliser
-                    chlorpromazine was being introduced, a doctor in Kansas categorised his colleagues according to
-                    whether they were keen on it, openly skeptical of its benefits, or took a “let’s try and see”
-                    attitude. His conclusion: the more enthusiastic the doctor, the better the drug performed. And this
-                    year Ernst surveyed published studies that compared doctors’ bedside manners. The studies turned up
-                    one consistent finding: “Physicians who adopt a warm, friendly and reassuring manner,” he reported,
-                    “are more effective than those whose consultations are formal and do not offer reassurance.”
-                </p>
-            </div>
-
-            <div class="reading-part-4-right">
-
-                <div class="reading-part-4-part">
-                    <h3>Part 4</h3>
-                    <p>Read the following text for questions 21-29.</p>
-                </div>
-
-                <div class="reading-part-4-question">
-                    <h4>21. Placebos work because ...</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>22. According to the passage, what have most studies on placebos focused on?</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>23. The placebo effect, despite it's neglected status …</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>24. Endorphins …</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>25.The placebo effect only works for controlling pain.</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>26. Endorphins are believed to play a role in the placebo effect.</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>27. Naloxone, a drug that blocks endorphins, can eliminate the placebo effect for pain relief.
-                    </h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>28. Scientists fully understand how placebos trigger the release of endorphins.</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>29. The color, branding, and delivery of placebo treatments can influence their effectiveness.
-                    </h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-        <!-- ___________part-5________________ -->
-        <section class="reading-part-4-container">
-
-            <div class="reading-part-4-left">
-                <h2>DIRTY RIVER BUT CLEAN WATER</h2>
-
-                <p>
-                    Floods can occur in rivers when the flow rate exceeds the capacity of the river channel,
-                    particularly at bends or meanders in the waterway. Floods often cause damage to homes and businesses
-                    if they are in the natural flood plains of rivers. While riverine flood damage can be eliminated by
-                    moving away from rivers and other bodies of water, people have traditionally lived and worked by
-                    rivers because the land is usually flat and fertile and because rivers provide easy travel and
-                    access to commerce and industry.
-                </p>
-
-                <p>
-                    FIRE and flood are two of humanity’s worst nightmares. People have, therefore, always sought to
-                    control them. Forest fires are snuffed out quickly. The flow of rivers is regulated by weirs and
-                    dams. At least, that is how it used to be. But foresters have learned that forests need fires to
-                    clear out the brush and even to get seeds to germinate. And a similar revelation is now dawning on
-                    hydrologists. Rivers – and the ecosystems they support – need floods. That is why a man-made torrent
-                    has been surging down the Grand Canyon. By Thursday, March 6th it was running at full throttle,
-                    which was expected to be sustained for 60 hours.
-                </p>
-
-                <p>
-                    Floods once raged through the canyon every year. Spring Snow from as far away as Wyoming would melt
-                    and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a
-                    second. Every eight years or so, that figure rose to almost 3,000 cubic metres. These floods infused
-                    the river with sediment, carved its beaches and built its sandbars.
-                </p>
-
-                <p>
-                    However, in the four decades since the building of the Glen Canyon dam, just upstream of the Grand
-                    Canyon, the only sediment that it has collected has come from tiny, undammed tributaries. Even that
-                    has not been much use as those tributaries are not powerful enough to distribute the sediment in an
-                    ecologically valuable way.
-
-                    This lack of flooding has harmed local wildlife. The humpback chub, for example, thrived in the
-                    rust-red waters of Colorado. Recently, though, its population has crashed. At first sight, it looked
-                    as if the reason was that the chub were being eaten by trout introduced for sport fishing in the
-                    mid-20th century. But trout and chub co-existed until the Glen Canyon dam was built, so something
-                    else is going on. Steve Gloss, of the United States Geological Survey (USGS), reckons that the
-                    chub’s decline is the result of their losing their most valuable natural defense, Colorado’s rusty
-                    sediment. The chub were well adapted to the poor visibility created by the chick, red water which
-                    gave the river its name and depended on it to hide from predators. Without the cloudy water, the
-                    chub became vulnerable.
-                </p>
-
-                <p>
-                    And the chub are not alone. In the years since the Glen Canyon dam was built, several species have
-                    vanished altogether. These include the Colorado pike-minnow, the razorback sucker and the roundtail
-                    chub. Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have
-                    been hard, put to survive in the savage waters of the undammed canyon, have moved in.
-                </p>
-
-                <p>
-                    So flooding is the obvious answer. Unfortunately, it is easier said than done. Floods were sent down
-                    the Grand Canyon in 1996 and 2004 and the results were mixed. In 1996 the flood was allowed to go on
-                    too long. To start with, all seemed well. The floodwaters built up sandbanks and infused the river
-                    with sediment. Eventually, however, the continued flow washed most of the sediment out of the
-                    canyon. This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand
-                    available behind the dam was too low to rebuild the sandbanks. This time, the USGS is convinced that
-                    things will be better. The amount of sediment available is three times greater than it was in 2004.
-                    So if a flood is going to do some good, this is the time to unleash one.
-                </p>
-
-                <p>
-                    Even so, it may turn out to be an empty gesture. At less than 1,200 cubic metres a second, this
-                    flood is smaller than even an average spring flood, let alone one of the mightier deluges of the
-                    past. Those glorious inundations moved massive quantities of sediment through the Grand Canyon,
-                    wiping the slate dirty, and making a muddy mess of silt and muck that would make modern river
-                    rafters cringe.
-                </p>
-            </div>
-
-
-
-            <div class="reading-part-4-right ">
-
-                <div class="reading-part-4-part">
-                    <h3>Part 5</h3>
-                    <p>Read the following text for questions 30-35.</p>
-                </div>
-                <div class="reading-part-5-text">
-
-                    <div class="reading-part-5-text-title">
-                        The eco-impact of the Canyon Dam
-                    </div>
-
-                    <p>
-                        Floods are people’s nightmare. In the past, the canyon was raged by flood every year.
-                        The snow from far Wyoming would melt in the season of
-
-                        <span class="reading-part-5-blank">
-                            <span class="reading-part-5-number">30</span>
-                            <input class="reading-part-5-input" type="text">
-                        </span>
-
-                        and caused a flood flow peak in Colorado river. In the four decades after people built
-                        the Glen Canyon Dam, it only could gather
-
-                        <span class="reading-part-5-blank">
-                            <span class="reading-part-5-number">31</span>
-                            <input class="reading-part-5-input" type="text">
-                        </span>
-
-                        together from tiny, undammed tributaries. humpback chub population reduced, why?
-                        The non-stopped flow led to the washing away of the sediment out of the canyon,
-                        which poses a great threat to the chubs because it has poor
-
-                        <span class="reading-part-5-blank">
-                            <span class="reading-part-5-number">32</span>
-                            <input class="reading-part-5-input" type="text">
-                        </span>
-
-                        away from predators. In addition, the volume of
-
-                        <span class="reading-part-5-blank">
-                            <span class="reading-part-5-number">33</span>
-                            <input class="reading-part-5-input" type="text">
-                        </span>
-
-                        available behind the dam was too low to rebuild the bars and flooding became more serious.
-                    </p>
-
-                </div>
-
-                <div class="reading-part-4-question">
-                    <h4>34. Placebos work because ...</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-                <div class="reading-part-4-question">
-                    <h4>35. According to the passage, what have most studies on placebos focused on?</h4>
-                    <div class="reading-part-4-answers">
-                        <div>A it has an effect on the body</div>
-                        <div>B it grows patient's faith</div>
-                        <div>C it enhances the power to heal</div>
-                        <div>D people believe in their effect</div>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
     </div>
 
-    <script src="./assets/js/reading.js"></script>
-</body>
+    <!-- PART 3 -->
+    <div id="part3" class="reading-section" style="display:none">
+        <div class="section-header">Part 3 — Matching Headings to Paragraphs</div>
+        <div class="section-content">
+            <div class="instruction">📌 Choose the correct heading for each paragraph from the list.</div>
+            <div class="part3-content">
+                <div class="part3-text" id="part3-text"></div>
+                <div class="part3-questions" id="part3-questions"></div>
+            </div>
+        </div>
+    </div>
 
+    <!-- PART 4 -->
+    <div id="part4" class="reading-section" style="display:none">
+        <div class="section-header">Part 4 — Multiple Choice & True/False</div>
+        <div class="section-content">
+            <div class="instruction">📌 Read the passage and answer questions 21-25.</div>
+            <div class="part4-container">
+                <div class="part4-left" id="part4-text"></div>
+                <div class="part4-right" id="part4-questions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PART 5 -->
+    <div id="part5" class="reading-section" style="display:none">
+        <div class="section-header">Part 5 — Summary Completion</div>
+        <div class="section-content">
+            <div class="instruction">📌 Complete the summary using words from the passage.</div>
+            <div class="reading-text" id="part5-text"></div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn-check" id="checkBtn">✅ Check Answers</button>
+        <button class="btn-reset" id="resetBtn">🔄 Reset All</button>
+    </div>
+    <div id="resultArea" class="result-area"></div>
+
+    <script>
+        let isChecked = false;
+
+        // ==================== TEST DATA ====================
+        const testData = {
+            part1: {
+                answers: ["computer", "intelligence", "human", "programs", "text", "people"],
+                userAnswers: new Array(6).fill("")
+            },
+            part2: {
+                questions: [
+                    { id: 7, text: "Phone 876451 to book a table. Pizzas from $6. Student Thursdays! $4.75!", correct: "D" },
+                    { id: 8, text: "Dishes from all over the world. Next to the museum. Main courses £10!", correct: "D" },
+                    { id: 9, text: "Opposite the library. Cheap snacks. Soups 75p. Every break time.", correct: "A" },
+                    { id: 10, text: "Best Chinese food! Special meals for children. Pretty garden.", correct: "D" },
+                    { id: 11, text: "Opposite Star Cinema. Burgers! Chips! Pizzas! Open 5pm-11pm.", correct: "A" },
+                    { id: 12, text: "6am-midnight. Take away & eat in. Sandwiches £1.50, Pizzas £5.30", correct: "A" },
+                    { id: 13, text: "£1 for 30 minutes on computer. Cake, cold drinks, coffee.", correct: "A" },
+                    { id: 14, text: "100 different sandwiches! Hot soup. £2.80 each. Car park behind.", correct: "A" }
+                ],
+                userAnswers: {}
+            },
+            part3: {
+                headings: ["A) Origin of theatre", "B) Ladies enter the stage", "C) Roman expansion", "D) Theatre and politics", "E) Variety of theatrical forms"],
+                paragraphs: [
+                    { label: "Paragraph I", text: "Modern Western theatre comes in large measure from ancient Greek drama, from which it takes technical terminology, classification into genres, and many of its themes. The Greeks also developed dramatic criticism and theatre architecture.", correct: "A" },
+                    { label: "Paragraph II", text: "Western theatre developed considerably under the Romans. The Roman historian Livy wrote that Romans first experienced theatre in the 4th century BC. Roman theatre ranged from street theatre to elaborate tragedies.", correct: "C" },
+                    { label: "Paragraph III", text: "Theatre took many forms between the 15th-19th centuries, including commedia dell'arte and melodrama. The trend was toward naturalistic prose, especially after the Industrial Revolution.", correct: "E" },
+                    { label: "Paragraph IV", text: "The 18th century in Britain introduced women to the stage. Charles II did not like young men playing women's parts, so he asked women to play their own roles.", correct: "B" },
+                    { label: "Paragraph V", text: "Theatre paused during 1642-1660 because of Cromwell's Interregnum. Puritans saw theatre as sinful. When Charles II returned, theatre exploded with French influence.", correct: "D" }
+                ],
+                userAnswers: {}
+            },
+            part4: {
+                passage: "<h2>The Power of Placebos</h2><p>Placebos are treatments that have no direct effect on the body, yet work because the patient has faith in their power to heal. The existence of the placebo effect implies that even quackery may confer real benefits.</p><p>Research has focused on pain control. Endorphins, morphine-like neurochemicals, help control pain. Fabrizio Benedetti showed that naloxone (which blocks endorphins) can abolish the placebo effect.</p><p>Scientists don't know exactly how placebos work, but they know how to trigger the effect. Red dummy capsules make more effective painkillers than blue ones. The more enthusiastic the doctor, the better the drug performs.</p>",
+                questions: [
+                    { id: 21, text: "Placebos work because...", options: ["they have a direct effect on the body", "they grow patient's faith", "they enhance natural healing", "people believe in their effect"], correct: "people believe in their effect" },
+                    { id: 22, text: "Most studies on placebos have focused on...", options: ["depression", "pain control", "anxiety", "sleep disorders"], correct: "pain control" },
+                    { id: 23, text: "Endorphins are...", options: ["synthetic drugs", "natural painkillers", "harmful chemicals", "placebo pills"], correct: "natural painkillers" },
+                    { id: 24, text: "Naloxone can eliminate the placebo effect because it...", options: ["increases pain", "blocks endorphins", "causes anxiety", "releases dopamine"], correct: "blocks endorphins" },
+                    { id: 25, text: "The placebo effect only works for controlling pain.", type: "tf", correct: "false" }
+                ],
+                userAnswers: {}
+            },
+            part5: {
+                passage: "<h2>Dirty River But Clean Water</h2><p>Floods once raged through the Grand Canyon every year. Spring snow from Wyoming would melt and swell the Colorado River. In the four decades since the Glen Canyon dam was built, it only could gather <input type='text' class='gap' data-answer='sediment' data-idx='0'> from tiny tributaries.</p><p>The humpback chub population crashed because the non-stopped flow led to washing away of <input type='text' class='gap' data-answer='sediment' data-idx='1'>. The chub has poor <input type='text' class='gap' data-answer='visibility' data-idx='2'> away from predators.</p><p>The volume of <input type='text' class='gap' data-answer='sand' data-idx='3'> behind the dam was too low to rebuild sandbanks.</p>",
+                answers: ["sediment", "sediment", "visibility", "sand"],
+                userAnswers: new Array(4).fill("")
+            }
+        };
+
+        // Initialize user answers
+        for (let i = 7; i <= 14; i++) testData.part2.userAnswers[i] = "";
+        for (let i = 0; i < testData.part3.paragraphs.length; i++) testData.part3.userAnswers[i] = "";
+        for (let i = 21; i <= 25; i++) testData.part4.userAnswers[i] = "";
+
+        // Render functions
+        function renderPart2() {
+            const container = document.getElementById('part2-questions');
+            container.innerHTML = testData.part2.questions.map(q => `
+                <div class="q-card" data-qid="${q.id}">
+                    <p><b>${q.id}.</b> ${q.text}</p>
+                    <select data-qid="${q.id}" ${isChecked ? 'disabled' : ''}>
+                        <option value="">Select...</option>
+                        <option value="A" ${testData.part2.userAnswers[q.id] === 'A' ? 'selected' : ''}>A) Personal service</option>
+                        <option value="B" ${testData.part2.userAnswers[q.id] === 'B' ? 'selected' : ''}>B) Lakeside hotel summer</option>
+                        <option value="C" ${testData.part2.userAnswers[q.id] === 'C' ? 'selected' : ''}>C) Someone go fishing</option>
+                        <option value="D" ${testData.part2.userAnswers[q.id] === 'D' ? 'selected' : ''}>D) Unique place with nice foods</option>
+                        <option value="E" ${testData.part2.userAnswers[q.id] === 'E' ? 'selected' : ''}>E) Exploration & beach</option>
+                        <option value="F" ${testData.part2.userAnswers[q.id] === 'F' ? 'selected' : ''}>F) Near docks</option>
+                        <option value="G" ${testData.part2.userAnswers[q.id] === 'G' ? 'selected' : ''}>G) Reliable autumn hotel</option>
+                        <option value="H" ${testData.part2.userAnswers[q.id] === 'H' ? 'selected' : ''}>H) Beaches Sep-Oct</option>
+                        <option value="I" ${testData.part2.userAnswers[q.id] === 'I' ? 'selected' : ''}>I) Beach relaxing facilities</option>
+                        <option value="J" ${testData.part2.userAnswers[q.id] === 'J' ? 'selected' : ''}>J) Golf & fitness centre</option>
+                    </select>
+                    ${isChecked ? `<div style="font-size:12px; margin-top:5px">${testData.part2.userAnswers[q.id] === q.correct ? '✓ Correct' : `✗ Correct: ${q.correct}`}</div>` : ''}
+                </div>
+            `).join('');
+            
+            if (!isChecked) {
+                document.querySelectorAll('#part2-questions select').forEach(select => {
+                    select.addEventListener('change', (e) => {
+                        const qid = parseInt(select.dataset.qid);
+                        testData.part2.userAnswers[qid] = select.value;
+                    });
+                });
+            }
+            
+            if (isChecked) {
+                document.querySelectorAll('#part2-questions select').forEach(select => {
+                    const qid = parseInt(select.dataset.qid);
+                    const q = testData.part2.questions.find(q => q.id === qid);
+                    if (testData.part2.userAnswers[qid] === q.correct) {
+                        select.classList.add('correct');
+                    } else if (testData.part2.userAnswers[qid]) {
+                        select.classList.add('wrong');
+                    }
+                });
+            }
+        }
+
+        function renderPart3() {
+            document.getElementById('part3-text').innerHTML = testData.part3.paragraphs.map((p, idx) => `
+                <p><span class="paragraph-label">${p.label}</span><br>${p.text}</p>
+            `).join('');
+            
+            document.getElementById('part3-questions').innerHTML = testData.part3.paragraphs.map((p, idx) => `
+                <div class="q-card">
+                    <p><b>${p.label}</b> - Choose heading:</p>
+                    <select data-paragraph="${idx}" ${isChecked ? 'disabled' : ''}>
+                        <option value="">Select...</option>
+                        ${testData.part3.headings.map(h => `<option value="${h.charAt(0)}" ${testData.part3.userAnswers[idx] === h.charAt(0) ? 'selected' : ''}>${h}</option>`).join('')}
+                    </select>
+                    ${isChecked ? `<div style="font-size:12px; margin-top:5px">${testData.part3.userAnswers[idx] === p.correct ? '✓ Correct' : `✗ Correct: ${p.correct})`}</div>` : ''}
+                </div>
+            `).join('');
+            
+            if (!isChecked) {
+                document.querySelectorAll('#part3-questions select').forEach(select => {
+                    select.addEventListener('change', (e) => {
+                        const idx = parseInt(select.dataset.paragraph);
+                        testData.part3.userAnswers[idx] = select.value;
+                    });
+                });
+            }
+            
+            if (isChecked) {
+                document.querySelectorAll('#part3-questions select').forEach((select, idx) => {
+                    if (testData.part3.userAnswers[idx] === testData.part3.paragraphs[idx].correct) {
+                        select.classList.add('correct');
+                    } else if (testData.part3.userAnswers[idx]) {
+                        select.classList.add('wrong');
+                    }
+                });
+            }
+        }
+
+        function renderPart4() {
+            document.getElementById('part4-text').innerHTML = testData.part4.passage;
+            const container = document.getElementById('part4-questions');
+            container.innerHTML = testData.part4.questions.map(q => {
+                if (q.type === 'tf') {
+                    const val = testData.part4.userAnswers[q.id];
+                    return `<div class="tf-question">
+                        <h4>${q.id}. ${q.text}</h4>
+                        <div class="tf-buttons">
+                            <button class="tf-btn ${val === 'true' ? 'selected' : ''} ${isChecked && val === 'true' ? (val === q.correct ? 'correct' : 'wrong') : ''}" data-qid="${q.id}" data-val="true" ${isChecked ? 'disabled' : ''}>✓ True</button>
+                            <button class="tf-btn ${val === 'false' ? 'selected' : ''} ${isChecked && val === 'false' ? (val === q.correct ? 'correct' : 'wrong') : ''}" data-qid="${q.id}" data-val="false" ${isChecked ? 'disabled' : ''}>✗ False</button>
+                        </div>
+                        ${isChecked ? `<div style="font-size:12px; margin-top:8px">${val === q.correct ? '✓ Correct' : `✗ Correct answer: ${q.correct}`}</div>` : ''}
+                    </div>`;
+                } else {
+                    const val = testData.part4.userAnswers[q.id];
+                    return `<div class="mc-question">
+                        <h4>${q.id}. ${q.text}</h4>
+                        <div class="mc-options">
+                            ${q.options.map(opt => `<label class="mc-option ${val === opt ? 'selected' : ''} ${isChecked && val === opt ? (opt === q.correct ? 'correct' : 'wrong') : ''}" style="${isChecked ? 'cursor:default' : ''}">
+                                <input type="radio" name="q${q.id}" value="${opt}" ${val === opt ? 'checked' : ''} ${isChecked ? 'disabled' : ''}> ${opt}
+                            </label>`).join('')}
+                        </div>
+                        ${isChecked ? `<div style="font-size:12px; margin-top:8px">${val === q.correct ? '✓ Correct' : `✗ Correct: ${q.correct}`}</div>` : ''}
+                    </div>`;
+                }
+            }).join('');
+            
+            if (!isChecked) {
+                document.querySelectorAll('#part4-questions .tf-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = parseInt(btn.dataset.qid);
+                        const val = btn.dataset.val;
+                        testData.part4.userAnswers[qid] = val;
+                        renderPart4();
+                    });
+                });
+                document.querySelectorAll('#part4-questions input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        const name = radio.name;
+                        const qid = parseInt(name.substring(1));
+                        testData.part4.userAnswers[qid] = radio.value;
+                    });
+                });
+            }
+        }
+
+        function renderPart5() {
+            document.getElementById('part5-text').innerHTML = testData.part5.passage;
+            const gaps = document.querySelectorAll('#part5-text .gap');
+            gaps.forEach((gap, idx) => {
+                gap.value = testData.part5.userAnswers[idx] || "";
+                if (isChecked) {
+                    gap.classList.add('disabled');
+                    if (gap.value.toLowerCase() === testData.part5.answers[idx]) {
+                        gap.classList.add('correct');
+                    } else if (gap.value) {
+                        gap.classList.add('wrong');
+                    }
+                    const parent = gap.parentNode;
+                    const hintSpan = document.createElement('span');
+                    if (gap.value.toLowerCase() !== testData.part5.answers[idx] && gap.value) {
+                        const hint = document.createElement('span');
+                        hint.className = 'wrong-answer-hint';
+                        hint.innerHTML = ` ✗ Правильно: ${testData.part5.answers[idx]}`;
+                        if (!parent.querySelector('.wrong-answer-hint')) parent.appendChild(hint);
+                    } else if (gap.value.toLowerCase() === testData.part5.answers[idx] && gap.value) {
+                        const hint = document.createElement('span');
+                        hint.className = 'correct-answer-hint';
+                        hint.innerHTML = ` ✓`;
+                        if (!parent.querySelector('.correct-answer-hint')) parent.appendChild(hint);
+                    }
+                } else {
+                    gap.classList.remove('correct', 'wrong', 'disabled');
+                    gap.addEventListener('input', (e) => {
+                        testData.part5.userAnswers[idx] = e.target.value;
+                    });
+                }
+            });
+        }
+
+        function renderPart1() {
+            const gaps = document.querySelectorAll('#part1 .gap');
+            gaps.forEach((gap, idx) => {
+                gap.value = testData.part1.userAnswers[idx] || "";
+                if (isChecked) {
+                    gap.classList.add('disabled');
+                    if (gap.value.toLowerCase() === testData.part1.answers[idx]) {
+                        gap.classList.add('correct');
+                    } else if (gap.value) {
+                        gap.classList.add('wrong');
+                    }
+                    const parent = gap.parentNode;
+                    if (gap.value.toLowerCase() !== testData.part1.answers[idx] && gap.value) {
+                        const hint = document.createElement('span');
+                        hint.className = 'wrong-answer-hint';
+                        hint.innerHTML = ` ✗ Правильно: ${testData.part1.answers[idx]}`;
+                        if (!parent.querySelector('.wrong-answer-hint')) parent.appendChild(hint);
+                    } else if (gap.value.toLowerCase() === testData.part1.answers[idx] && gap.value) {
+                        const hint = document.createElement('span');
+                        hint.className = 'correct-answer-hint';
+                        hint.innerHTML = ` ✓`;
+                        if (!parent.querySelector('.correct-answer-hint')) parent.appendChild(hint);
+                    }
+                } else {
+                    gap.classList.remove('correct', 'wrong', 'disabled');
+                    gap.addEventListener('input', (e) => {
+                        testData.part1.userAnswers[idx] = e.target.value;
+                    });
+                }
+            });
+        }
+
+        function renderAll() {
+            renderPart1();
+            renderPart2();
+            renderPart3();
+            renderPart4();
+            renderPart5();
+        }
+
+        // Check Answers
+        function checkAnswers() {
+            isChecked = true;
+            
+            let total = 0;
+            let correct = 0;
+            const partScores = {};
+
+            // Part 1
+            let p1Correct = 0;
+            testData.part1.userAnswers.forEach((ans, idx) => {
+                total++;
+                if (ans.trim().toLowerCase() === testData.part1.answers[idx]) {
+                    correct++;
+                    p1Correct++;
+                }
+            });
+            partScores.part1 = { correct: p1Correct, total: testData.part1.answers.length };
+
+            // Part 2
+            let p2Correct = 0;
+            for (let i = 7; i <= 14; i++) {
+                total++;
+                if (testData.part2.userAnswers[i] === testData.part2.questions.find(q => q.id === i).correct) {
+                    correct++;
+                    p2Correct++;
+                }
+            }
+            partScores.part2 = { correct: p2Correct, total: 8 };
+
+            // Part 3
+            let p3Correct = 0;
+            testData.part3.userAnswers.forEach((ans, idx) => {
+                if (ans) {
+                    total++;
+                    if (ans === testData.part3.paragraphs[idx].correct) {
+                        correct++;
+                        p3Correct++;
+                    }
+                } else {
+                    total++;
+                }
+            });
+            partScores.part3 = { correct: p3Correct, total: testData.part3.paragraphs.length };
+
+            // Part 4
+            let p4Correct = 0;
+            testData.part4.questions.forEach(q => {
+                total++;
+                const userAns = testData.part4.userAnswers[q.id];
+                if (userAns && userAns === q.correct) {
+                    correct++;
+                    p4Correct++;
+                }
+            });
+            partScores.part4 = { correct: p4Correct, total: testData.part4.questions.length };
+
+            // Part 5
+            let p5Correct = 0;
+            testData.part5.userAnswers.forEach((ans, idx) => {
+                total++;
+                if (ans.trim().toLowerCase() === testData.part5.answers[idx]) {
+                    correct++;
+                    p5Correct++;
+                }
+            });
+            partScores.part5 = { correct: p5Correct, total: testData.part5.answers.length };
+
+            const percent = Math.round((correct / total) * 100);
+            const resultDiv = document.getElementById('resultArea');
+            
+            let gradeClass = "score-mid";
+            let gradeText = "Good! Keep practicing!";
+            let ieltsLevel = "IELTS 5.5 - 6.0";
+            
+            if (percent >= 85) {
+                gradeClass = "score-high";
+                gradeText = "Excellent!";
+                ieltsLevel = "IELTS 7.5 - 9.0";
+            } else if (percent >= 70) {
+                gradeClass = "score-high";
+                gradeText = "Very Good!";
+                ieltsLevel = "IELTS 6.5 - 7.0";
+            } else if (percent >= 55) {
+                gradeClass = "score-mid";
+                gradeText = "Good effort!";
+                ieltsLevel = "IELTS 5.5 - 6.0";
+            } else if (percent >= 40) {
+                gradeClass = "score-mid";
+                gradeText = "Needs practice";
+                ieltsLevel = "IELTS 4.5 - 5.0";
+            } else {
+                gradeClass = "score-low";
+                gradeText = "Review the material";
+                ieltsLevel = "IELTS below 4.5";
+            }
+
+            resultDiv.innerHTML = `
+                <div class="${gradeClass}">${correct}/${total} (${percent}%)</div>
+                <div style="font-size:18px; margin:10px 0">${gradeText} — ${ieltsLevel}</div>
+                <div class="stats-detail">
+                    <div class="stat-card">📖 Part 1: ${p1Correct}/6</div>
+                    <div class="stat-card">🔗 Part 2: ${p2Correct}/8</div>
+                    <div class="stat-card">🏷️ Part 3: ${p3Correct}/5</div>
+                    <div class="stat-card">❓ Part 4: ${p4Correct}/5</div>
+                    <div class="stat-card">📝 Part 5: ${p5Correct}/4</div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+            
+            renderAll();
+        }
+
+        function resetAll() {
+            isChecked = false;
+            testData.part1.userAnswers.fill("");
+            for (let i = 7; i <= 14; i++) testData.part2.userAnswers[i] = "";
+            for (let i = 0; i < testData.part3.paragraphs.length; i++) testData.part3.userAnswers[i] = "";
+            for (let i = 21; i <= 25; i++) testData.part4.userAnswers[i] = "";
+            testData.part5.userAnswers.fill("");
+            renderAll();
+            document.getElementById('resultArea').classList.remove('show');
+        }
+
+        // Section navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.reading-section').forEach(s => s.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.querySelector(`.step[data-section="${sectionId}"]`).classList.add('active');
+        }
+
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', () => {
+                const section = step.dataset.section;
+                if (section) showSection(section);
+            });
+        });
+
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        // Timer
+        let time = 3600;
+        setInterval(() => {
+            if (time > 0) {
+                time--;
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }, 1000);
+
+        renderAll();
+        showSection('part1');
+    </script>
+</body>
 </html>
