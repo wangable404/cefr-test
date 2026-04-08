@@ -1,3 +1,19 @@
+window.handleCredentialResponse = function (response) {
+    console.log("GOOGLE RESPONSE:", response);
+
+    const user = parseJwt(response.credential);
+
+    localStorage.setItem('googleUser', JSON.stringify(user));
+
+    window.location.href = 'index.html';
+};
+
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const googleSignInBtn = document.getElementById('googleSignInBtn');
     const loginForm = document.getElementById('loginForm');
@@ -5,8 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
     const userEmail = document.getElementById('userEmail');
-
-    const GOOGLE_CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
 
     checkExistingUser();
 
@@ -120,11 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        const savedName = localStorage.getItem('userName');
-        const savedSurname = localStorage.getItem('userSurname');
+        const user = localStorage.getItem('googleUser');
         const currentPage = window.location.pathname.split("/").pop() || "login.html";
 
-        if ((savedName && savedSurname) && currentPage === "login.html") {
+        if (user && currentPage === "login.html") {
             window.location.href = "index.html";
             return;
         }

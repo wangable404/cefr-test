@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Reading Test Simulator | Full Practice Test</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Reading Test | IELTS / CEFR Scoring – Single Result</title>
     <style>
         * {
             margin: 0;
@@ -13,1027 +12,943 @@
         }
 
         body {
-            background: #f4f6f7;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: #f1f5f9;
+            color: #0a2b3e;
+            padding: 30px 20px;
         }
 
-        .header {
-            background: #0f7f6d;
-            color: white;
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+            padding: 18px 28px;
+            margin-bottom: 28px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 12px 24px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .header-actions button {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.2s ease;
-        }
-
-        .header-actions button:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .header-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .header-timer {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-        }
-
-        .reading-steps {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 20px;
-            background: white;
-            margin-bottom: 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            flex-wrap: wrap;
-        }
-
-        .reading-steps .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            background: #e0e0e0;
-            color: #666;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .step-indicator {
+            background: #e2e8f0;
+            padding: 6px 20px;
+            border-radius: 60px;
             font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
-        .reading-steps .step:hover {
-            background: #d0d0d0;
+        .timer {
+            background: #0f172a;
+            color: #facc15;
+            font-family: monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 6px 24px;
+            border-radius: 60px;
+            letter-spacing: 2px;
         }
 
-        .reading-steps .step.active {
-            background: #0f7f6d;
+        .test-type-badge {
+            background: #1e466e;
             color: white;
-            box-shadow: 0 4px 8px rgba(15, 127, 109, 0.3);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
-        .reading-section {
-            max-width: 1400px;
-            margin: 30px auto;
+        .task-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        .section-header {
-            background: #0f7f6d;
-            color: white;
-            padding: 15px 25px;
-            font-size: 18px;
-            font-weight: 600;
+        .passage-area {
+            background: #fefcf5;
+            padding: 28px 32px;
+            border-bottom: 1px solid #e9edf2;
         }
 
-        .section-content {
-            padding: 30px 40px;
-        }
-
-        .instruction {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            padding: 12px 16px;
-            background: #f8f9fa;
-            border-left: 4px solid #0f7f6d;
-            border-radius: 0 6px 6px 0;
+        .passage-area h2 {
+            font-size: 1.7rem;
+            margin-bottom: 16px;
+            color: #1e466e;
+            border-left: 5px solid #2c7da0;
+            padding-left: 20px;
         }
 
         .reading-text {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #333;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #1e2f3c;
+            text-align: justify;
         }
 
         .reading-text p {
+            margin-bottom: 1rem;
+        }
+
+        .questions-area {
+            padding: 28px 32px;
+        }
+
+        .task-type-badge {
+            display: inline-block;
+            background: #d9e8f5;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
             margin-bottom: 20px;
         }
 
-        .gap {
-            width: 130px;
-            border: none;
-            border-bottom: 2px solid #bbb;
-            background: transparent;
-            padding: 4px 8px;
-            font-size: 15px;
-            text-align: center;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .gap:focus {
-            border-bottom-color: #0f7f6d;
-        }
-
-        .gap.correct {
-            border-bottom-color: #27ae60;
-            background: #e8f8f0;
-        }
-
-        .gap.wrong {
-            border-bottom-color: #e74c3c;
-            background: #fdeaea;
-        }
-
-        .gap.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .correct-answer-hint {
-            font-size: 11px;
-            color: #27ae60;
-            margin-left: 8px;
-        }
-
-        .wrong-answer-hint {
-            font-size: 11px;
-            color: #e74c3c;
-            margin-left: 8px;
-        }
-
-        .part2-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: 30px;
-        }
-
-        .reference {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .reference h4 {
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 18px;
-        }
-
-        .ref-item {
-            background: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #444;
-            border: 1px solid #e8e8e8;
-        }
-
-        .questions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .q-card {
-            background: white;
-            border: 1px solid #e8e8e8;
-            border-left: 4px solid #0f7f6d;
+        .gap-sentence {
+            background: #f8fafc;
             padding: 16px 20px;
-            border-radius: 8px;
+            border-radius: 24px;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
         }
 
-        .q-card p {
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
-        .q-card select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+        select, .blank-input {
+            padding: 6px 14px;
+            border-radius: 40px;
+            border: 1.5px solid #cbd5e1;
             background: white;
-            font-size: 14px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            margin: 0 4px;
             cursor: pointer;
         }
 
-        .q-card select.correct {
-            border-color: #27ae60;
-            background: #e8f8f0;
-        }
-
-        .q-card select.wrong {
-            border-color: #e74c3c;
-            background: #fdeaea;
-        }
-
-        .q-card select.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .part3-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .part3-text {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-
-        .part3-text h2 {
-            font-size: 20px;
-            margin-bottom: 18px;
-            color: #0f7f6d;
-        }
-
-        .part3-text p {
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 15px;
-        }
-
-        .paragraph-label {
-            font-weight: 700;
-            color: #0f7f6d;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        .part4-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .part4-left {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-
-        .part4-left h2 {
-            color: #0f7f6d;
-            margin-bottom: 15px;
-        }
-
-        .part4-left p {
-            font-size: 14px;
-            line-height: 1.7;
+        .match-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            background: #f8fafc;
+            padding: 12px 18px;
+            border-radius: 20px;
             margin-bottom: 12px;
         }
 
-        .mc-question, .tf-question {
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
+        .match-label {
+            font-weight: 700;
+            min-width: 110px;
         }
 
-        .mc-question h4, .tf-question h4 {
-            color: #0f7f6d;
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
-        .mc-options {
+        .options-group {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 8px;
         }
 
-        .mc-option {
+        .option-label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
+            gap: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            background: #f8fafc;
+            padding: 6px 18px;
+            border-radius: 40px;
+            transition: 0.1s;
         }
 
-        .mc-option:hover {
-            background: #f0f9f7;
+        .option-label:hover {
+            background: #e2edf7;
         }
 
-        .mc-option.selected {
-            background: #e0f2ef;
-            border-left: 3px solid #0f7f6d;
+        input[type="radio"] {
+            accent-color: #2c7da0;
+            width: 17px;
+            height: 17px;
         }
 
-        .mc-option.correct {
-            background: #e8f8f0;
-            border-left: 3px solid #27ae60;
-        }
-
-        .mc-option.wrong {
-            background: #fdeaea;
-            border-left: 3px solid #e74c3c;
-        }
-
-        .mc-option.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .tf-buttons {
+        .nav-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 16px;
+            padding: 0 32px 28px 32px;
         }
 
-        .tf-btn {
-            padding: 6px 16px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            background: white;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .tf-btn.selected {
-            background: #0f7f6d;
-            color: white;
-            border-color: #0f7f6d;
-        }
-
-        .tf-btn.correct {
-            background: #27ae60;
-            color: white;
-            border-color: #27ae60;
-        }
-
-        .tf-btn.wrong {
-            background: #e74c3c;
-            color: white;
-            border-color: #e74c3c;
-        }
-
-        .tf-btn.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            padding-top: 20px;
-            border-top: 2px solid #e8e8e8;
-        }
-
-        .btn-check, .btn-reset {
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-check {
-            background: #0f7f6d;
-            color: white;
+        button {
             border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
         }
 
-        .btn-check:hover {
-            background: #0a6b5d;
+        .btn-primary {
+            background: #1e466e;
+            color: white;
         }
 
-        .btn-reset {
-            background: white;
-            color: #0f7f6d;
-            border: 2px solid #0f7f6d;
+        .btn-primary:hover:not(:disabled) {
+            background: #0f2f4a;
+            transform: scale(0.97);
         }
 
-        .btn-reset:hover {
-            background: #f0f9f7;
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
         }
 
-        .result-area {
-            background: #eef3f0;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 1400px;
-            text-align: center;
-            display: none;
+        .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e1;
         }
 
-        .result-area.show {
-            display: block;
-        }
-
-        .score-high {
-            color: #27ae60;
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .score-mid {
-            color: #f39c12;
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .score-low {
-            color: #e74c3c;
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .stats-detail {
+        .result-preview {
+            background: #eef2ff;
+            border-radius: 28px;
+            padding: 18px 28px;
+            margin-top: 24px;
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
         }
 
-        .stat-card {
-            background: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-align: center;
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        @media (max-width: 900px) {
-
-            .part2-grid,
-            .part3-content,
-            .part4-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .section-content {
-                padding: 20px;
-            }
-
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
+        .score-large {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e466e;
         }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="header-actions">
-            <button onclick="window.location.reload()">⟳ New Test</button>
-        </div>
-        <div class="header-title">📖 IELTS Reading Practice Test</div>
-        <div class="header-timer" id="timer">60:00</div>
-    </header>
-
-    <div class="reading-steps">
-        <span class="step active" data-section="part1">1</span>
-        <span class="step" data-section="part2">2</span>
-        <span class="step" data-section="part3">3</span>
-        <span class="step" data-section="part4">4</span>
-        <span class="step" data-section="part5">5</span>
+<div class="container">
+    <div class="test-header">
+        <div class="step-indicator" id="stepIndicator">Task 1 of 4</div>
+        <div class="test-type-badge" id="testTypeBadge">IELTS</div>
+        <div class="timer" id="timerDisplay">30:00</div>
     </div>
 
-    <!-- PART 1 -->
-    <div id="part1" class="reading-section">
-        <div class="section-header">Part 1 — Gap Fill (Words from the text)</div>
-        <div class="section-content">
-            <div class="instruction">📌 Read the text. Fill in each gap with ONE word from the text.</div>
-            <div class="reading-text">
-                <h2 style="color:#0f7f6d; margin-bottom:15px">Can Machines Think?</h2>
-                <p>How can you tell if you are talking to a computer? New <input type="text" class="gap" data-answer="computer" data-idx="0"> programs called language models have gotten very good at mimicking people.</p>
-                <p>Alan Turing was a computer scientist who thought a lot about artificial intelligence (AI). Instead of measuring <input type="text" class="gap" data-answer="intelligence" data-idx="1"> directly, what if you measured intelligent behavior?</p>
-                <p>Recently, computer programs called language models have gotten much better at mimicking <input type="text" class="gap" data-answer="human" data-idx="2"> language. These AI <input type="text" class="gap" data-answer="programs" data-idx="3"> analyze millions of sentences from books and websites.</p>
-                <p>But there are also problems with AI-generated <input type="text" class="gap" data-answer="text" data-idx="4"> to cheat on tests. Scammers can use AI to trick <input type="text" class="gap" data-answer="people" data-idx="5">.</p>
-            </div>
+    <div class="task-card" id="taskCard">
+        <div class="passage-area" id="passageArea"></div>
+        <div class="questions-area" id="questionsArea"></div>
+        <div class="nav-buttons">
+            <button id="prevBtn" class="btn-secondary" style="visibility: hidden;">◀ Previous</button>
+            <button id="nextBtn" class="btn-primary">Next Task ▶</button>
         </div>
     </div>
 
-    <!-- PART 2 -->
-    <div id="part2" class="reading-section" style="display:none">
-        <div class="section-header">Part 2 — Matching Information</div>
-        <div class="section-content">
-            <div class="instruction">📌 Match each advertisement (7-14) with the correct statement (A-J). Each statement can be used ONCE.</div>
-            <div class="part2-grid">
-                <div class="reference">
-                    <h4>Statements A-J</h4>
-                    <div class="ref-item">A) You want a personal service.</div>
-                    <div class="ref-item">B) You want to visit a lakeside hotel during summer.</div>
-                    <div class="ref-item">C) You want someone to go fishing for you.</div>
-                    <div class="ref-item">D) You want to go someplace unique with nice foods.</div>
-                    <div class="ref-item">E) Suitable for exploration and visiting a beach.</div>
-                    <div class="ref-item">F) This hotel is near docks.</div>
-                    <div class="ref-item">G) Reliable hotel to visit in autumn.</div>
-                    <div class="ref-item">H) Visit beaches during September and October.</div>
-                    <div class="ref-item">I) Beach hotel with relaxing facilities.</div>
-                    <div class="ref-item">J) This place has golf and a fitness centre.</div>
-                </div>
-                <div class="questions" id="part2-questions"></div>
-            </div>
-        </div>
+    <div class="result-preview" id="resultPanel">
+        <span id="progressMsg">✨ Complete each task. You have 30 minutes total. Random tests loaded.</span>
+        <span id="scoreBadge" style="font-weight: 700;"></span>
     </div>
+</div>
 
-    <!-- PART 3 -->
-    <div id="part3" class="reading-section" style="display:none">
-        <div class="section-header">Part 3 — Matching Headings to Paragraphs</div>
-        <div class="section-content">
-            <div class="instruction">📌 Choose the correct heading for each paragraph from the list.</div>
-            <div class="part3-content">
-                <div class="part3-text" id="part3-text"></div>
-                <div class="part3-questions" id="part3-questions"></div>
-            </div>
-        </div>
-    </div>
+<script>
+    // ============================================================
+    // DATABASE: 5 different tasks for EACH type (gap, headings, tf, synonyms)
+    // Each gap-fill task has 3-4 blanks
+    // ============================================================
 
-    <!-- PART 4 -->
-    <div id="part4" class="reading-section" style="display:none">
-        <div class="section-header">Part 4 — Multiple Choice & True/False</div>
-        <div class="section-content">
-            <div class="instruction">📌 Read the passage and answer questions 21-25.</div>
-            <div class="part4-container">
-                <div class="part4-left" id="part4-text"></div>
-                <div class="part4-right" id="part4-questions"></div>
-            </div>
-        </div>
-    </div>
+    // ----- 1) GAP FILL tasks (5 variants) -----
+    const gapTasks = [
+        {
+            title: "The Importance of Coral Reefs",
+            passage: `<p>Coral reefs are often called the "rainforests of the sea". They occupy less than 1% of the ocean floor but support about 25% of marine species. Unfortunately, rising ocean temperatures cause coral ___________ , which turns reefs white and leads to death. Additionally, pollution and overfishing ___________ the delicate balance. Scientists estimate that if current trends continue, over 90% of reefs will be ___________ by 2050. However, marine protected areas and reducing carbon emissions can help preserve these vital ecosystems for future ___________ .</p>`,
+            gaps: ["___________", "___________", "___________", "___________"],
+            correct: ["bleaching", "disrupt", "threatened", "generations"],
+            optionsPerGap: [
+                ["bleaching", "warming", "acidification", "erosion"],
+                ["disrupt", "improve", "ignore", "create"],
+                ["threatened", "protected", "expanded", "restored"],
+                ["generations", "decades", "centuries", "months"]
+            ]
+        },
+        {
+            title: "Artificial Intelligence in Healthcare",
+            passage: `<p>AI is revolutionizing medicine by improving diagnosis and treatment. Machine learning algorithms can analyse medical images with ___________ accuracy, often detecting tumors earlier than humans. In drug discovery, AI reduces the time needed to identify potential ___________ by up to 70%. However, ethical concerns remain, especially regarding data privacy and algorithmic ___________ . Despite these challenges, experts believe AI will become an indispensable ___________ in future clinics.</p>`,
+            gaps: ["___________", "___________", "___________", "___________"],
+            correct: ["remarkable", "compounds", "bias", "tool"],
+            optionsPerGap: [
+                ["remarkable", "low", "average", "unpredictable"],
+                ["compounds", "diseases", "patients", "symptoms"],
+                ["bias", "speed", "cost", "complexity"],
+                ["tool", "obstacle", "replacement", "distraction"]
+            ]
+        },
+        {
+            title: "The Psychology of Procrastination",
+            passage: `<p>Procrastination affects nearly 20% of adults. It's not about laziness but rather difficulty in managing ___________ . Psychologists distinguish between active procrastination (deliberate delay) and passive procrastination (paralyzing ___________ ). To overcome it, break tasks into small steps, use the "5-minute rule", and reward yourself after each ___________ . Over time, these techniques rewire the brain's ___________ pathways.</p>`,
+            gaps: ["___________", "___________", "___________", "___________"],
+            correct: ["emotions", "avoidance", "milestone", "neural"],
+            optionsPerGap: [
+                ["emotions", "time", "money", "energy"],
+                ["avoidance", "creativity", "focus", "memory"],
+                ["milestone", "failure", "distraction", "deadline"],
+                ["neural", "digestive", "muscular", "sensory"]
+            ]
+        },
+        {
+            title: "Renewable Energy Trends",
+            passage: `<p>Solar and wind power have become the cheapest electricity sources in many regions. The global ___________ of renewable energy grew by 45% in the last decade. Battery storage technology is advancing rapidly, solving the issue of ___________ . Many governments offer tax credits to ___________ green investments. By 2030, renewables are expected to supply over 40% of the world's ___________ .</p>`,
+            gaps: ["___________", "___________", "___________", "___________"],
+            correct: ["capacity", "intermittency", "encourage", "electricity"],
+            optionsPerGap: [
+                ["capacity", "demand", "price", "waste"],
+                ["intermittency", "pollution", "cost", "safety"],
+                ["encourage", "limit", "tax", "ban"],
+                ["electricity", "food", "water", "transport"]
+            ]
+        },
+        {
+            title: "Cultural Intelligence (CQ)",
+            passage: `<p>Cultural intelligence refers to the ability to work effectively across different cultures. It includes four components: drive (motivation), knowledge (understanding), strategy (planning), and ___________ (adjusting behavior). High CQ helps avoid ___________ and builds trust in global teams. Companies now use CQ assessments during hiring to ensure ___________ in multicultural environments. With globalization, CQ has become as important as ___________ intelligence.</p>`,
+            gaps: ["___________", "___________", "___________", "___________"],
+            correct: ["action", "misunderstandings", "harmony", "emotional"],
+            optionsPerGap: [
+                ["action", "reflection", "memory", "speed"],
+                ["misunderstandings", "collaboration", "efficiency", "creativity"],
+                ["harmony", "conflict", "competition", "isolation"],
+                ["emotional", "artificial", "musical", "spatial"]
+            ]
+        }
+    ];
 
-    <!-- PART 5 -->
-    <div id="part5" class="reading-section" style="display:none">
-        <div class="section-header">Part 5 — Summary Completion</div>
-        <div class="section-content">
-            <div class="instruction">📌 Complete the summary using words from the passage.</div>
-            <div class="reading-text" id="part5-text"></div>
-        </div>
-    </div>
+    // ----- 2) MATCHING HEADINGS tasks (5 variants) -----
+    const headingTasks = [
+        {
+            title: "Space Exploration Milestones",
+            passage: `<p><strong>Paragraph A</strong><br>The launch of Sputnik 1 in 1957 marked the beginning of the space age. This Soviet satellite orbited Earth for three weeks, sparking the space race.</p>
+            <p><strong>Paragraph B</strong><br>In 1969, Apollo 11 successfully landed the first humans on the Moon. Neil Armstrong's famous words inspired generations.</p>
+            <p><strong>Paragraph C</strong><br>Modern missions focus on Mars rovers and the James Webb Telescope, searching for signs of past life and studying distant galaxies.</p>
+            <p><strong>Paragraph D</strong><br>Private companies like SpaceX now offer commercial spaceflights, reducing costs and increasing access to orbit.</p>`,
+            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+            correctHeadings: [
+                "The first artificial satellite",
+                "First Moon landing",
+                "Contemporary exploration",
+                "Private sector involvement"
+            ],
+            options: [
+                "The first artificial satellite",
+                "First Moon landing",
+                "Contemporary exploration",
+                "Private sector involvement",
+                "The future of space tourism",
+                "Dangers of space debris"
+            ]
+        },
+        {
+            title: "The History of Chocolate",
+            passage: `<p><strong>Paragraph A</strong><br>The Olmecs and Mayans first cultivated cacao beans around 1500 BC. They used them in religious ceremonies and as currency.</p>
+            <p><strong>Paragraph B</strong><br>Spanish explorers brought cacao to Europe in the 16th century. Sugar was added, making it popular among aristocrats.</p>
+            <p><strong>Paragraph C</strong><br>The Industrial Revolution allowed mass production of solid chocolate bars. Brands like Cadbury and Nestlé emerged.</p>
+            <p><strong>Paragraph D</strong><br>Today, dark chocolate is praised for antioxidants, but concerns over child labour in West African farms persist.</p>`,
+            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+            correctHeadings: [
+                "Ancient origins",
+                "Introduction to Europe",
+                "Mass production",
+                "Modern benefits and issues"
+            ],
+            options: [
+                "Ancient origins",
+                "Introduction to Europe",
+                "Mass production",
+                "Modern benefits and issues",
+                "Chocolate recipes",
+                "Health risks of sugar"
+            ]
+        },
+        {
+            title: "Remote Work Revolution",
+            passage: `<p><strong>Paragraph A</strong><br>Before 2020, remote work was a niche perk. Only 7% of employees worked from home regularly.</p>
+            <p><strong>Paragraph B</strong><br>The pandemic forced a global experiment. Companies adopted digital tools overnight, and productivity often increased.</p>
+            <p><strong>Paragraph C</strong><br>Challenges include isolation, blurred work-life boundaries, and the digital divide for rural areas.</p>
+            <p><strong>Paragraph D</strong><br>Hybrid models are emerging as the preferred solution, offering flexibility while maintaining in-person collaboration.</p>`,
+            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+            correctHeadings: [
+                "Pre-pandemic situation",
+                "Sudden shift due to COVID-19",
+                "Difficulties of remote work",
+                "The hybrid compromise"
+            ],
+            options: [
+                "Pre-pandemic situation",
+                "Sudden shift due to COVID-19",
+                "Difficulties of remote work",
+                "The hybrid compromise",
+                "Future office designs",
+                "Productivity decline"
+            ]
+        },
+        {
+            title: "Sustainable Fashion",
+            passage: `<p><strong>Paragraph A</strong><br>Fast fashion produces cheap clothes but creates massive textile waste and water pollution.</p>
+            <p><strong>Paragraph B</strong><br>Eco-friendly materials like organic cotton, hemp, and recycled polyester reduce environmental harm.</p>
+            <p><strong>Paragraph C</strong><br>Consumers can rent clothes, buy second-hand, or repair items instead of discarding them.</p>
+            <p><strong>Paragraph D</strong><br>Some brands now offer take-back programs and use biodegradable packaging to close the loop.</p>`,
+            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+            correctHeadings: [
+                "Problems of fast fashion",
+                "Sustainable materials",
+                "Consumer solutions",
+                "Circular economy initiatives"
+            ],
+            options: [
+                "Problems of fast fashion",
+                "Sustainable materials",
+                "Consumer solutions",
+                "Circular economy initiatives",
+                "History of clothing",
+                "Luxury brands"
+            ]
+        },
+        {
+            title: "Neuroscience of Learning",
+            passage: `<p><strong>Paragraph A</strong><br>The hippocampus is crucial for forming new memories. Damage to this area prevents long-term retention.</p>
+            <p><strong>Paragraph B</strong><br>Sleep consolidates memories by replaying daily experiences during deep sleep cycles.</p>
+            <p><strong>Paragraph C</strong><br>Spaced repetition and active recall are more effective than cramming, according to studies.</p>
+            <p><strong>Paragraph D</strong><br>Stress hormones like cortisol impair memory retrieval, so a calm environment enhances learning.</p>`,
+            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
+            correctHeadings: [
+                "Role of the hippocampus",
+                "Sleep and memory",
+                "Effective study techniques",
+                "Impact of stress"
+            ],
+            options: [
+                "Role of the hippocampus",
+                "Sleep and memory",
+                "Effective study techniques",
+                "Impact of stress",
+                "Brain anatomy",
+                "Learning disorders"
+            ]
+        }
+    ];
 
-    <div class="action-buttons">
-        <button class="btn-check" id="checkBtn">✅ Check Answers</button>
-        <button class="btn-reset" id="resetBtn">🔄 Reset All</button>
-    </div>
-    <div id="resultArea" class="result-area"></div>
+    // ----- 3) TRUE/FALSE tasks (5 variants) -----
+    const tfTasks = [
+        {
+            title: "The Great Wall of China",
+            passage: `<p>The Great Wall of China was built over several dynasties, primarily during the Ming Dynasty (1368–1644). It stretches over 21,000 kilometers, contrary to the myth that it is visible from space with the naked eye. The wall was used for defense against nomadic invasions, but also served as a transportation corridor. Many sections have deteriorated due to natural erosion and human activity. Today, it is a UNESCO World Heritage site and one of the most visited tourist attractions.</p>`,
+            statements: [
+                { text: "The Great Wall was built only during the Ming Dynasty.", correct: "False" },
+                { text: "The wall can be easily seen from space without assistance.", correct: "False" },
+                { text: "It served both defensive and transportation purposes.", correct: "True" },
+                { text: "Some parts of the wall have been damaged over time.", correct: "True" }
+            ]
+        },
+        {
+            title: "Benefits of Meditation",
+            passage: `<p>Scientific studies show that regular meditation reduces symptoms of anxiety and depression. It also improves attention span and working memory. Brain scans reveal increased grey matter density in regions associated with emotional regulation. However, meditation is not a cure for severe mental illness and should complement, not replace, professional treatment. Beginners often experience frustration, but consistency yields benefits within weeks.</p>`,
+            statements: [
+                { text: "Meditation can completely replace therapy for severe depression.", correct: "False" },
+                { text: "Meditation has been shown to improve memory and focus.", correct: "True" },
+                { text: "Brain structure changes have been observed in meditators.", correct: "True" },
+                { text: "All beginners find meditation easy and relaxing immediately.", correct: "False" }
+            ]
+        },
+        {
+            title: "The Amazon Rainforest",
+            passage: `<p>The Amazon produces about 20% of the world's oxygen, earning it the nickname 'lungs of the Earth'. It spans nine countries, with Brazil holding the largest portion. Deforestation rates have increased due to cattle ranching and soybean cultivation. Indigenous tribes living in the forest have sustainable practices that maintain biodiversity. The Amazon River is the longest river in the world by volume, but the Nile is longer in length.</p>`,
+            statements: [
+                { text: "The Amazon produces half of the planet's oxygen.", correct: "False" },
+                { text: "The rainforest is located entirely within Brazil.", correct: "False" },
+                { text: "Cattle ranching contributes to deforestation in the Amazon.", correct: "True" },
+                { text: "The Amazon River carries more water than any other river.", correct: "True" }
+            ]
+        },
+        {
+            title: "History of the Internet",
+            passage: `<p>The internet originated from ARPANET, a US military project in the 1960s. The World Wide Web was invented by Tim Berners-Lee in 1989, making information accessible via browsers. Email existed before the web, dating back to 1971. Social media platforms like Facebook emerged in the early 2000s. Today, over 5 billion people use the internet, but digital divides persist in low-income regions.</p>`,
+            statements: [
+                { text: "ARPANET was created for commercial purposes.", correct: "False" },
+                { text: "The World Wide Web and the internet are the same thing.", correct: "False" },
+                { text: "Email was invented after the World Wide Web.", correct: "False" },
+                { text: "More than half of the global population uses the internet.", correct: "True" }
+            ]
+        },
+        {
+            title: "Vegan Diets",
+            passage: `<p>A vegan diet excludes all animal products, including meat, dairy, and eggs. Research indicates vegans have lower risks of heart disease, hypertension, and type 2 diabetes. However, vegans need to supplement vitamin B12, which is naturally found only in animal products. Plant-based diets also have a lower carbon footprint compared to omnivorous diets. Critics argue that some vegan processed foods are unhealthy due to high salt and sugar.</p>`,
+            statements: [
+                { text: "Vegans can get vitamin B12 from plants naturally.", correct: "False" },
+                { text: "Vegan diets are associated with reduced heart disease risk.", correct: "True" },
+                { text: "All vegan foods are automatically healthy.", correct: "False" },
+                { text: "Veganism has environmental benefits over meat-based diets.", correct: "True" }
+            ]
+        }
+    ];
 
-    <script>
-        let isChecked = false;
+    // ----- 4) SYNONYMS tasks (5 variants) -----
+    const synonymTasks = [
+        {
+            title: "Climate Change Vocabulary",
+            passage: `<p>Global warming refers to the long-term heating of Earth's climate system. The primary cause is the greenhouse effect, where certain gases trap heat. Consequences include rising sea levels, more frequent extreme weather events, and loss of biodiversity. Mitigation strategies involve reducing emissions and adopting renewable energy.</p>`,
+            items: [
+                { word: "heating", options: ["cooling", "warming", "freezing", "stabilizing"], correct: "warming" },
+                { word: "trap", options: ["release", "absorb", "capture", "reflect"], correct: "capture" },
+                { word: "consequences", options: ["causes", "benefits", "results", "exceptions"], correct: "results" },
+                { word: "mitigation", options: ["worsening", "reduction", "ignorance", "expansion"], correct: "reduction" }
+            ]
+        },
+        {
+            title: "Artificial Intelligence Terms",
+            passage: `<p>Machine learning algorithms learn from data without explicit programming. Neural networks mimic the human brain's structure. Automation replaces repetitive tasks, increasing efficiency. However, ethical concerns about job displacement and surveillance remain.</p>`,
+            items: [
+                { word: "explicit", options: ["implicit", "clear", "vague", "hidden"], correct: "clear" },
+                { word: "mimic", options: ["ignore", "imitate", "destroy", "improve"], correct: "imitate" },
+                { word: "replaces", options: ["substitutes", "enhances", "complicates", "removes"], correct: "substitutes" },
+                { word: "displacement", options: ["creation", "loss", "promotion", "stability"], correct: "loss" }
+            ]
+        },
+        {
+            title: "Business Vocabulary",
+            passage: `<p>Entrepreneurs take financial risks to launch ventures. A startup aims to scale rapidly. Market saturation occurs when a product becomes ubiquitous. Innovation drives competitive advantage. Patents protect intellectual property.</p>`,
+            items: [
+                { word: "launch", options: ["close", "start", "delay", "cancel"], correct: "start" },
+                { word: "scale", options: ["shrink", "stagnate", "expand", "divide"], correct: "expand" },
+                { word: "ubiquitous", options: ["rare", "everywhere", "expensive", "complex"], correct: "everywhere" },
+                { word: "protect", options: ["attack", "safeguard", "ignore", "revoke"], correct: "safeguard" }
+            ]
+        },
+        {
+            title: "Psychology Terms",
+            passage: `<p>Cognitive dissonance describes the mental discomfort from holding contradictory beliefs. Resilience is the ability to bounce back from adversity. Empathy involves understanding others' emotions. A heuristic is a mental shortcut that speeds decision-making.</p>`,
+            items: [
+                { word: "contradictory", options: ["consistent", "opposing", "simple", "complex"], correct: "opposing" },
+                { word: "adversity", options: ["fortune", "difficulty", "ease", "victory"], correct: "difficulty" },
+                { word: "empathy", options: ["apathy", "sympathy", "indifference", "cruelty"], correct: "sympathy" },
+                { word: "shortcut", options: ["detour", "delay", "fast route", "obstacle"], correct: "fast route" }
+            ]
+        },
+        {
+            title: "Travel & Tourism",
+            passage: `<p>Ecotourism promotes responsible travel to natural areas, conserving the environment. A layover is a short stop between flights. An itinerary outlines daily activities. All-inclusive packages cover accommodation, meals, and drinks.</p>`,
+            items: [
+                { word: "responsible", options: ["careless", "ethical", "risky", "expensive"], correct: "ethical" },
+                { word: "layover", options: ["flight", "stopover", "destination", "departure"], correct: "stopover" },
+                { word: "outlines", options: ["hides", "summarizes", "complicates", "ignores"], correct: "summarizes" },
+                { word: "cover", options: ["exclude", "include", "increase", "reduce"], correct: "include" }
+            ]
+        }
+    ];
 
-        // ==================== TEST DATA ====================
-        const testData = {
-            part1: {
-                answers: ["computer", "intelligence", "human", "programs", "text", "people"],
-                userAnswers: new Array(6).fill("")
-            },
-            part2: {
-                questions: [
-                    { id: 7, text: "Phone 876451 to book a table. Pizzas from $6. Student Thursdays! $4.75!", correct: "D" },
-                    { id: 8, text: "Dishes from all over the world. Next to the museum. Main courses £10!", correct: "D" },
-                    { id: 9, text: "Opposite the library. Cheap snacks. Soups 75p. Every break time.", correct: "A" },
-                    { id: 10, text: "Best Chinese food! Special meals for children. Pretty garden.", correct: "D" },
-                    { id: 11, text: "Opposite Star Cinema. Burgers! Chips! Pizzas! Open 5pm-11pm.", correct: "A" },
-                    { id: 12, text: "6am-midnight. Take away & eat in. Sandwiches £1.50, Pizzas £5.30", correct: "A" },
-                    { id: 13, text: "£1 for 30 minutes on computer. Cake, cold drinks, coffee.", correct: "A" },
-                    { id: 14, text: "100 different sandwiches! Hot soup. £2.80 each. Car park behind.", correct: "A" }
-                ],
-                userAnswers: {}
-            },
-            part3: {
-                headings: ["A) Origin of theatre", "B) Ladies enter the stage", "C) Roman expansion", "D) Theatre and politics", "E) Variety of theatrical forms"],
-                paragraphs: [
-                    { label: "Paragraph I", text: "Modern Western theatre comes in large measure from ancient Greek drama, from which it takes technical terminology, classification into genres, and many of its themes. The Greeks also developed dramatic criticism and theatre architecture.", correct: "A" },
-                    { label: "Paragraph II", text: "Western theatre developed considerably under the Romans. The Roman historian Livy wrote that Romans first experienced theatre in the 4th century BC. Roman theatre ranged from street theatre to elaborate tragedies.", correct: "C" },
-                    { label: "Paragraph III", text: "Theatre took many forms between the 15th-19th centuries, including commedia dell'arte and melodrama. The trend was toward naturalistic prose, especially after the Industrial Revolution.", correct: "E" },
-                    { label: "Paragraph IV", text: "The 18th century in Britain introduced women to the stage. Charles II did not like young men playing women's parts, so he asked women to play their own roles.", correct: "B" },
-                    { label: "Paragraph V", text: "Theatre paused during 1642-1660 because of Cromwell's Interregnum. Puritans saw theatre as sinful. When Charles II returned, theatre exploded with French influence.", correct: "D" }
-                ],
-                userAnswers: {}
-            },
-            part4: {
-                passage: "<h2>The Power of Placebos</h2><p>Placebos are treatments that have no direct effect on the body, yet work because the patient has faith in their power to heal. The existence of the placebo effect implies that even quackery may confer real benefits.</p><p>Research has focused on pain control. Endorphins, morphine-like neurochemicals, help control pain. Fabrizio Benedetti showed that naloxone (which blocks endorphins) can abolish the placebo effect.</p><p>Scientists don't know exactly how placebos work, but they know how to trigger the effect. Red dummy capsules make more effective painkillers than blue ones. The more enthusiastic the doctor, the better the drug performs.</p>",
-                questions: [
-                    { id: 21, text: "Placebos work because...", options: ["they have a direct effect on the body", "they grow patient's faith", "they enhance natural healing", "people believe in their effect"], correct: "people believe in their effect" },
-                    { id: 22, text: "Most studies on placebos have focused on...", options: ["depression", "pain control", "anxiety", "sleep disorders"], correct: "pain control" },
-                    { id: 23, text: "Endorphins are...", options: ["synthetic drugs", "natural painkillers", "harmful chemicals", "placebo pills"], correct: "natural painkillers" },
-                    { id: 24, text: "Naloxone can eliminate the placebo effect because it...", options: ["increases pain", "blocks endorphins", "causes anxiety", "releases dopamine"], correct: "blocks endorphins" },
-                    { id: 25, text: "The placebo effect only works for controlling pain.", type: "tf", correct: "false" }
-                ],
-                userAnswers: {}
-            },
-            part5: {
-                passage: "<h2>Dirty River But Clean Water</h2><p>Floods once raged through the Grand Canyon every year. Spring snow from Wyoming would melt and swell the Colorado River. In the four decades since the Glen Canyon dam was built, it only could gather <input type='text' class='gap' data-answer='sediment' data-idx='0'> from tiny tributaries.</p><p>The humpback chub population crashed because the non-stopped flow led to washing away of <input type='text' class='gap' data-answer='sediment' data-idx='1'>. The chub has poor <input type='text' class='gap' data-answer='visibility' data-idx='2'> away from predators.</p><p>The volume of <input type='text' class='gap' data-answer='sand' data-idx='3'> behind the dam was too low to rebuild sandbanks.</p>",
-                answers: ["sediment", "sediment", "visibility", "sand"],
-                userAnswers: new Array(4).fill("")
-            }
+    // ---- Random selection for each stage ----
+    let selectedGap = null;
+    let selectedHeading = null;
+    let selectedTF = null;
+    let selectedSyn = null;
+
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // ---- Get test type from localStorage (key "currentTest") ----
+    function getCurrentTestType() {
+        const stored = localStorage.getItem('currentTest');
+        if (stored === 'IELTS') return 'IELTS';
+        if (stored === 'CEFR') return 'CEFR';
+        return 'IELTS';
+    }
+
+    // ---- Convert percentage to IELTS band (0-9, step 0.5) ----
+    function percentToIELTS(percent) {
+        if (percent >= 95) return 9.0;
+        if (percent >= 90) return 8.5;
+        if (percent >= 85) return 8.0;
+        if (percent >= 78) return 7.5;
+        if (percent >= 70) return 7.0;
+        if (percent >= 62) return 6.5;
+        if (percent >= 55) return 6.0;
+        if (percent >= 48) return 5.5;
+        if (percent >= 40) return 5.0;
+        if (percent >= 32) return 4.5;
+        if (percent >= 25) return 4.0;
+        return 3.5;
+    }
+
+    // ---- Convert percentage to CEFR level ----
+    function percentToCEFR(percent) {
+        if (percent >= 90) return "C2 (Proficient)";
+        if (percent >= 75) return "C1 (Advanced)";
+        if (percent >= 60) return "B2 (Upper Intermediate)";
+        if (percent >= 45) return "B1 (Intermediate)";
+        if (percent >= 30) return "A2 (Elementary)";
+        return "A1 (Beginner)";
+    }
+
+    // ---- Save SINGLE result to localStorage (overwrites previous reading result) ----
+    function saveSingleResult(testType, scoreValue, percentCorrect, totalCorrect, totalPossible) {
+        const resultObj = {
+            testType: testType,          // 'ielts' or 'cefr'
+            score: scoreValue,           // e.g., 7.5 or "B2 (Upper Intermediate)"
+            percent: percentCorrect,
+            totalCorrect: totalCorrect,
+            totalPossible: totalPossible,
+            date: new Date().toISOString(),
+            section: 'reading'
         };
+        localStorage.setItem('readingResult', JSON.stringify(resultObj));
+        console.log('Saved reading result:', resultObj);
+    }
 
-        // Initialize user answers
-        for (let i = 7; i <= 14; i++) testData.part2.userAnswers[i] = "";
-        for (let i = 0; i < testData.part3.paragraphs.length; i++) testData.part3.userAnswers[i] = "";
-        for (let i = 21; i <= 25; i++) testData.part4.userAnswers[i] = "";
+    // ---- Global state ----
+    let currentStep = 0;
+    let userAnswers = [];
+    let timerSeconds = 1800;   // 30 min
+    let timerInterval = null;
+    let testFinished = false;
+    let currentTestType = 'IELTS';  // from localStorage
+    let resultSaved = false;         // ensure we save only once
 
-        // Render functions
-        function renderPart2() {
-            const container = document.getElementById('part2-questions');
-            container.innerHTML = testData.part2.questions.map(q => `
-                <div class="q-card" data-qid="${q.id}">
-                    <p><b>${q.id}.</b> ${q.text}</p>
-                    <select data-qid="${q.id}" ${isChecked ? 'disabled' : ''}>
-                        <option value="">Select...</option>
-                        <option value="A" ${testData.part2.userAnswers[q.id] === 'A' ? 'selected' : ''}>A) Personal service</option>
-                        <option value="B" ${testData.part2.userAnswers[q.id] === 'B' ? 'selected' : ''}>B) Lakeside hotel summer</option>
-                        <option value="C" ${testData.part2.userAnswers[q.id] === 'C' ? 'selected' : ''}>C) Someone go fishing</option>
-                        <option value="D" ${testData.part2.userAnswers[q.id] === 'D' ? 'selected' : ''}>D) Unique place with nice foods</option>
-                        <option value="E" ${testData.part2.userAnswers[q.id] === 'E' ? 'selected' : ''}>E) Exploration & beach</option>
-                        <option value="F" ${testData.part2.userAnswers[q.id] === 'F' ? 'selected' : ''}>F) Near docks</option>
-                        <option value="G" ${testData.part2.userAnswers[q.id] === 'G' ? 'selected' : ''}>G) Reliable autumn hotel</option>
-                        <option value="H" ${testData.part2.userAnswers[q.id] === 'H' ? 'selected' : ''}>H) Beaches Sep-Oct</option>
-                        <option value="I" ${testData.part2.userAnswers[q.id] === 'I' ? 'selected' : ''}>I) Beach relaxing facilities</option>
-                        <option value="J" ${testData.part2.userAnswers[q.id] === 'J' ? 'selected' : ''}>J) Golf & fitness centre</option>
-                    </select>
-                    ${isChecked ? `<div style="font-size:12px; margin-top:5px">${testData.part2.userAnswers[q.id] === q.correct ? '✓ Correct' : `✗ Correct: ${q.correct}`}</div>` : ''}
-                </div>
-            `).join('');
-            
-            if (!isChecked) {
-                document.querySelectorAll('#part2-questions select').forEach(select => {
-                    select.addEventListener('change', (e) => {
-                        const qid = parseInt(select.dataset.qid);
-                        testData.part2.userAnswers[qid] = select.value;
-                    });
-                });
-            }
-            
-            if (isChecked) {
-                document.querySelectorAll('#part2-questions select').forEach(select => {
-                    const qid = parseInt(select.dataset.qid);
-                    const q = testData.part2.questions.find(q => q.id === qid);
-                    if (testData.part2.userAnswers[qid] === q.correct) {
-                        select.classList.add('correct');
-                    } else if (testData.part2.userAnswers[qid]) {
-                        select.classList.add('wrong');
-                    }
-                });
-            }
-        }
+    // DOM elements
+    const passageArea = document.getElementById('passageArea');
+    const questionsArea = document.getElementById('questionsArea');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const progressMsgSpan = document.getElementById('progressMsg');
+    const scoreBadgeSpan = document.getElementById('scoreBadge');
+    const timerDisplaySpan = document.getElementById('timerDisplay');
+    const testTypeBadgeSpan = document.getElementById('testTypeBadge');
 
-        function renderPart3() {
-            document.getElementById('part3-text').innerHTML = testData.part3.paragraphs.map((p, idx) => `
-                <p><span class="paragraph-label">${p.label}</span><br>${p.text}</p>
-            `).join('');
-            
-            document.getElementById('part3-questions').innerHTML = testData.part3.paragraphs.map((p, idx) => `
-                <div class="q-card">
-                    <p><b>${p.label}</b> - Choose heading:</p>
-                    <select data-paragraph="${idx}" ${isChecked ? 'disabled' : ''}>
-                        <option value="">Select...</option>
-                        ${testData.part3.headings.map(h => `<option value="${h.charAt(0)}" ${testData.part3.userAnswers[idx] === h.charAt(0) ? 'selected' : ''}>${h}</option>`).join('')}
-                    </select>
-                    ${isChecked ? `<div style="font-size:12px; margin-top:5px">${testData.part3.userAnswers[idx] === p.correct ? '✓ Correct' : `✗ Correct: ${p.correct})`}</div>` : ''}
-                </div>
-            `).join('');
-            
-            if (!isChecked) {
-                document.querySelectorAll('#part3-questions select').forEach(select => {
-                    select.addEventListener('change', (e) => {
-                        const idx = parseInt(select.dataset.paragraph);
-                        testData.part3.userAnswers[idx] = select.value;
-                    });
-                });
-            }
-            
-            if (isChecked) {
-                document.querySelectorAll('#part3-questions select').forEach((select, idx) => {
-                    if (testData.part3.userAnswers[idx] === testData.part3.paragraphs[idx].correct) {
-                        select.classList.add('correct');
-                    } else if (testData.part3.userAnswers[idx]) {
-                        select.classList.add('wrong');
-                    }
-                });
-            }
-        }
+    function formatTime(sec) {
+        let mins = Math.floor(sec / 60);
+        let remainSec = sec % 60;
+        return `${mins.toString().padStart(2,'0')}:${remainSec.toString().padStart(2,'0')}`;
+    }
 
-        function renderPart4() {
-            document.getElementById('part4-text').innerHTML = testData.part4.passage;
-            const container = document.getElementById('part4-questions');
-            container.innerHTML = testData.part4.questions.map(q => {
-                if (q.type === 'tf') {
-                    const val = testData.part4.userAnswers[q.id];
-                    return `<div class="tf-question">
-                        <h4>${q.id}. ${q.text}</h4>
-                        <div class="tf-buttons">
-                            <button class="tf-btn ${val === 'true' ? 'selected' : ''} ${isChecked && val === 'true' ? (val === q.correct ? 'correct' : 'wrong') : ''}" data-qid="${q.id}" data-val="true" ${isChecked ? 'disabled' : ''}>✓ True</button>
-                            <button class="tf-btn ${val === 'false' ? 'selected' : ''} ${isChecked && val === 'false' ? (val === q.correct ? 'correct' : 'wrong') : ''}" data-qid="${q.id}" data-val="false" ${isChecked ? 'disabled' : ''}>✗ False</button>
-                        </div>
-                        ${isChecked ? `<div style="font-size:12px; margin-top:8px">${val === q.correct ? '✓ Correct' : `✗ Correct answer: ${q.correct}`}</div>` : ''}
-                    </div>`;
-                } else {
-                    const val = testData.part4.userAnswers[q.id];
-                    return `<div class="mc-question">
-                        <h4>${q.id}. ${q.text}</h4>
-                        <div class="mc-options">
-                            ${q.options.map(opt => `<label class="mc-option ${val === opt ? 'selected' : ''} ${isChecked && val === opt ? (opt === q.correct ? 'correct' : 'wrong') : ''}" style="${isChecked ? 'cursor:default' : ''}">
-                                <input type="radio" name="q${q.id}" value="${opt}" ${val === opt ? 'checked' : ''} ${isChecked ? 'disabled' : ''}> ${opt}
-                            </label>`).join('')}
-                        </div>
-                        ${isChecked ? `<div style="font-size:12px; margin-top:8px">${val === q.correct ? '✓ Correct' : `✗ Correct: ${q.correct}`}</div>` : ''}
-                    </div>`;
-                }
-            }).join('');
-            
-            if (!isChecked) {
-                document.querySelectorAll('#part4-questions .tf-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const qid = parseInt(btn.dataset.qid);
-                        const val = btn.dataset.val;
-                        testData.part4.userAnswers[qid] = val;
-                        renderPart4();
-                    });
-                });
-                document.querySelectorAll('#part4-questions input[type="radio"]').forEach(radio => {
-                    radio.addEventListener('change', (e) => {
-                        const name = radio.name;
-                        const qid = parseInt(name.substring(1));
-                        testData.part4.userAnswers[qid] = radio.value;
-                    });
-                });
-            }
-        }
+    function updateTimerUI() {
+        timerDisplaySpan.innerText = formatTime(timerSeconds);
+        if (timerSeconds <= 0 && !testFinished) autoFinishDueToTimeout();
+    }
 
-        function renderPart5() {
-            document.getElementById('part5-text').innerHTML = testData.part5.passage;
-            const gaps = document.querySelectorAll('#part5-text .gap');
-            gaps.forEach((gap, idx) => {
-                gap.value = testData.part5.userAnswers[idx] || "";
-                if (isChecked) {
-                    gap.classList.add('disabled');
-                    if (gap.value.toLowerCase() === testData.part5.answers[idx]) {
-                        gap.classList.add('correct');
-                    } else if (gap.value) {
-                        gap.classList.add('wrong');
-                    }
-                    const parent = gap.parentNode;
-                    const hintSpan = document.createElement('span');
-                    if (gap.value.toLowerCase() !== testData.part5.answers[idx] && gap.value) {
-                        const hint = document.createElement('span');
-                        hint.className = 'wrong-answer-hint';
-                        hint.innerHTML = ` ✗ Правильно: ${testData.part5.answers[idx]}`;
-                        if (!parent.querySelector('.wrong-answer-hint')) parent.appendChild(hint);
-                    } else if (gap.value.toLowerCase() === testData.part5.answers[idx] && gap.value) {
-                        const hint = document.createElement('span');
-                        hint.className = 'correct-answer-hint';
-                        hint.innerHTML = ` ✓`;
-                        if (!parent.querySelector('.correct-answer-hint')) parent.appendChild(hint);
-                    }
-                } else {
-                    gap.classList.remove('correct', 'wrong', 'disabled');
-                    gap.addEventListener('input', (e) => {
-                        testData.part5.userAnswers[idx] = e.target.value;
-                    });
-                }
-            });
-        }
-
-        function renderPart1() {
-            const gaps = document.querySelectorAll('#part1 .gap');
-            gaps.forEach((gap, idx) => {
-                gap.value = testData.part1.userAnswers[idx] || "";
-                if (isChecked) {
-                    gap.classList.add('disabled');
-                    if (gap.value.toLowerCase() === testData.part1.answers[idx]) {
-                        gap.classList.add('correct');
-                    } else if (gap.value) {
-                        gap.classList.add('wrong');
-                    }
-                    const parent = gap.parentNode;
-                    if (gap.value.toLowerCase() !== testData.part1.answers[idx] && gap.value) {
-                        const hint = document.createElement('span');
-                        hint.className = 'wrong-answer-hint';
-                        hint.innerHTML = ` ✗ Правильно: ${testData.part1.answers[idx]}`;
-                        if (!parent.querySelector('.wrong-answer-hint')) parent.appendChild(hint);
-                    } else if (gap.value.toLowerCase() === testData.part1.answers[idx] && gap.value) {
-                        const hint = document.createElement('span');
-                        hint.className = 'correct-answer-hint';
-                        hint.innerHTML = ` ✓`;
-                        if (!parent.querySelector('.correct-answer-hint')) parent.appendChild(hint);
-                    }
-                } else {
-                    gap.classList.remove('correct', 'wrong', 'disabled');
-                    gap.addEventListener('input', (e) => {
-                        testData.part1.userAnswers[idx] = e.target.value;
-                    });
-                }
-            });
-        }
-
-        function renderAll() {
-            renderPart1();
-            renderPart2();
-            renderPart3();
-            renderPart4();
-            renderPart5();
-        }
-
-        // Check Answers
-        function checkAnswers() {
-            isChecked = true;
-            
-            let total = 0;
-            let correct = 0;
-            const partScores = {};
-
-            // Part 1
-            let p1Correct = 0;
-            testData.part1.userAnswers.forEach((ans, idx) => {
-                total++;
-                if (ans.trim().toLowerCase() === testData.part1.answers[idx]) {
-                    correct++;
-                    p1Correct++;
-                }
-            });
-            partScores.part1 = { correct: p1Correct, total: testData.part1.answers.length };
-
-            // Part 2
-            let p2Correct = 0;
-            for (let i = 7; i <= 14; i++) {
-                total++;
-                if (testData.part2.userAnswers[i] === testData.part2.questions.find(q => q.id === i).correct) {
-                    correct++;
-                    p2Correct++;
-                }
-            }
-            partScores.part2 = { correct: p2Correct, total: 8 };
-
-            // Part 3
-            let p3Correct = 0;
-            testData.part3.userAnswers.forEach((ans, idx) => {
-                if (ans) {
-                    total++;
-                    if (ans === testData.part3.paragraphs[idx].correct) {
-                        correct++;
-                        p3Correct++;
-                    }
-                } else {
-                    total++;
-                }
-            });
-            partScores.part3 = { correct: p3Correct, total: testData.part3.paragraphs.length };
-
-            // Part 4
-            let p4Correct = 0;
-            testData.part4.questions.forEach(q => {
-                total++;
-                const userAns = testData.part4.userAnswers[q.id];
-                if (userAns && userAns === q.correct) {
-                    correct++;
-                    p4Correct++;
-                }
-            });
-            partScores.part4 = { correct: p4Correct, total: testData.part4.questions.length };
-
-            // Part 5
-            let p5Correct = 0;
-            testData.part5.userAnswers.forEach((ans, idx) => {
-                total++;
-                if (ans.trim().toLowerCase() === testData.part5.answers[idx]) {
-                    correct++;
-                    p5Correct++;
-                }
-            });
-            partScores.part5 = { correct: p5Correct, total: testData.part5.answers.length };
-
-            const percent = Math.round((correct / total) * 100);
-            const resultDiv = document.getElementById('resultArea');
-            
-            let gradeClass = "score-mid";
-            let gradeText = "Good! Keep practicing!";
-            let ieltsLevel = "IELTS 5.5 - 6.0";
-            
-            if (percent >= 85) {
-                gradeClass = "score-high";
-                gradeText = "Excellent!";
-                ieltsLevel = "IELTS 7.5 - 9.0";
-            } else if (percent >= 70) {
-                gradeClass = "score-high";
-                gradeText = "Very Good!";
-                ieltsLevel = "IELTS 6.5 - 7.0";
-            } else if (percent >= 55) {
-                gradeClass = "score-mid";
-                gradeText = "Good effort!";
-                ieltsLevel = "IELTS 5.5 - 6.0";
-            } else if (percent >= 40) {
-                gradeClass = "score-mid";
-                gradeText = "Needs practice";
-                ieltsLevel = "IELTS 4.5 - 5.0";
-            } else {
-                gradeClass = "score-low";
-                gradeText = "Review the material";
-                ieltsLevel = "IELTS below 4.5";
-            }
-
-            resultDiv.innerHTML = `
-                <div class="${gradeClass}">${correct}/${total} (${percent}%)</div>
-                <div style="font-size:18px; margin:10px 0">${gradeText} — ${ieltsLevel}</div>
-                <div class="stats-detail">
-                    <div class="stat-card">📖 Part 1: ${p1Correct}/6</div>
-                    <div class="stat-card">🔗 Part 2: ${p2Correct}/8</div>
-                    <div class="stat-card">🏷️ Part 3: ${p3Correct}/5</div>
-                    <div class="stat-card">❓ Part 4: ${p4Correct}/5</div>
-                    <div class="stat-card">📝 Part 5: ${p5Correct}/4</div>
-                </div>
-            `;
-            resultDiv.classList.add('show');
-            
-            renderAll();
-        }
-
-        function resetAll() {
-            isChecked = false;
-            testData.part1.userAnswers.fill("");
-            for (let i = 7; i <= 14; i++) testData.part2.userAnswers[i] = "";
-            for (let i = 0; i < testData.part3.paragraphs.length; i++) testData.part3.userAnswers[i] = "";
-            for (let i = 21; i <= 25; i++) testData.part4.userAnswers[i] = "";
-            testData.part5.userAnswers.fill("");
-            renderAll();
-            document.getElementById('resultArea').classList.remove('show');
-        }
-
-        // Section navigation
-        function showSection(sectionId) {
-            document.querySelectorAll('.reading-section').forEach(s => s.style.display = 'none');
-            document.getElementById(sectionId).style.display = 'block';
-            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-            document.querySelector(`.step[data-section="${sectionId}"]`).classList.add('active');
-        }
-
-        document.querySelectorAll('.step').forEach(step => {
-            step.addEventListener('click', () => {
-                const section = step.dataset.section;
-                if (section) showSection(section);
-            });
-        });
-
-        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
-        document.getElementById('resetBtn').addEventListener('click', resetAll);
-
-        // Timer
-        let time = 3600;
-        setInterval(() => {
-            if (time > 0) {
-                time--;
-                const minutes = Math.floor(time / 60);
-                const seconds = time % 60;
-                document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!testFinished && timerSeconds > 0) {
+                timerSeconds--;
+                updateTimerUI();
+            } else if (timerSeconds <= 0 && !testFinished) {
+                clearInterval(timerInterval);
+                autoFinishDueToTimeout();
             }
         }, 1000);
+    }
 
-        renderAll();
-        showSection('part1');
-    </script>
+    function autoFinishDueToTimeout() {
+        if (testFinished) return;
+        testFinished = true;
+        if (timerInterval) clearInterval(timerInterval);
+        progressMsgSpan.innerHTML = "⏰ TIME'S UP! The test has been automatically submitted.";
+        finishAndShowResults(true);
+    }
+
+    function initAnswers() {
+        userAnswers = [];
+        // Gap
+        let gapAnswers = new Array(selectedGap.gaps.length).fill(null);
+        userAnswers.push({ type: 'gap', values: gapAnswers, taskData: selectedGap });
+        // Headings
+        let headingAnswers = new Array(selectedHeading.paragraphs.length).fill('');
+        userAnswers.push({ type: 'headings', values: headingAnswers, taskData: selectedHeading });
+        // True/False
+        let tfAnswers = new Array(selectedTF.statements.length).fill(null);
+        userAnswers.push({ type: 'tf', values: tfAnswers, taskData: selectedTF });
+        // Synonyms
+        let synAnswers = new Array(selectedSyn.items.length).fill(null);
+        userAnswers.push({ type: 'syn', values: synAnswers, taskData: selectedSyn });
+    }
+
+    function renderCurrentTask() {
+        if (testFinished) return;
+        const task = userAnswers[currentStep];
+        if (!task) return;
+        stepIndicator.innerText = `Task ${currentStep+1} of 4`;
+        let taskData = task.taskData;
+        let passageHtml = `<h2>${taskData.title}</h2><div class="reading-text">${taskData.passage}</div>`;
+        passageArea.innerHTML = passageHtml;
+
+        let questionsHtml = `<div class="task-type-badge">${getTaskTypeName(task.type)}</div>`;
+        questionsHtml += `<div style="margin-bottom: 18px;">${getInstruction(task.type)}</div>`;
+
+        if (task.type === 'gap') {
+            for (let i = 0; i < taskData.gaps.length; i++) {
+                const selectedVal = task.values[i] || '';
+                questionsHtml += `<div class="gap-sentence">
+                                    <strong>${i+1}.</strong> 
+                                    <select data-gap-idx="${i}" class="gap-select" style="margin-left:8px;">
+                                        <option value="">-- select word --</option>`;
+                taskData.optionsPerGap[i].forEach(opt => {
+                    questionsHtml += `<option value="${opt}" ${selectedVal === opt ? 'selected' : ''}>${opt}</option>`;
+                });
+                questionsHtml += `</select></div>`;
+            }
+        } else if (task.type === 'headings') {
+            for (let i = 0; i < taskData.paragraphs.length; i++) {
+                const selected = task.values[i] || '';
+                questionsHtml += `<div class="match-row">
+                                    <div class="match-label">${taskData.paragraphs[i]}</div>
+                                    <select data-heading-idx="${i}" class="heading-select">
+                                        <option value="">-- choose heading --</option>`;
+                taskData.options.forEach(opt => {
+                    questionsHtml += `<option value="${opt}" ${selected === opt ? 'selected' : ''}>${opt}</option>`;
+                });
+                questionsHtml += `</select></div>`;
+            }
+        } else if (task.type === 'tf') {
+            taskData.statements.forEach((stmt, idx) => {
+                const selected = task.values[idx];
+                questionsHtml += `<div class="question-item">
+                                    <div class="question-text">${idx+1}. ${stmt.text}</div>
+                                    <div class="options-group">`;
+                ['True', 'False'].forEach(opt => {
+                    questionsHtml += `<label class="option-label">
+                                        <input type="radio" name="tf_${idx}" value="${opt}" ${selected === opt ? 'checked' : ''} data-tf-idx="${idx}"> ${opt}
+                                      </label>`;
+                });
+                questionsHtml += `</div></div>`;
+            });
+        } else if (task.type === 'syn') {
+            taskData.items.forEach((item, idx) => {
+                const selected = task.values[idx];
+                questionsHtml += `<div class="question-item">
+                                    <div class="question-text">📖 ${item.word}</div>
+                                    <div class="options-group">`;
+                item.options.forEach(opt => {
+                    questionsHtml += `<label class="option-label">
+                                        <input type="radio" name="syn_${idx}" value="${opt}" ${selected === opt ? 'checked' : ''} data-syn-idx="${idx}"> ${opt}
+                                      </label>`;
+                });
+                questionsHtml += `</div></div>`;
+            });
+        }
+        questionsArea.innerHTML = questionsHtml;
+        attachEventListeners(task.type);
+        updateNavButtons();
+        updateProgressMessage();
+    }
+
+    function attachEventListeners(type) {
+        if (type === 'gap') {
+            document.querySelectorAll('.gap-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    if (testFinished) return;
+                    const idx = parseInt(select.getAttribute('data-gap-idx'));
+                    userAnswers[currentStep].values[idx] = select.value;
+                    updateProgressMessage();
+                });
+            });
+        } else if (type === 'headings') {
+            document.querySelectorAll('.heading-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    if (testFinished) return;
+                    const idx = parseInt(select.getAttribute('data-heading-idx'));
+                    userAnswers[currentStep].values[idx] = select.value;
+                    updateProgressMessage();
+                });
+            });
+        } else if (type === 'tf') {
+            const total = userAnswers[currentStep].taskData.statements.length;
+            for (let i = 0; i < total; i++) {
+                const radios = document.querySelectorAll(`input[name="tf_${i}"]`);
+                radios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if (testFinished) return;
+                        if (e.target.checked) {
+                            userAnswers[currentStep].values[i] = e.target.value;
+                            updateProgressMessage();
+                        }
+                    });
+                });
+            }
+        } else if (type === 'syn') {
+            const total = userAnswers[currentStep].taskData.items.length;
+            for (let i = 0; i < total; i++) {
+                const radios = document.querySelectorAll(`input[name="syn_${i}"]`);
+                radios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if (testFinished) return;
+                        if (e.target.checked) {
+                            userAnswers[currentStep].values[i] = e.target.value;
+                            updateProgressMessage();
+                        }
+                    });
+                });
+            }
+        }
+    }
+
+    function getTaskTypeName(type) {
+        if (type === 'gap') return 'GAP FILL';
+        if (type === 'headings') return 'MATCHING HEADINGS';
+        if (type === 'tf') return 'TRUE / FALSE';
+        return 'SYNONYMS';
+    }
+
+    function getInstruction(type) {
+        if (type === 'gap') return 'Select the correct word for each blank.';
+        if (type === 'headings') return 'Match each paragraph with the most suitable heading.';
+        if (type === 'tf') return 'Decide if each statement is TRUE or FALSE according to the passage.';
+        return 'Choose the word closest in meaning to the given word.';
+    }
+
+    function isCurrentTaskCompleted() {
+        const ans = userAnswers[currentStep].values;
+        return ans.every(v => v !== null && v !== '');
+    }
+
+    function updateProgressMessage() {
+        let totalAnswered = 0;
+        let totalPossible = 0;
+        for (let i = 0; i < userAnswers.length; i++) {
+            totalPossible += userAnswers[i].values.length;
+            totalAnswered += userAnswers[i].values.filter(v => v !== null && v !== '').length;
+        }
+        progressMsgSpan.innerHTML = `📋 Progress: ${totalAnswered} / ${totalPossible} questions answered. Time left: ${formatTime(timerSeconds)}`;
+    }
+
+    function updateNavButtons() {
+        if (currentStep === 0) prevBtn.style.visibility = 'hidden';
+        else prevBtn.style.visibility = 'visible';
+        if (currentStep === 3) nextBtn.innerText = '🏁 Finish Test';
+        else nextBtn.innerText = 'Next Task ▶';
+    }
+
+    function goNext() {
+        if (testFinished) return;
+        if (!isCurrentTaskCompleted()) {
+            progressMsgSpan.innerHTML = '⚠️ Please complete all questions in this task before proceeding.';
+            return;
+        }
+        if (currentStep === 3) {
+            finishAndShowResults(false);
+        } else {
+            currentStep++;
+            renderCurrentTask();
+        }
+    }
+
+    function goPrev() {
+        if (testFinished) return;
+        if (currentStep > 0) {
+            currentStep--;
+            renderCurrentTask();
+        }
+    }
+
+    function finishAndShowResults(timeoutFlag = false) {
+        if (testFinished) return;
+        testFinished = true;
+        if (timerInterval) clearInterval(timerInterval);
+
+        let totalCorrect = 0;
+        let totalPossible = 0;
+        // Gap
+        let gapData = userAnswers[0];
+        for (let i = 0; i < gapData.values.length; i++) {
+            totalPossible++;
+            if (gapData.values[i] === gapData.taskData.correct[i]) totalCorrect++;
+        }
+        // Headings
+        let headData = userAnswers[1];
+        for (let i = 0; i < headData.values.length; i++) {
+            totalPossible++;
+            if (headData.values[i] === headData.taskData.correctHeadings[i]) totalCorrect++;
+        }
+        // True/False
+        let tfData = userAnswers[2];
+        for (let i = 0; i < tfData.values.length; i++) {
+            totalPossible++;
+            if (tfData.values[i] === tfData.taskData.statements[i].correct) totalCorrect++;
+        }
+        // Synonyms
+        let synData = userAnswers[3];
+        for (let i = 0; i < synData.values.length; i++) {
+            totalPossible++;
+            if (synData.values[i] === synData.taskData.items[i].correct) totalCorrect++;
+        }
+
+        const percent = (totalCorrect / totalPossible) * 100;
+        let scoreDisplay = '';
+        let rawScore = null;
+
+        if (currentTestType === 'IELTS') {
+            let band = percentToIELTS(percent);
+            rawScore = band.toFixed(1);
+            scoreDisplay = `IELTS Band: ${rawScore}`;
+        } else {
+            let level = percentToCEFR(percent);
+            rawScore = level;
+            scoreDisplay = `CEFR Level: ${rawScore}`;
+        }
+
+        // Save result ONLY ONCE and ONLY for reading
+        if (!resultSaved) {
+            saveSingleResult(currentTestType, rawScore, percent, totalCorrect, totalPossible);
+            resultSaved = true;
+        }
+
+        let timeoutMsg = timeoutFlag ? " (TIME EXPIRED)" : "";
+        progressMsgSpan.innerHTML = `🎯 FINAL RESULT: ${totalCorrect} / ${totalPossible} (${Math.round(percent)}%) — ${scoreDisplay}${timeoutMsg}`;
+        scoreBadgeSpan.innerHTML = `<span class="score-large">${scoreDisplay}</span>`;
+        
+        const detailDiv = document.createElement('div');
+        detailDiv.style.marginTop = '12px';
+        detailDiv.style.fontSize = '0.85rem';
+        detailDiv.innerHTML = `<strong>Breakdown:</strong> Gap: ${gapData.values.filter((v,i)=> v === gapData.taskData.correct[i]).length}/${gapData.values.length} · Headings: ${headData.values.filter((v,i)=> v === headData.taskData.correctHeadings[i]).length}/${headData.values.length} · TF: ${tfData.values.filter((v,i)=> v === tfData.taskData.statements[i].correct).length}/${tfData.values.length} · Synonyms: ${synData.values.filter((v,i)=> v === synData.taskData.items[i].correct).length}/${synData.values.length}`;
+        const oldDetail = document.getElementById('breakdownDetail');
+        if (oldDetail) oldDetail.remove();
+        detailDiv.id = 'breakdownDetail';
+        document.querySelector('.result-preview').appendChild(detailDiv);
+        
+        document.querySelectorAll('select, input[type="radio"]').forEach(el => el.disabled = true);
+        nextBtn.disabled = true;
+        prevBtn.disabled = true;
+    }
+
+    function randomizeTasks() {
+        selectedGap = getRandomItem(gapTasks);
+        selectedHeading = getRandomItem(headingTasks);
+        selectedTF = getRandomItem(tfTasks);
+        selectedSyn = getRandomItem(synonymTasks);
+    }
+
+    function init() {
+        currentTestType = getCurrentTestType();
+        if (currentTestType === 'IELTS') {
+            testTypeBadgeSpan.innerText = 'IELTS Academic Reading';
+        } else {
+            testTypeBadgeSpan.innerText = 'CEFR Reading Test';
+        }
+        randomizeTasks();
+        initAnswers();
+        startTimer();
+        renderCurrentTask();
+        nextBtn.addEventListener('click', goNext);
+        prevBtn.addEventListener('click', goPrev);
+        updateProgressMessage();
+        resultSaved = false;
+    }
+
+    init();
+</script>
 </body>
 </html>

@@ -1,68 +1,614 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./assets/style/writing.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Writing Test | IELTS / CEFR with Random Prompts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: #f0f5fa;
+            color: #0a2b3e;
+            padding: 30px 24px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+            padding: 18px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .test-type-badge {
+            background: #1e466e;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .timer {
+            background: #0f172a;
+            color: #facc15;
+            font-family: monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 6px 24px;
+            border-radius: 60px;
+            letter-spacing: 2px;
+        }
+
+        .task-card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .prompt-area {
+            background: #fefcf5;
+            padding: 28px 32px;
+            border-bottom: 1px solid #e9edf2;
+        }
+
+        .prompt-area h2 {
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            color: #1e466e;
+            border-left: 5px solid #2c7da0;
+            padding-left: 20px;
+        }
+
+        .prompt-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1e2f3c;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 24px;
+            margin-top: 12px;
+        }
+
+        .writing-area {
+            padding: 28px 32px;
+        }
+
+        .writing-area label {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 320px;
+            padding: 18px;
+            font-family: 'Segoe UI', 'Roboto', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 24px;
+            resize: vertical;
+            transition: 0.1s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+
+        .word-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1e466e;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #0f2f4a;
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e1;
+        }
+
+        .result-panel {
+            background: #eef2ff;
+            border-radius: 28px;
+            padding: 18px 28px;
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .score-large {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e466e;
+        }
+
+        .feedback-details {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #334155;
+            background: white;
+            border-radius: 20px;
+            padding: 12px 20px;
+            width: 100%;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        hr {
+            margin: 20px 0;
+            border-color: #e2e8f0;
+        }
+    </style>
 </head>
-
-<body class="writing">
-    <!-- HEADER -->
-    <div class="writing-header">
-        <div>Xz Xz</div>
-
-        <div class="writing-center">
-            <div class="writing-circle">L</div>
-            <div class="writing-circle">R</div>
-            <div class="writing-circle">W</div>
-            <div class="writing-circle">S</div>
-            <div class="writing-timer">53:28</div>
-        </div>
-
-        <div class="writing-header-right">
-            <button class="writing-btn">Back</button>
-            <button class="writing-btn">Pause</button>
-            <button class="writing-finish">Finish</button>
-        </div>
+<body>
+<div class="container">
+    <div class="test-header">
+        <div class="test-type-badge" id="testTypeBadge">IELTS Writing</div>
+        <div class="timer" id="timerDisplay">40:00</div>
     </div>
 
-    <!-- TABS -->
-    <div class="writing-tabs">
-        <div class="writing-tab active" data-tab="1">Task 1.1</div>
-        <div class="writing-tab" data-tab="2">Task 1.2</div>
-        <div class="writing-tab">Task 2</div>
-    </div>
-
-    <!-- MAIN -->
-    <div class="writing-container">
-
-        <!-- LEFT -->
-        <div class="writing-left" id="task-content">
-
-            <!-- dynamic content -->
-
-        </div>
-
-        <!-- RIGHT -->
-        <div class="writing-right">
-            <div class="writing-answer-header">
-                <b>Your Answer</b>
-                <span id="word-count">0 words</span>
-            </div>
-
-            <textarea class="writing-textarea" placeholder="Start writing your answer here..."></textarea>
-
-            <div class="writing-footer">
-                <span>0 words</span>
-                <span class="writing-target" id="target">Target: 50-70 words</span>
+    <div class="task-card">
+        <div class="prompt-area">
+            <h2>📝 Writing Task</h2>
+            <div class="prompt-text" id="promptText">
+                Loading...
             </div>
         </div>
-
+        <div class="writing-area">
+            <label for="essayInput">✍️ Your answer (write at least 250 words for IELTS / 150 for CEFR):</label>
+            <textarea id="essayInput" placeholder="Type your essay or letter here..."></textarea>
+            <div class="word-counter" id="wordCounter">Words: 0</div>
+            <div class="action-buttons">
+                <button id="submitBtn" class="btn-primary">✅ Submit & Get Score</button>
+                <button id="resetBtn" class="btn-secondary">🔄 Clear & Start Over</button>
+            </div>
+        </div>
     </div>
 
-    <script src="./assets/js/writing.js"></script>
+    <div class="result-panel" id="resultPanel">
+        <span id="statusMsg">✨ Write your answer and click "Submit". You have 40 minutes.</span>
+        <span id="scoreBadge"></span>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // WRITING TEST: IELTS or CEFR based on localStorage 'currentTest'
+    // CASE-INSENSITIVE but we store/compare in UPPERCASE
+    // Multiple random prompts for each type
+    // Saves SINGLE result to localStorage 'writingResult'
+    // ============================================================
+
+    // ---- Get test type (normalised to UPPERCASE) ----
+    function getCurrentTestType() {
+        const stored = localStorage.getItem('currentTest');
+        if (!stored) return 'IELTS';
+        const upper = stored.toUpperCase();
+        if (upper === 'IELTS') return 'IELTS';
+        if (upper === 'CEFR') return 'CEFR';
+        return 'IELTS'; // default
+    }
+
+    // ----- IELTS WRITING TASK 2 prompts (5 different topics) -----
+    const ieltsPrompts = [
+        {
+            title: "IELTS Academic Writing Task 2",
+            instruction: "Write an essay of at least 250 words in response to the following topic.",
+            topic: "Some people believe that unpaid community service should be a compulsory part of high school programs (e.g. working for a charity, improving the neighbourhood, or teaching sports to younger children). To what extent do you agree or disagree? Give reasons for your answer and include any relevant examples from your own knowledge or experience."
+        },
+        {
+            title: "IELTS Academic Writing Task 2",
+            instruction: "Write an essay of at least 250 words.",
+            topic: "In many countries, people are living in a 'throwaway society' where they use things once and then discard them. What are the causes of this problem and what solutions can you suggest?"
+        },
+        {
+            title: "IELTS Academic Writing Task 2",
+            instruction: "Write an essay of at least 250 words.",
+            topic: "Some people think that governments should spend more money on railways rather than roads. Others believe the opposite is true. Discuss both views and give your own opinion."
+        },
+        {
+            title: "IELTS Academic Writing Task 2",
+            instruction: "Write an essay of at least 250 words.",
+            topic: "An increasing number of people are choosing to work from home rather than in a traditional office. Do the advantages of this trend outweigh the disadvantages?"
+        },
+        {
+            title: "IELTS Academic Writing Task 2",
+            instruction: "Write an essay of at least 250 words.",
+            topic: "Some people say that the only reason for learning a foreign language is to travel or work in a foreign country. Others say that these are not the only reasons why someone should learn a foreign language. Discuss both views and give your opinion."
+        }
+    ];
+
+    // ----- CEFR WRITING prompts (5 different tasks: letters / short essays) -----
+    const cefrPrompts = [
+        {
+            title: "CEFR Writing Task (B1/B2 level)",
+            instruction: "Write a short essay or an informal letter (150–200 words) on the topic below.",
+            topic: "Your English-speaking friend has asked for your advice about learning a new language. Write a letter to your friend. In your letter: • explain why learning a new language is beneficial • suggest some effective methods to learn • offer to help him/her with practice."
+        },
+        {
+            title: "CEFR Writing Task (B1/B2 level)",
+            instruction: "Write a short essay (150–200 words).",
+            topic: "Some people think that social media has a negative impact on personal relationships. Do you agree or disagree? Give reasons and examples."
+        },
+        {
+            title: "CEFR Writing Task (B1/B2 level)",
+            instruction: "Write an email (150–200 words).",
+            topic: "You recently stayed at a hotel and left an important item in your room. Write an email to the hotel manager. In your email: • describe the item • explain where you think you left it • ask the manager to check and contact you."
+        },
+        {
+            title: "CEFR Writing Task (B1/B2 level)",
+            instruction: "Write a short essay (150–200 words).",
+            topic: "Describe a place you have visited that made a strong impression on you. Explain why it was memorable and what you learned from the experience."
+        },
+        {
+            title: "CEFR Writing Task (B1/B2 level)",
+            instruction: "Write an informal letter (150–200 words).",
+            topic: "You have received a gift from a relative that you really like. Write a letter to thank him/her. In your letter: • say what you like about the gift • explain how you will use it • invite the relative to visit you soon."
+        }
+    ];
+
+    // ---- Evaluation functions (heuristic but realistic) ----
+    function countWords(text) {
+        return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+    }
+
+    function analyzeEssay(text, testType) {
+        const lowerText = text.toLowerCase();
+        const wordCount = countWords(text);
+        
+        const hasIntro = /^(in my opinion|i believe|i think|firstly|to begin with|nowadays|it is often argued|dear|hello|hi)/i.test(text) || 
+                         /introduction|nowadays|these days|over the last few years|i am writing/i.test(lowerText);
+        const hasConclusion = /in conclusion|to sum up|overall|to conclude|in summary|finally|best regards|yours sincerely/i.test(lowerText);
+        
+        const linkingWords = ['however', 'moreover', 'furthermore', 'nevertheless', 'consequently', 'therefore', 'in addition', 'on the other hand', 'for example', 'for instance', 'as a result', 'firstly', 'secondly'];
+        let linkingCount = 0;
+        linkingWords.forEach(w => { if (lowerText.includes(w)) linkingCount++; });
+        
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        const avgSentenceLength = sentences.length ? (wordCount / sentences.length) : 0;
+        const complexPunctuation = (text.match(/[,;:()-]/g) || []).length;
+        const grammarScore = Math.min(1, (avgSentenceLength > 12 ? 0.4 : 0) + (complexPunctuation > 5 ? 0.3 : 0) + (sentences.length > 5 ? 0.3 : 0));
+        
+        const wordsArr = text.toLowerCase().match(/\b\w+\b/g) || [];
+        const uniqueWords = new Set(wordsArr).size;
+        const lexicalRichness = wordsArr.length ? uniqueWords / wordsArr.length : 0;
+        
+        let required = (testType === 'IELTS') ? 250 : 150;
+        let lengthScore = 0;
+        if (wordCount >= required) lengthScore = 1.0;
+        else if (wordCount >= required * 0.8) lengthScore = 0.6;
+        else if (wordCount >= required * 0.6) lengthScore = 0.3;
+        else lengthScore = 0.1;
+        
+        let taskResponse = 0;
+        if (testType === 'IELTS') {
+            const hasOpinion = /agree|disagree|i believe|i think|in my view|it seems to me|i feel|my opinion/i.test(lowerText);
+            const hasExamples = /for example|for instance|such as|like|specifically|take .* as an example/i.test(lowerText);
+            taskResponse = (hasOpinion ? 0.4 : 0) + (hasExamples ? 0.3 : 0) + (hasIntro && hasConclusion ? 0.3 : 0);
+        } else {
+            const mentionsAllParts = /beneficial|useful|helpful|advantage|career|travel|cognitive/i.test(lowerText) &&
+                                    /methods|ways|techniques|apps|flashcards|immersion|listen|speak|practice/i.test(lowerText) &&
+                                    /help|assist|practice together|i can help|let me know|offer/i.test(lowerText);
+            taskResponse = mentionsAllParts ? 0.9 : 0.4;
+            if (/dear|hello|hi|friend|thanks/i.test(lowerText)) taskResponse += 0.1;
+            taskResponse = Math.min(1, taskResponse);
+        }
+        
+        let cohesion = Math.min(1, linkingCount / 5);
+        if (hasIntro) cohesion += 0.2;
+        if (hasConclusion) cohesion += 0.2;
+        cohesion = Math.min(1, cohesion);
+        
+        let lexical = lexicalRichness * 1.2;
+        if (lexical > 1) lexical = 1;
+        
+        let grammar = grammarScore;
+        
+        let overall = 0;
+        if (testType === 'IELTS') {
+            overall = (lengthScore * 0.2) + (taskResponse * 0.3) + (cohesion * 0.2) + (lexical * 0.15) + (grammar * 0.15);
+        } else {
+            overall = (lengthScore * 0.25) + (taskResponse * 0.35) + (cohesion * 0.15) + (lexical * 0.15) + (grammar * 0.1);
+        }
+        overall = Math.min(1, Math.max(0, overall));
+        
+        return {
+            wordCount,
+            required,
+            hasIntro,
+            hasConclusion,
+            linkingCount,
+            lexicalRichness,
+            grammarScore,
+            taskResponse,
+            cohesion,
+            lexical,
+            grammar,
+            overall
+        };
+    }
+    
+    function overallToIELTS(overall) {
+        let band = overall * 9;
+        band = Math.round(band * 2) / 2;
+        if (band < 3.5) band = 3.5;
+        if (band > 9) band = 9;
+        return band;
+    }
+    
+    function overallToCEFR(overall) {
+        if (overall >= 0.9) return "C2 (Proficient)";
+        if (overall >= 0.75) return "C1 (Advanced)";
+        if (overall >= 0.6) return "B2 (Upper Intermediate)";
+        if (overall >= 0.45) return "B1 (Intermediate)";
+        if (overall >= 0.3) return "A2 (Elementary)";
+        return "A1 (Beginner)";
+    }
+    
+    function getDetailedFeedback(analysis, testType) {
+        let feedback = [];
+        if (analysis.wordCount < analysis.required) {
+            feedback.push(`⚠️ Word count: ${analysis.wordCount} / ${analysis.required} (below minimum).`);
+        } else {
+            feedback.push(`✅ Word count: ${analysis.wordCount} (meets requirement).`);
+        }
+        if (!analysis.hasIntro) feedback.push("❌ Consider adding a clear introduction or opening.");
+        else feedback.push("✅ Introduction/purpose present.");
+        if (!analysis.hasConclusion) feedback.push("❌ Add a conclusion or closing remarks.");
+        else feedback.push("✅ Conclusion/closing present.");
+        if (analysis.linkingCount < 3) feedback.push("⚠️ Use more linking words (however, moreover, therefore) for better flow.");
+        if (analysis.lexicalRichness < 0.45) feedback.push("⚠️ Try to use a wider range of vocabulary.");
+        if (analysis.grammarScore < 0.6) feedback.push("⚠️ Work on sentence variety and punctuation.");
+        if (testType === 'IELTS') {
+            if (analysis.taskResponse < 0.6) feedback.push("⚠️ Make your opinion clearer and include examples.");
+            else feedback.push("✅ Good task response with clear arguments.");
+        } else {
+            if (analysis.taskResponse < 0.6) feedback.push("⚠️ Ensure you address all parts of the prompt (benefits, methods, offer help, etc.).");
+            else feedback.push("✅ Task fulfilled well.");
+        }
+        if (feedback.length === 0) feedback.push("🌟 Excellent work! Your writing is well-structured and effective.");
+        return feedback.join(" ");
+    }
+    
+    function saveWritingResult(testType, scoreValue, percentScore, wordCount, totalPossibleScore) {
+        const resultObj = {
+            testType: testType,
+            score: scoreValue,
+            percent: percentScore,
+            wordCount: wordCount,
+            maxPossible: totalPossibleScore,
+            date: new Date().toISOString(),
+            section: 'writing'
+        };
+        localStorage.setItem('writingResult', JSON.stringify(resultObj));
+        console.log('Saved writing result:', resultObj);
+    }
+    
+    // ---- Global state ----
+    let currentTestType = 'IELTS';
+    let currentPrompt = null;
+    let timerSeconds = 2400;
+    let timerInterval = null;
+    let testFinished = false;
+    let resultSaved = false;
+    
+    // DOM elements
+    const testTypeBadge = document.getElementById('testTypeBadge');
+    const promptTextDiv = document.getElementById('promptText');
+    const essayInput = document.getElementById('essayInput');
+    const wordCounterSpan = document.getElementById('wordCounter');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const statusMsgSpan = document.getElementById('statusMsg');
+    const scoreBadgeSpan = document.getElementById('scoreBadge');
+    const timerDisplaySpan = document.getElementById('timerDisplay');
+    
+    function formatTime(sec) {
+        let mins = Math.floor(sec / 60);
+        let remainSec = sec % 60;
+        return `${mins.toString().padStart(2,'0')}:${remainSec.toString().padStart(2,'0')}`;
+    }
+    
+    function updateTimerUI() {
+        timerDisplaySpan.innerText = formatTime(timerSeconds);
+        if (timerSeconds <= 0 && !testFinished) autoSubmit();
+    }
+    
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!testFinished && timerSeconds > 0) {
+                timerSeconds--;
+                updateTimerUI();
+            } else if (timerSeconds <= 0 && !testFinished) {
+                clearInterval(timerInterval);
+                autoSubmit();
+            }
+        }, 1000);
+    }
+    
+    function autoSubmit() {
+        if (testFinished) return;
+        statusMsgSpan.innerHTML = "⏰ TIME'S UP! Your answer will be evaluated automatically.";
+        evaluateAndSave(true);
+    }
+    
+    function updateWordCount() {
+        const text = essayInput.value;
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        wordCounterSpan.innerText = `Words: ${words}`;
+    }
+    
+    function getRandomPrompt(type) {
+        if (type === 'IELTS') {
+            const randomIndex = Math.floor(Math.random() * ieltsPrompts.length);
+            return ieltsPrompts[randomIndex];
+        } else {
+            const randomIndex = Math.floor(Math.random() * cefrPrompts.length);
+            return cefrPrompts[randomIndex];
+        }
+    }
+    
+    function updatePromptAndBadge() {
+        currentTestType = getCurrentTestType(); // returns 'IELTS' or 'CEFR'
+        currentPrompt = getRandomPrompt(currentTestType);
+        if (currentTestType === 'IELTS') {
+            testTypeBadge.innerText = 'IELTS Writing (Academic)';
+            promptTextDiv.innerHTML = `<strong>${currentPrompt.title}</strong><br><em>${currentPrompt.instruction}</em><br><br>📌 ${currentPrompt.topic}`;
+        } else {
+            testTypeBadge.innerText = 'CEFR Writing (B1/B2)';
+            promptTextDiv.innerHTML = `<strong>${currentPrompt.title}</strong><br><em>${currentPrompt.instruction}</em><br><br>📌 ${currentPrompt.topic}`;
+        }
+    }
+    
+    function evaluateAndSave(isTimeout = false) {
+        if (testFinished) return;
+        const userText = essayInput.value.trim();
+        if (userText.length === 0) {
+            statusMsgSpan.innerHTML = "⚠️ Please write something before submitting.";
+            return;
+        }
+        
+        testFinished = true;
+        if (timerInterval) clearInterval(timerInterval);
+        
+        const analysis = analyzeEssay(userText, currentTestType);
+        let scoreDisplay = '';
+        let rawScore = null;
+        let percentScore = analysis.overall * 100;
+        
+        if (currentTestType === 'IELTS') {
+            let band = overallToIELTS(analysis.overall);
+            rawScore = band.toFixed(1);
+            scoreDisplay = `IELTS Band: ${rawScore}`;
+        } else {
+            let level = overallToCEFR(analysis.overall);
+            rawScore = level;
+            scoreDisplay = `CEFR Level: ${rawScore}`;
+        }
+        
+        if (!resultSaved) {
+            saveWritingResult(currentTestType, rawScore, percentScore, analysis.wordCount, analysis.required);
+            resultSaved = true;
+        }
+        
+        const feedbackText = getDetailedFeedback(analysis, currentTestType);
+        const timeoutMsg = isTimeout ? " (auto-submitted due to timeout)" : "";
+        
+        statusMsgSpan.innerHTML = `📊 ${scoreDisplay} — ${Math.round(percentScore)}% ${timeoutMsg}`;
+        scoreBadgeSpan.innerHTML = `<span class="score-large">${scoreDisplay}</span>`;
+        
+        let existingDetail = document.getElementById('writingDetailFeedback');
+        if (existingDetail) existingDetail.remove();
+        const detailDiv = document.createElement('div');
+        detailDiv.id = 'writingDetailFeedback';
+        detailDiv.className = 'feedback-details';
+        detailDiv.innerHTML = `<strong>📌 Detailed analysis:</strong><br>
+                               • Word count: ${analysis.wordCount} / ${analysis.required}<br>
+                               • Introduction: ${analysis.hasIntro ? '✓' : '✗'} &nbsp; Conclusion: ${analysis.hasConclusion ? '✓' : '✗'}<br>
+                               • Linking words used: ${analysis.linkingCount}<br>
+                               • Vocabulary richness: ${(analysis.lexicalRichness * 100).toFixed(0)}%<br>
+                               • Grammar & sentence variety: ${(analysis.grammarScore * 100).toFixed(0)}%<br>
+                               <strong>💡 Feedback:</strong> ${feedbackText}`;
+        document.querySelector('.result-panel').appendChild(detailDiv);
+        
+        essayInput.disabled = true;
+        submitBtn.disabled = true;
+        resetBtn.disabled = false;
+    }
+    
+    function resetTest() {
+        if (timerInterval) clearInterval(timerInterval);
+        testFinished = false;
+        resultSaved = false;
+        timerSeconds = 2400;
+        updateTimerUI();
+        essayInput.disabled = false;
+        essayInput.value = '';
+        submitBtn.disabled = false;
+        updateWordCount();
+        statusMsgSpan.innerHTML = "✨ Cleared. You can start a new writing task. Timer restarted.";
+        scoreBadgeSpan.innerHTML = '';
+        const existingDetail = document.getElementById('writingDetailFeedback');
+        if (existingDetail) existingDetail.remove();
+        
+        // Re-detect test type and pick a new random prompt (fresh start)
+        currentTestType = getCurrentTestType();
+        currentPrompt = getRandomPrompt(currentTestType);
+        updatePromptAndBadge();
+        startTimer();
+    }
+    
+    function init() {
+        updatePromptAndBadge();
+        startTimer();
+        essayInput.addEventListener('input', updateWordCount);
+        submitBtn.addEventListener('click', () => evaluateAndSave(false));
+        resetBtn.addEventListener('click', resetTest);
+        updateWordCount();
+    }
+    
+    init();
+</script>
 </body>
-
 </html>

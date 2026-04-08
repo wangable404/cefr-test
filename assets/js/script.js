@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const savedName = localStorage.getItem("userName");
-  const savedSurname = localStorage.getItem("userSurname");
+  const user = localStorage.getItem("googleUser");
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
   let route = "/";
 
-  if ((!savedName || !savedSurname) && currentPage !== "login.html") {
+  if (!user && currentPage !== "login.html") {
     window.location.href = "login.html";
     return;
   }
@@ -61,6 +60,23 @@ document.addEventListener("DOMContentLoaded", function () {
     card.addEventListener("click", function () {
       const skill = card.getAttribute("data-skill");
       if (skillDescriptions[skill]) {
+        switch (skill) {
+          case "Speaking":
+            route = "/speaking.html";
+            break;
+          case "Writing":
+            route = "/writing.html";
+            break;
+          case "Listening":
+            route = "/listening.html";
+            break;
+          case "Reading":
+            route = "/reading.html";
+            break;
+          default:
+            route = "/";
+            break;
+        }
         openModal(skill, skillDescriptions[skill]);
       }
     });
@@ -83,16 +99,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const skill = modalSkill?.textContent;
 
       if (title === "CEFR" && skill === "Writing") {
-        localStorage.setItem("currentTest", "CEFRWriting");
-        // window.location.href = "cefr-open.html";
-        window.location.href = route;
-    } else if (title === "CEFR") {
         localStorage.setItem("currentTest", "CEFR");
-        // window.location.href = "cefr.html";
         window.location.href = route;
-    } else if (title === "IELTS") {
+      } else if (title === "CEFR") {
+        localStorage.setItem("currentTest", "CEFR");
+        window.location.href = route;
+      } else if (title === "IELTS") {
         localStorage.setItem("currentTest", "IELTS");
-        // window.location.href = "ielts.html";
         window.location.href = route;
       }
     });
@@ -105,7 +118,6 @@ document.addEventListener("DOMContentLoaded", function () {
     Tests: "Grammar & vocabulary practice",
     Articles: "Improve vocabulary by reading",
     Flashcards: "Memorize words quickly",
-    "Video Guide": "Watch IELTS tips",
   };
 
   toolCards.forEach(function (card) {
@@ -115,24 +127,26 @@ document.addEventListener("DOMContentLoaded", function () {
         switch (name) {
           case "Tests":
             route = "/grammar-test.html";
+            openModal(name, toolDescriptions[name]);
             break;
-          case "Articles":
+            case "Articles":
             route = "/article.html";
+            openModal(name, toolDescriptions[name]);
+            // window.location.href = "/article.html";
             break;
-          case "Flashcards":
-            route = "/flashcards.html";
-            break;
-          case "Video Guide":
-            route = "/video-guide.html";
+            case "Flashcards":
+            route = "/flashcard.html";
+            openModal(name, toolDescriptions[name]);
+            // window.location.href = "/flashcard.html";
             break;
           default:
             route = "/";
             break;
         }
-        openModal(name, toolDescriptions[name]);
       }
     });
   });
+
   function createVerifyModal() {
     if (document.getElementById("verifyModal")) return;
 
@@ -257,4 +271,283 @@ document.addEventListener("DOMContentLoaded", function () {
     const enteredHash = simpleHash(code || "");
     return validCodeHashes[mockNumber] === enteredHash;
   }
+
+  // ========== НОВЫЙ ФУНКЦИОНАЛ ДЛЯ VIDEO GUIDE ==========
+
+  // Видео URL для разных типов
+  const videoUrls = {
+    "CEFR-Speaking-1": "https://youtu.be/_W1zizhx03M",
+    "CEFR-Speaking-2": "https://youtu.be/T7wvJbPNE20",
+    "CEFR-Writing-1": "https://www.youtube.com/watch?v=YsU1Z6N6gMY",
+    "CEFR-Writing-2": "https://www.youtube.com/watch?v=gs0QtL3QmqI",
+    "IELTS-Speaking-1": "https://youtu.be/3BaCRHRtARg",
+    "IELTS-Speaking-2": "https://youtu.be/1Zs0uPg9Z94",
+    "IELTS-Writing-1": "https://youtu.be/xc0vbz_7xas",
+    "IELTS-Writing-2": "https://youtu.be/HiZo05KgeYY",
+  };
+
+  let currentExamType = null;
+  let currentSkillType = null;
+
+  // Создаем модальное окно выбора CEFR/IELTS
+  function createExamModal() {
+    if (document.getElementById("examModal")) return;
+
+    const modalHTML = `
+          <div id="examModal" class="modalOverlay video-modal-overlay ">
+              <div class="modal">
+                  <div class="title">
+                      <span>🎬</span>
+                      <span id="examModalTitle">IELTS Video Guide</span>
+                  </div>
+                  <div class="cards" style="margin-top:20px">
+                      <div class="card" data-exam="CEFR">
+                         
+                              <div class="icon">📘</div>
+                              <div>
+                                  <h3>CEFR</h3>
+                                  <p>Common European Framework</p>
+                              </div>
+                      </div>
+                      <div class="card" data-exam="IELTS">
+                              <div class="icon">🌍</div>
+                              <div>
+                                  <h3>IELTS</h3>
+                                  <p>International English</p>
+                              </div>
+                      </div>
+                  </div>
+                  <button class="cancel" id="closeExamModal">Cancel</button>
+              </div>
+          </div>
+      `;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
+
+  // Создаем модальное окно выбора Speaking/Writing
+  function createSkillModal() {
+    if (document.getElementById("skillChoiceModal")) return;
+
+    const modalHTML = `
+      <div id="skillChoiceModal" class="modalOverlay video-modal-overlay">
+    <div class="modal">
+        <div class="title">
+            <span>🎬</span>
+            <span id="skillModalTitle">IELTS Video Guide</span>
+        </div>
+        <div class="cards" style="margin-top:20px">
+            <div class="card" data-skill="Speaking">
+                <div class="icon">🎤</div>
+                <div>
+                    <h3>Speaking</h3>
+                    <p>Mock exam tips</p>
+                </div>
+            </div>
+            <div class="card" data-skill="Writing">
+                <div class="icon">✍️</div>
+                <div>
+                    <h3>Writing</h3>
+                    <p>Essay guide</p>
+                </div>
+            </div>
+        </div>
+        <button class="video-modal-cancel" id="closeSkillModalBtn">Cancel</button>
+    </div>
+</div>
+      `;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
+
+  // Создаем модальное окно со списком видео
+  function createVideoListModal() {
+    if (document.getElementById("videoListModal")) return;
+
+    const modalHTML = `
+       <div id="videoListModal" class="modalOverlay video-modal-overlay">
+    <div class="modal">
+        <div class="title">
+            <span>🎬</span>
+            <span id="videoListModalTitle">IELTS Speaking</span>
+        </div>
+        <div class="video-guides-count" id="videoGuidesCount" style="margin-top:20px">2 video guides available</div>
+        <div id="videoListContainer" class="cards" style="margin-top:15px"></div>
+        <button class="video-modal-cancel" id="closeVideoListModal">Cancel</button>
+    </div>
+</div>
+      `;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
+
+  // Закрыть все модальные окна
+  function closeAllVideoModals() {
+    const examModal = document.getElementById("examModal");
+    const skillModal = document.getElementById("skillChoiceModal");
+    const videoModal = document.getElementById("videoListModal");
+
+    if (examModal) examModal.style.display = "none";
+    if (skillModal) skillModal.style.display = "none";
+    if (videoModal) videoModal.style.display = "none";
+
+    document.body.style.overflow = "";
+  }
+
+  // Открыть модальное окно
+  function openVideoModal(modalId) {
+    closeAllVideoModals();
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  // Показать список видео
+  function showVideoList(examType, skillType) {
+    const titleMap = {
+      "CEFR-Speaking": "CEFR Speaking",
+      "CEFR-Writing": "CEFR Writing",
+      "IELTS-Speaking": "IELTS Speaking",
+      "IELTS-Writing": "IELTS Writing",
+    };
+
+    const title = document.getElementById("videoListModalTitle");
+    const countSpan = document.getElementById("videoGuidesCount");
+    const container = document.getElementById("videoListContainer");
+
+    if (title)
+      title.textContent =
+        titleMap[`${examType}-${skillType}`] || `🎬 ${examType} ${skillType}`;
+    if (countSpan) countSpan.textContent = "2 video guides available";
+
+    if (container) {
+      container.innerHTML = "";
+
+      const videos = [
+        { num: 1, name: `${skillType} Mock 1 Guide`, desc: "Full walkthrough" },
+        { num: 2, name: `${skillType} Mock 2 Guide`, desc: "Full walkthrough" },
+      ];
+
+      videos.forEach((video) => {
+        const videoItem = document.createElement("div");
+        videoItem.className = "card";
+        videoItem.innerHTML = `
+                      <h4>${video.name}</h4>
+                      <p>${video.desc}</p>
+              `;
+        videoItem.addEventListener("click", () => {
+          const videoKey = `${examType}-${skillType}-${video.num}`;
+          const videoUrl =
+            videoUrls[videoKey] ||
+            `https://www.youtube.com/results?search_query=${examType}+${skillType}+guide`;
+          window.open(videoUrl, "_blank");
+          closeAllVideoModals();
+        });
+        container.appendChild(videoItem);
+      });
+    }
+
+    openVideoModal("videoListModal");
+  }
+
+  // Инициализация всех обработчиков для Video Guide
+  function initVideoGuideFeature() {
+    createExamModal();
+    createSkillModal();
+    createVideoListModal();
+
+    // Находим кнопку Video Guide
+    function findVideoGuideBtn() {
+      const allToolCards = document.querySelectorAll(".tool-card");
+      for (let card of allToolCards) {
+        const nameEl = card.querySelector(".tool-name");
+        if (nameEl && nameEl.textContent.trim() === "Video Guide") {
+          return card;
+        }
+      }
+      return null;
+    }
+
+    const videoGuideBtn = findVideoGuideBtn();
+
+    if (videoGuideBtn) {
+      videoGuideBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const titleEl = document.getElementById("examModalTitle");
+        if (titleEl) titleEl.textContent = "Video Guide";
+        openVideoModal("examModal");
+      });
+    }
+
+    // Обработчики для выбора экзамена (CEFR/IELTS)
+    document.querySelectorAll("[data-exam]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentExamType = btn.getAttribute("data-exam");
+        const skillTitle = document.getElementById("skillModalTitle");
+        if (skillTitle)
+          skillTitle.textContent = `${currentExamType} Video Guide`;
+        openVideoModal("skillChoiceModal");
+      });
+    });
+
+    // Обработчики для выбора навыка (Speaking/Writing)
+    document.querySelectorAll("[data-skill]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentSkillType = btn.getAttribute("data-skill");
+        if (currentExamType && currentSkillType) {
+          showVideoList(currentExamType, currentSkillType);
+        }
+      });
+    });
+
+    // Обработчики для кнопок Cancel
+    const closeExam = document.getElementById("closeExamModal");
+    const closeSkill = document.getElementById("closeSkillModalBtn");
+    const closeVideo = document.getElementById("closeVideoListModal");
+
+    if (closeExam) closeExam.addEventListener("click", closeAllVideoModals);
+    if (closeSkill) closeSkill.addEventListener("click", closeAllVideoModals);
+    if (closeVideo) closeVideo.addEventListener("click", closeAllVideoModals);
+
+    // Закрытие по клику на overlay
+    document.querySelectorAll(".video-modal-overlay").forEach((overlayEl) => {
+      overlayEl.addEventListener("click", (e) => {
+        if (e.target === overlayEl) closeAllVideoModals();
+      });
+    });
+
+    // Добавляем обработчики для sidebar (CEFR/IELTS карточки)
+    const sidebarCards = document.querySelectorAll(".section-card");
+    sidebarCards.forEach((card) => {
+      card.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardText = card.textContent.trim();
+        const parentSection = card.closest(".section");
+        let examType = "";
+        let skillType = "";
+
+        if (parentSection) {
+          const bTag = parentSection.querySelector("b");
+          if (bTag) {
+            examType = bTag.textContent.trim();
+          }
+        }
+
+        if (cardText.includes("Speaking")) skillType = "Speaking";
+        else if (cardText.includes("Writing")) skillType = "Writing";
+        else if (cardText.includes("Listening")) skillType = "Listening";
+        else if (cardText.includes("Reading")) skillType = "Reading";
+
+        if (examType && (skillType === "Speaking" || skillType === "Writing")) {
+          currentExamType = examType;
+          currentSkillType = skillType;
+          showVideoList(currentExamType, currentSkillType);
+        } else if (examType && skillType) {
+          alert(`${skillType} module for ${examType} coming soon!`);
+        }
+      });
+    });
+  }
+
+  // Запускаем инициализацию Video Guide
+  initVideoGuideFeature();
 });
