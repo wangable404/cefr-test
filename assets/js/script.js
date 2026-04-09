@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const skillCards = document.querySelectorAll(".skill-card");
   const skillDescriptions = {
-    Speaking: "Practice speaking tests",
+    // Speaking: "Practice speaking tests",
     Writing: "Practice writing tests",
     Listening: "Practice listening tests",
     Reading: "Practice reading tests",
@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const fullMock = document.querySelector(".full-mock__card");
-  if (fullMock) {
-    fullMock.addEventListener("click", function () {
-      openModal("Full Mock Exam", "Practice all 4 skills");
-    });
-  }
+  // const fullMock = document.querySelector(".full-mock__card");
+  // if (fullMock) {
+  //   fullMock.addEventListener("click", function () {
+  //     openModal("Full Mock Exam", "Practice all 4 skills");
+  //   });
+  // }
 
   const modalCards = document.querySelectorAll("#modalOverlay .card");
 
@@ -550,4 +550,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Запускаем инициализацию Video Guide
   initVideoGuideFeature();
+
+   function showNotAvailableModal() {
+            const modal = document.getElementById('notAvailableModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // блокируем прокрутку
+            }
+        }
+
+        // Функция закрытия модального окна
+        function closeNotAvailableModal() {
+            const modal = document.getElementById('notAvailableModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Закрытие по клику на фон
+        const modalOverlay = document.getElementById('notAvailableModal');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeNotAvailableModal();
+                }
+            });
+        }
+
+        // Закрытие по кнопке
+        const closeBtn = document.getElementById('closeNotAvailableBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeNotAvailableModal);
+        }
+
+        // ===== Демонстрация: привязываем вызов модалки к кнопкам =====
+        document.querySelectorAll('.demo-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.getAttribute('data-action');
+                if (action === 'speaking' || action === 'fullmock') {
+                    showNotAvailableModal();   // для Speaking и Full Mock Exam — показываем модалку
+                } else {
+                    alert('✅ Эта функция работает! (просто демо)');
+                }
+            });
+        });
 });
