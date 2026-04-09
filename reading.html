@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Reading Test | IELTS / CEFR Scoring – Single Result</title>
+    <title>IELTS / CEFR Reading Test | Academic Style</title>
     <style>
         * {
             margin: 0;
@@ -253,314 +253,308 @@
     </div>
 
     <div class="result-preview" id="resultPanel">
-        <span id="progressMsg">✨ Complete each task. You have 30 minutes total. Random tests loaded.</span>
+        <span id="progressMsg">✨ Complete all tasks. You have 30 minutes total. Randomised authentic tasks.</span>
         <span id="scoreBadge" style="font-weight: 700;"></span>
     </div>
 </div>
 
 <script>
     // ============================================================
-    // DATABASE: 5 different tasks for EACH type (gap, headings, tf, synonyms)
-    // Each gap-fill task has 3-4 blanks
+    //  COMPLETELY RENEWED TASKS – IELTS / CEFR ACADEMIC STANDARDS
+    //  Each task type has 5 high-quality variants.
     // ============================================================
 
-    // ----- 1) GAP FILL tasks (5 variants) -----
+    // ----- 1) GAP FILL (5 variants, 4 gaps each) -----
     const gapTasks = [
         {
-            title: "The Importance of Coral Reefs",
-            passage: `<p>Coral reefs are often called the "rainforests of the sea". They occupy less than 1% of the ocean floor but support about 25% of marine species. Unfortunately, rising ocean temperatures cause coral ___________ , which turns reefs white and leads to death. Additionally, pollution and overfishing ___________ the delicate balance. Scientists estimate that if current trends continue, over 90% of reefs will be ___________ by 2050. However, marine protected areas and reducing carbon emissions can help preserve these vital ecosystems for future ___________ .</p>`,
+            title: "The Shift to Electric Vehicles",
+            passage: `<p>The global transition to electric vehicles (EVs) is accelerating due to climate concerns and technological advances. Lithium-ion batteries have become more efficient, but their production requires significant mining of rare earth metals, which raises environmental ___________ . Many governments offer subsidies to reduce the upfront cost, making EVs more ___________ to average consumers. However, the lack of charging infrastructure in rural areas remains a major ___________ . Experts predict that by 2035, EVs will account for over 50% of new car sales, provided that battery recycling methods improve ___________ .</p>`,
             gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["bleaching", "disrupt", "threatened", "generations"],
+            correct: ["concerns", "accessible", "obstacle", "significantly"],
             optionsPerGap: [
-                ["bleaching", "warming", "acidification", "erosion"],
-                ["disrupt", "improve", "ignore", "create"],
-                ["threatened", "protected", "expanded", "restored"],
-                ["generations", "decades", "centuries", "months"]
+                ["concerns", "benefits", "profits", "standards"],
+                ["accessible", "expensive", "complicated", "dangerous"],
+                ["obstacle", "advantage", "solution", "trend"],
+                ["significantly", "rarely", "slightly", "temporarily"]
             ]
         },
         {
-            title: "Artificial Intelligence in Healthcare",
-            passage: `<p>AI is revolutionizing medicine by improving diagnosis and treatment. Machine learning algorithms can analyse medical images with ___________ accuracy, often detecting tumors earlier than humans. In drug discovery, AI reduces the time needed to identify potential ___________ by up to 70%. However, ethical concerns remain, especially regarding data privacy and algorithmic ___________ . Despite these challenges, experts believe AI will become an indispensable ___________ in future clinics.</p>`,
+            title: "Urban Green Spaces and Wellbeing",
+            passage: `<p>Parks and community gardens provide essential ecosystem services in dense cities. They reduce the urban heat island effect, improve air quality, and promote mental health by offering ___________ from noise and stress. Studies show that residents living within 300 metres of a green space report 25% lower levels of anxiety. Furthermore, these areas encourage social ___________ , which strengthens neighbourhood ties. City planners now integrate 'green corridors' to connect fragmented habitats, enhancing biodiversity while giving citizens ___________ to nature. Without sufficient funding, however, many such projects remain under ___________ .</p>`,
             gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["remarkable", "compounds", "bias", "tool"],
+            correct: ["relief", "interaction", "access", "threat"],
             optionsPerGap: [
-                ["remarkable", "low", "average", "unpredictable"],
-                ["compounds", "diseases", "patients", "symptoms"],
-                ["bias", "speed", "cost", "complexity"],
-                ["tool", "obstacle", "replacement", "distraction"]
+                ["relief", "pressure", "isolation", "expense"],
+                ["interaction", "distance", "conflict", "competition"],
+                ["access", "damage", "indifference", "pollution"],
+                ["threat", "construction", "celebration", "expansion"]
             ]
         },
         {
-            title: "The Psychology of Procrastination",
-            passage: `<p>Procrastination affects nearly 20% of adults. It's not about laziness but rather difficulty in managing ___________ . Psychologists distinguish between active procrastination (deliberate delay) and passive procrastination (paralyzing ___________ ). To overcome it, break tasks into small steps, use the "5-minute rule", and reward yourself after each ___________ . Over time, these techniques rewire the brain's ___________ pathways.</p>`,
+            title: "The Psychology of Online Learning",
+            passage: `<p>Digital education has transformed how knowledge is acquired, yet it poses unique psychological challenges. Without face-to-face cues, students often struggle with self-___________ , leading to procrastination. Moreover, the absence of a physical classroom can reduce a sense of ___________ , which is crucial for motivation. Effective strategies include setting micro-deadlines and participating in virtual study groups. Interestingly, introverted learners may ___________ in online environments because they feel less social pressure. Nevertheless, institutions must address digital fatigue by ___________ screen breaks into the curriculum.</p>`,
             gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["emotions", "avoidance", "milestone", "neural"],
+            correct: ["regulation", "belonging", "thrive", "integrating"],
             optionsPerGap: [
-                ["emotions", "time", "money", "energy"],
-                ["avoidance", "creativity", "focus", "memory"],
-                ["milestone", "failure", "distraction", "deadline"],
-                ["neural", "digestive", "muscular", "sensory"]
+                ["regulation", "criticism", "expression", "doubt"],
+                ["belonging", "isolation", "chaos", "formality"],
+                ["thrive", "struggle", "disappear", "hesitate"],
+                ["integrating", "ignoring", "reducing", "removing"]
             ]
         },
         {
-            title: "Renewable Energy Trends",
-            passage: `<p>Solar and wind power have become the cheapest electricity sources in many regions. The global ___________ of renewable energy grew by 45% in the last decade. Battery storage technology is advancing rapidly, solving the issue of ___________ . Many governments offer tax credits to ___________ green investments. By 2030, renewables are expected to supply over 40% of the world's ___________ .</p>`,
+            title: "Global Plastic Pollution",
+            passage: `<p>Plastic waste has infiltrated the most remote corners of the planet, from Arctic ice to the Mariana Trench. Single-use items like straws and bags constitute a large ___________ of marine debris. While recycling is widely promoted, only 9% of all plastic ever produced has been recycled; the rest ends up in landfills or the environment. Microplastics, which result from the ___________ of larger items, have been found in human blood and breast milk, raising health alarms. International treaties aim to ___________ plastic production, but enforcement remains weak. Ultimately, a shift towards a circular economy is ___________ .</p>`,
             gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["capacity", "intermittency", "encourage", "electricity"],
+            correct: ["proportion", "degradation", "curb", "imperative"],
             optionsPerGap: [
-                ["capacity", "demand", "price", "waste"],
-                ["intermittency", "pollution", "cost", "safety"],
-                ["encourage", "limit", "tax", "ban"],
-                ["electricity", "food", "water", "transport"]
+                ["proportion", "majority", "minority", "absence"],
+                ["degradation", "production", "recycling", "invention"],
+                ["curb", "increase", "ignore", "celebrate"],
+                ["imperative", "optional", "irrelevant", "impossible"]
             ]
         },
         {
-            title: "Cultural Intelligence (CQ)",
-            passage: `<p>Cultural intelligence refers to the ability to work effectively across different cultures. It includes four components: drive (motivation), knowledge (understanding), strategy (planning), and ___________ (adjusting behavior). High CQ helps avoid ___________ and builds trust in global teams. Companies now use CQ assessments during hiring to ensure ___________ in multicultural environments. With globalization, CQ has become as important as ___________ intelligence.</p>`,
+            title: "Sleep and Memory Consolidation",
+            passage: `<p>Sleep plays a fundamental role in transforming short-term memories into long-term storage. During deep non-REM sleep, the hippocampus ___________ daily experiences to the neocortex, where they become integrated with existing knowledge. Chronic sleep deprivation impairs this process, leading to forgetfulness and reduced ___________ . Recent research suggests that even a 20-minute nap can boost recall of factual information. However, sleep quality matters as much as quantity: ___________ awakenings fragment the cycle and prevent the brain from completing essential memory ___________ .</p>`,
             gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["action", "misunderstandings", "harmony", "emotional"],
+            correct: ["transfers", "cognitive", "frequent", "consolidation"],
             optionsPerGap: [
-                ["action", "reflection", "memory", "speed"],
-                ["misunderstandings", "collaboration", "efficiency", "creativity"],
-                ["harmony", "conflict", "competition", "isolation"],
-                ["emotional", "artificial", "musical", "spatial"]
+                ["transfers", "blocks", "ignores", "deletes"],
+                ["cognitive", "physical", "emotional", "social"],
+                ["frequent", "rare", "brief", "nocturnal"],
+                ["consolidation", "destruction", "creation", "avoidance"]
             ]
         }
     ];
 
-    // ----- 2) MATCHING HEADINGS tasks (5 variants) -----
+    // ----- 2) MATCHING HEADINGS (5 variants, 4 paragraphs each) -----
     const headingTasks = [
         {
-            title: "Space Exploration Milestones",
-            passage: `<p><strong>Paragraph A</strong><br>The launch of Sputnik 1 in 1957 marked the beginning of the space age. This Soviet satellite orbited Earth for three weeks, sparking the space race.</p>
-            <p><strong>Paragraph B</strong><br>In 1969, Apollo 11 successfully landed the first humans on the Moon. Neil Armstrong's famous words inspired generations.</p>
-            <p><strong>Paragraph C</strong><br>Modern missions focus on Mars rovers and the James Webb Telescope, searching for signs of past life and studying distant galaxies.</p>
-            <p><strong>Paragraph D</strong><br>Private companies like SpaceX now offer commercial spaceflights, reducing costs and increasing access to orbit.</p>`,
+            title: "The History of the Bicycle",
+            passage: `<p><strong>Paragraph A</strong><br>The earliest form of the bicycle, called the 'Laufmaschine' or 'draisine', was invented by Karl von Drais in 1817. It had no pedals; riders pushed their feet along the ground.</p>
+            <p><strong>Paragraph B</strong><br>The 1860s saw the introduction of pedals attached directly to the front wheel, leading to the 'boneshaker' – a rough ride due to iron tyres and wooden wheels.</p>
+            <p><strong>Paragraph C</strong><br>The penny-farthing, with its huge front wheel, became popular in the 1870s. It allowed greater speed but was extremely dangerous because riders sat high above the ground.</p>
+            <p><strong>Paragraph D</strong><br>The modern 'safety bicycle' emerged in 1885 with equal-sized wheels and a chain drive. Pneumatic tyres added comfort, sparking a global cycling boom.</p>`,
             paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
             correctHeadings: [
-                "The first artificial satellite",
-                "First Moon landing",
-                "Contemporary exploration",
-                "Private sector involvement"
+                "The pedal-less prototype",
+                "First pedals and an uncomfortable ride",
+                "High risk, high speed design",
+                "Birth of the contemporary bicycle"
             ],
             options: [
-                "The first artificial satellite",
-                "First Moon landing",
-                "Contemporary exploration",
-                "Private sector involvement",
-                "The future of space tourism",
-                "Dangers of space debris"
+                "The pedal-less prototype",
+                "First pedals and an uncomfortable ride",
+                "High risk, high speed design",
+                "Birth of the contemporary bicycle",
+                "Electric motors and modern materials",
+                "Decline of cycling in the 20th century"
             ]
         },
         {
-            title: "The History of Chocolate",
-            passage: `<p><strong>Paragraph A</strong><br>The Olmecs and Mayans first cultivated cacao beans around 1500 BC. They used them in religious ceremonies and as currency.</p>
-            <p><strong>Paragraph B</strong><br>Spanish explorers brought cacao to Europe in the 16th century. Sugar was added, making it popular among aristocrats.</p>
-            <p><strong>Paragraph C</strong><br>The Industrial Revolution allowed mass production of solid chocolate bars. Brands like Cadbury and Nestlé emerged.</p>
-            <p><strong>Paragraph D</strong><br>Today, dark chocolate is praised for antioxidants, but concerns over child labour in West African farms persist.</p>`,
+            title: "The Rise of the Gig Economy",
+            passage: `<p><strong>Paragraph A</strong><br>Platforms like Uber, Deliveroo and Upwork have enabled millions to work as independent contractors, choosing when and where to provide services.</p>
+            <p><strong>Paragraph B</strong><br>Flexibility is the main draw: workers can balance multiple jobs or care responsibilities. However, this often comes without sick pay, holiday leave or pension contributions.</p>
+            <p><strong>Paragraph C</strong><br>Critics argue that gig companies misclassify employees to avoid labour laws, leading to court battles in several countries. In 2021, a UK Supreme Court ruling granted some drivers worker status.</p>
+            <p><strong>Paragraph D</strong><br>Proposed solutions include portable benefits that follow the worker across platforms and collective bargaining rights for freelancers.</p>`,
             paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
             correctHeadings: [
-                "Ancient origins",
-                "Introduction to Europe",
-                "Mass production",
-                "Modern benefits and issues"
+                "Definition of platform-based work",
+                "Trade-off between autonomy and security",
+                "Legal challenges to employment classification",
+                "Future reforms to protect gig workers"
             ],
             options: [
-                "Ancient origins",
-                "Introduction to Europe",
-                "Mass production",
-                "Modern benefits and issues",
-                "Chocolate recipes",
-                "Health risks of sugar"
+                "Definition of platform-based work",
+                "Trade-off between autonomy and security",
+                "Legal challenges to employment classification",
+                "Future reforms to protect gig workers",
+                "Historical origins of casual labour",
+                "Advantages for large corporations"
             ]
         },
         {
-            title: "Remote Work Revolution",
-            passage: `<p><strong>Paragraph A</strong><br>Before 2020, remote work was a niche perk. Only 7% of employees worked from home regularly.</p>
-            <p><strong>Paragraph B</strong><br>The pandemic forced a global experiment. Companies adopted digital tools overnight, and productivity often increased.</p>
-            <p><strong>Paragraph C</strong><br>Challenges include isolation, blurred work-life boundaries, and the digital divide for rural areas.</p>
-            <p><strong>Paragraph D</strong><br>Hybrid models are emerging as the preferred solution, offering flexibility while maintaining in-person collaboration.</p>`,
+            title: "Plastic Pollution in Oceans",
+            passage: `<p><strong>Paragraph A</strong><br>Each year, an estimated 11 million metric tons of plastic enter the ocean – equivalent to a garbage truck every minute. Most originates from mismanaged waste in Southeast Asia.</p>
+            <p><strong>Paragraph B</strong><br>Once in the marine environment, plastic breaks down into microplastics (<5mm), which are ingested by zooplankton, fish and eventually humans through seafood consumption.</p>
+            <p><strong>Paragraph C</strong><br>Entanglement and ingestion kill over 100,000 marine mammals and one million seabirds annually. Coral reefs covered in plastic debris are 89% more likely to become diseased.</p>
+            <p><strong>Paragraph D</strong><br>International initiatives like the UN Global Plastics Treaty aim to reduce production, but voluntary commitments have so far failed to reverse the trend.</p>`,
             paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
             correctHeadings: [
-                "Pre-pandemic situation",
-                "Sudden shift due to COVID-19",
-                "Difficulties of remote work",
-                "The hybrid compromise"
+                "Scale of ocean plastic input",
+                "Fragmentation and food chain contamination",
+                "Lethal impact on wildlife",
+                "Insufficiency of current global actions"
             ],
             options: [
-                "Pre-pandemic situation",
-                "Sudden shift due to COVID-19",
-                "Difficulties of remote work",
-                "The hybrid compromise",
-                "Future office designs",
-                "Productivity decline"
+                "Scale of ocean plastic input",
+                "Fragmentation and food chain contamination",
+                "Lethal impact on wildlife",
+                "Insufficiency of current global actions",
+                "Innovations in biodegradable materials",
+                "Role of recycling in developed nations"
             ]
         },
         {
-            title: "Sustainable Fashion",
-            passage: `<p><strong>Paragraph A</strong><br>Fast fashion produces cheap clothes but creates massive textile waste and water pollution.</p>
-            <p><strong>Paragraph B</strong><br>Eco-friendly materials like organic cotton, hemp, and recycled polyester reduce environmental harm.</p>
-            <p><strong>Paragraph C</strong><br>Consumers can rent clothes, buy second-hand, or repair items instead of discarding them.</p>
-            <p><strong>Paragraph D</strong><br>Some brands now offer take-back programs and use biodegradable packaging to close the loop.</p>`,
+            title: "Emotional Intelligence at Work",
+            passage: `<p><strong>Paragraph A</strong><br>Emotional intelligence (EQ) comprises self-awareness, self-regulation, empathy and social skill. Unlike IQ, EQ can be developed through training.</p>
+            <p><strong>Paragraph B</strong><br>Employees with high EQ manage stress better, resolve conflicts constructively and adapt to change – qualities linked to higher performance ratings and lower burnout.</p>
+            <p><strong>Paragraph C</strong><br>Leaders who demonstrate empathy create psychological safety, which encourages team members to speak up with ideas or concerns without fear of punishment.</p>
+            <p><strong>Paragraph D</strong><br>Organisations now incorporate EQ assessments in hiring and offer mindfulness-based programmes to strengthen interpersonal competencies.</p>`,
             paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
             correctHeadings: [
-                "Problems of fast fashion",
-                "Sustainable materials",
-                "Consumer solutions",
-                "Circular economy initiatives"
+                "Components and trainability of EQ",
+                "Positive outcomes for employees",
+                "Empathy as a leadership tool",
+                "Corporate integration of EQ development"
             ],
             options: [
-                "Problems of fast fashion",
-                "Sustainable materials",
-                "Consumer solutions",
-                "Circular economy initiatives",
-                "History of clothing",
-                "Luxury brands"
+                "Components and trainability of EQ",
+                "Positive outcomes for employees",
+                "Empathy as a leadership tool",
+                "Corporate integration of EQ development",
+                "Criticism of emotional intelligence research",
+                "Gender differences in emotional expression"
             ]
         },
         {
-            title: "Neuroscience of Learning",
-            passage: `<p><strong>Paragraph A</strong><br>The hippocampus is crucial for forming new memories. Damage to this area prevents long-term retention.</p>
-            <p><strong>Paragraph B</strong><br>Sleep consolidates memories by replaying daily experiences during deep sleep cycles.</p>
-            <p><strong>Paragraph C</strong><br>Spaced repetition and active recall are more effective than cramming, according to studies.</p>
-            <p><strong>Paragraph D</strong><br>Stress hormones like cortisol impair memory retrieval, so a calm environment enhances learning.</p>`,
+            title: "Evolution of Human Language",
+            passage: `<p><strong>Paragraph A</strong><br>No direct fossil record of speech exists, so researchers rely on indirect evidence: brain asymmetry in hominids, the shape of the hyoid bone, and FOXP2 gene mutations.</p>
+            <p><strong>Paragraph B</strong><br>One prominent theory suggests language emerged from gestural communication – manual signs that gradually became associated with vocal sounds around 100,000 years ago.</p>
+            <p><strong>Paragraph C</strong><br>Another hypothesis, the 'vocal grooming' model, proposes that language replaced physical grooming as a way to maintain social bonds when group sizes grew too large for one-on-one care.</p>
+            <p><strong>Paragraph D</strong><br>Most linguists now agree that no single 'first language' existed; rather, multiple languages developed independently in different regions, shaped by migration and isolation.</p>`,
             paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
             correctHeadings: [
-                "Role of the hippocampus",
-                "Sleep and memory",
-                "Effective study techniques",
-                "Impact of stress"
+                "Physical clues from ancestors",
+                "Gesture-first hypothesis",
+                "Social bonding replacement theory",
+                "Polygenesis and regional diversification"
             ],
             options: [
-                "Role of the hippocampus",
-                "Sleep and memory",
-                "Effective study techniques",
-                "Impact of stress",
-                "Brain anatomy",
-                "Learning disorders"
+                "Physical clues from ancestors",
+                "Gesture-first hypothesis",
+                "Social bonding replacement theory",
+                "Polygenesis and regional diversification",
+                "The role of written symbols",
+                "Modern language families"
             ]
         }
     ];
 
-    // ----- 3) TRUE/FALSE tasks (5 variants) -----
+    // ----- 3) TRUE / FALSE tasks (5 variants, 4 statements each) -----
     const tfTasks = [
         {
-            title: "The Great Wall of China",
-            passage: `<p>The Great Wall of China was built over several dynasties, primarily during the Ming Dynasty (1368–1644). It stretches over 21,000 kilometers, contrary to the myth that it is visible from space with the naked eye. The wall was used for defense against nomadic invasions, but also served as a transportation corridor. Many sections have deteriorated due to natural erosion and human activity. Today, it is a UNESCO World Heritage site and one of the most visited tourist attractions.</p>`,
+            title: "The Apollo Moon Landings",
+            passage: `<p>The Apollo program, conducted by NASA, achieved six successful crewed landings on the Moon between 1969 and 1972. Apollo 11 was the first, with Neil Armstrong and Buzz Aldrin spending about 21 hours on the lunar surface. The missions brought back 382 kilograms of rock and soil samples, which have been studied extensively. Contrary to conspiracy claims, reflectors left on the Moon by Apollo astronauts are still used today to measure the Earth-Moon distance via lasers. The program was cancelled due to budget cuts and a shift in political priorities towards the Space Shuttle.</p>`,
             statements: [
-                { text: "The Great Wall was built only during the Ming Dynasty.", correct: "False" },
-                { text: "The wall can be easily seen from space without assistance.", correct: "False" },
-                { text: "It served both defensive and transportation purposes.", correct: "True" },
-                { text: "Some parts of the wall have been damaged over time.", correct: "True" }
+                { text: "All Apollo missions that attempted a lunar landing were successful.", correct: "False" },
+                { text: "The first moonwalk lasted less than one full day.", correct: "True" },
+                { text: "Lunar retroreflectors are no longer functional.", correct: "False" },
+                { text: "The cancellation of Apollo was primarily due to technical failures.", correct: "False" }
             ]
         },
         {
-            title: "Benefits of Meditation",
-            passage: `<p>Scientific studies show that regular meditation reduces symptoms of anxiety and depression. It also improves attention span and working memory. Brain scans reveal increased grey matter density in regions associated with emotional regulation. However, meditation is not a cure for severe mental illness and should complement, not replace, professional treatment. Beginners often experience frustration, but consistency yields benefits within weeks.</p>`,
+            title: "Myths About Introverts",
+            passage: `<p>Introverts are often stereotyped as shy or antisocial, but this is inaccurate. Shyness involves fear of social judgment, whereas introversion simply means a preference for lower-stimulation environments. In fact, many introverts enjoy deep conversations and have rich social lives, just in smaller groups. Brain scans show that introverts have stronger blood flow in regions linked to internal processing, making them more sensitive to dopamine. This explains why they may feel overwhelmed by loud parties but thrive in quiet, focused work.</p>`,
             statements: [
-                { text: "Meditation can completely replace therapy for severe depression.", correct: "False" },
-                { text: "Meditation has been shown to improve memory and focus.", correct: "True" },
-                { text: "Brain structure changes have been observed in meditators.", correct: "True" },
-                { text: "All beginners find meditation easy and relaxing immediately.", correct: "False" }
+                { text: "Introversion and shyness are the same psychological trait.", correct: "False" },
+                { text: "Introverts generally dislike all forms of social interaction.", correct: "False" },
+                { text: "Neurological differences between introverts and extraverts have been observed.", correct: "True" },
+                { text: "Introverts tend to avoid high-arousal situations because of dopamine sensitivity.", correct: "True" }
             ]
         },
         {
-            title: "The Amazon Rainforest",
-            passage: `<p>The Amazon produces about 20% of the world's oxygen, earning it the nickname 'lungs of the Earth'. It spans nine countries, with Brazil holding the largest portion. Deforestation rates have increased due to cattle ranching and soybean cultivation. Indigenous tribes living in the forest have sustainable practices that maintain biodiversity. The Amazon River is the longest river in the world by volume, but the Nile is longer in length.</p>`,
+            title: "Renewable Energy Reliability",
+            passage: `<p>Critics argue that solar and wind power are unreliable because they depend on weather. However, modern grids combine multiple renewable sources (solar, wind, hydro, geothermal) so that when one is unavailable, another compensates. Battery storage capacity has grown exponentially, with utility-scale lithium-ion projects now able to supply power for 4-6 hours. Moreover, demand-response systems shift non-urgent electricity use to peak production times. As a result, several countries – including Denmark and Uruguay – routinely run on 90%+ renewable electricity without blackouts.</p>`,
             statements: [
-                { text: "The Amazon produces half of the planet's oxygen.", correct: "False" },
-                { text: "The rainforest is located entirely within Brazil.", correct: "False" },
-                { text: "Cattle ranching contributes to deforestation in the Amazon.", correct: "True" },
-                { text: "The Amazon River carries more water than any other river.", correct: "True" }
+                { text: "Weather dependence makes it impossible to run a grid mostly on renewables.", correct: "False" },
+                { text: "Battery storage can typically cover several hours of demand.", correct: "True" },
+                { text: "Demand-response programmes encourage using electricity when supply is abundant.", correct: "True" },
+                { text: "No country has achieved over 80% renewable electricity reliably.", correct: "False" }
             ]
         },
         {
-            title: "History of the Internet",
-            passage: `<p>The internet originated from ARPANET, a US military project in the 1960s. The World Wide Web was invented by Tim Berners-Lee in 1989, making information accessible via browsers. Email existed before the web, dating back to 1971. Social media platforms like Facebook emerged in the early 2000s. Today, over 5 billion people use the internet, but digital divides persist in low-income regions.</p>`,
+            title: "The Great Barrier Reef",
+            passage: `<p>Located off the coast of Queensland, Australia, the Great Barrier Reef is the world's largest coral reef system, stretching over 2,300 kilometres. It has experienced three mass bleaching events since 2016 due to rising sea temperatures. Bleaching occurs when stressed corals expel their symbiotic algae, turning white. If temperatures drop quickly, corals can recover; prolonged heat leads to death. Despite this, the northern sections of the reef showed record coral cover in 2022, demonstrating resilience. Conservation efforts include reducing agricultural runoff and culling of crown-of-thorns starfish.</p>`,
             statements: [
-                { text: "ARPANET was created for commercial purposes.", correct: "False" },
-                { text: "The World Wide Web and the internet are the same thing.", correct: "False" },
-                { text: "Email was invented after the World Wide Web.", correct: "False" },
-                { text: "More than half of the global population uses the internet.", correct: "True" }
+                { text: "The Great Barrier Reef is located in the Pacific Ocean near Australia.", correct: "True" },
+                { text: "All parts of the reef have suffered irreversible decline.", correct: "False" },
+                { text: "Coral bleaching is always fatal for the coral colony.", correct: "False" },
+                { text: "Crown-of-thorns starfish are considered a threat to the reef's health.", correct: "True" }
             ]
         },
         {
-            title: "Vegan Diets",
-            passage: `<p>A vegan diet excludes all animal products, including meat, dairy, and eggs. Research indicates vegans have lower risks of heart disease, hypertension, and type 2 diabetes. However, vegans need to supplement vitamin B12, which is naturally found only in animal products. Plant-based diets also have a lower carbon footprint compared to omnivorous diets. Critics argue that some vegan processed foods are unhealthy due to high salt and sugar.</p>`,
+            title: "Online Learning Effectiveness",
+            passage: `<p>A meta-analysis of 1,200 studies found that, on average, online learners retain 25-60% more material than traditional classroom students, partly due to self-paced learning. However, courses that simply transfer recorded lectures without interaction show no advantage. Key success factors include regular instructor feedback, collaborative projects, and gamified quizzes. Dropout rates for fully online programmes can be 10-20% higher than face-to-face, especially among students with weak time management skills. Hybrid models (blended learning) currently yield the highest outcomes.</p>`,
             statements: [
-                { text: "Vegans can get vitamin B12 from plants naturally.", correct: "False" },
-                { text: "Vegan diets are associated with reduced heart disease risk.", correct: "True" },
-                { text: "All vegan foods are automatically healthy.", correct: "False" },
-                { text: "Veganism has environmental benefits over meat-based diets.", correct: "True" }
+                { text: "All online courses produce better retention than face-to-face classes.", correct: "False" },
+                { text: "Interaction and feedback are critical for online learning success.", correct: "True" },
+                { text: "Online students never drop out more often than traditional students.", correct: "False" },
+                { text: "Blended learning is considered superior to purely online or purely face-to-face.", correct: "True" }
             ]
         }
     ];
 
-    // ----- 4) SYNONYMS tasks (5 variants) -----
+    // ----- 4) SYNONYMS tasks (5 variants, 4 words each) -----
     const synonymTasks = [
         {
-            title: "Climate Change Vocabulary",
-            passage: `<p>Global warming refers to the long-term heating of Earth's climate system. The primary cause is the greenhouse effect, where certain gases trap heat. Consequences include rising sea levels, more frequent extreme weather events, and loss of biodiversity. Mitigation strategies involve reducing emissions and adopting renewable energy.</p>`,
+            title: "Academic Vocabulary (IELTS focus)",
+            passage: `<p>In academic writing, precision is paramount. Below are four common words from research contexts. Select the closest synonym for each.</p>`,
             items: [
-                { word: "heating", options: ["cooling", "warming", "freezing", "stabilizing"], correct: "warming" },
-                { word: "trap", options: ["release", "absorb", "capture", "reflect"], correct: "capture" },
-                { word: "consequences", options: ["causes", "benefits", "results", "exceptions"], correct: "results" },
-                { word: "mitigation", options: ["worsening", "reduction", "ignorance", "expansion"], correct: "reduction" }
+                { word: "demonstrate", options: ["hide", "prove", "question", "ignore"], correct: "prove" },
+                { word: "significant", options: ["trivial", "small", "notable", "random"], correct: "notable" },
+                { word: "subsequent", options: ["previous", "initial", "following", "final"], correct: "following" },
+                { word: "nevertheless", options: ["therefore", "however", "moreover", "similarly"], correct: "however" }
             ]
         },
         {
-            title: "Artificial Intelligence Terms",
-            passage: `<p>Machine learning algorithms learn from data without explicit programming. Neural networks mimic the human brain's structure. Automation replaces repetitive tasks, increasing efficiency. However, ethical concerns about job displacement and surveillance remain.</p>`,
+            title: "Business and Economics",
+            passage: `<p>Understanding key business terms is essential for the IELTS reading section. Match each word with its synonym.</p>`,
             items: [
-                { word: "explicit", options: ["implicit", "clear", "vague", "hidden"], correct: "clear" },
-                { word: "mimic", options: ["ignore", "imitate", "destroy", "improve"], correct: "imitate" },
-                { word: "replaces", options: ["substitutes", "enhances", "complicates", "removes"], correct: "substitutes" },
-                { word: "displacement", options: ["creation", "loss", "promotion", "stability"], correct: "loss" }
+                { word: "incentive", options: ["penalty", "discouragement", "motivation", "obstacle"], correct: "motivation" },
+                { word: "fluctuate", options: ["stabilise", "rise", "vary", "collapse"], correct: "vary" },
+                { word: "viable", options: ["impossible", "workable", "complex", "risky"], correct: "workable" },
+                { word: "surplus", options: ["shortage", "debt", "excess", "loss"], correct: "excess" }
             ]
         },
         {
-            title: "Business Vocabulary",
-            passage: `<p>Entrepreneurs take financial risks to launch ventures. A startup aims to scale rapidly. Market saturation occurs when a product becomes ubiquitous. Innovation drives competitive advantage. Patents protect intellectual property.</p>`,
+            title: "Environment and Ecology",
+            passage: `<p>Environmental science vocabulary often appears in IELTS reading passages. Choose the correct synonym.</p>`,
             items: [
-                { word: "launch", options: ["close", "start", "delay", "cancel"], correct: "start" },
-                { word: "scale", options: ["shrink", "stagnate", "expand", "divide"], correct: "expand" },
-                { word: "ubiquitous", options: ["rare", "everywhere", "expensive", "complex"], correct: "everywhere" },
-                { word: "protect", options: ["attack", "safeguard", "ignore", "revoke"], correct: "safeguard" }
+                { word: "sustainable", options: ["wasteful", "temporary", "long-term", "harmful"], correct: "long-term" },
+                { word: "biodiversity", options: ["species variety", "pollution", "climate", "deforestation"], correct: "species variety" },
+                { word: "emissions", options: ["absorptions", "releases", "storages", "reductions"], correct: "releases" },
+                { word: "depletion", options: ["renewal", "increase", "exhaustion", "protection"], correct: "exhaustion" }
             ]
         },
         {
-            title: "Psychology Terms",
-            passage: `<p>Cognitive dissonance describes the mental discomfort from holding contradictory beliefs. Resilience is the ability to bounce back from adversity. Empathy involves understanding others' emotions. A heuristic is a mental shortcut that speeds decision-making.</p>`,
+            title: "Health and Medicine",
+            passage: `<p>Medical terms frequently appear in academic reading tests. Identify the closest synonym.</p>`,
             items: [
-                { word: "contradictory", options: ["consistent", "opposing", "simple", "complex"], correct: "opposing" },
-                { word: "adversity", options: ["fortune", "difficulty", "ease", "victory"], correct: "difficulty" },
-                { word: "empathy", options: ["apathy", "sympathy", "indifference", "cruelty"], correct: "sympathy" },
-                { word: "shortcut", options: ["detour", "delay", "fast route", "obstacle"], correct: "fast route" }
+                { word: "chronic", options: ["acute", "temporary", "persistent", "mild"], correct: "persistent" },
+                { word: "contagious", options: ["curable", "infectious", "genetic", "preventable"], correct: "infectious" },
+                { word: "symptom", options: ["cause", "cure", "indicator", "treatment"], correct: "indicator" },
+                { word: "efficacy", options: ["ineffectiveness", "danger", "effectiveness", "cost"], correct: "effectiveness" }
             ]
         },
         {
-            title: "Travel & Tourism",
-            passage: `<p>Ecotourism promotes responsible travel to natural areas, conserving the environment. A layover is a short stop between flights. An itinerary outlines daily activities. All-inclusive packages cover accommodation, meals, and drinks.</p>`,
+            title: "Technology and Innovation",
+            passage: `<p>Technology-related vocabulary is common in modern IELTS texts. Choose the best synonym.</p>`,
             items: [
-                { word: "responsible", options: ["careless", "ethical", "risky", "expensive"], correct: "ethical" },
-                { word: "layover", options: ["flight", "stopover", "destination", "departure"], correct: "stopover" },
-                { word: "outlines", options: ["hides", "summarizes", "complicates", "ignores"], correct: "summarizes" },
-                { word: "cover", options: ["exclude", "include", "increase", "reduce"], correct: "include" }
+                { word: "obsolete", options: ["modern", "outdated", "efficient", "innovative"], correct: "outdated" },
+                { word: "robust", options: ["weak", "fragile", "sturdy", "complex"], correct: "sturdy" },
+                { word: "simulate", options: ["ignore", "imitate", "destroy", "prevent"], correct: "imitate" },
+                { word: "disruptive", options: ["supportive", "traditional", "revolutionary", "minor"], correct: "revolutionary" }
             ]
         }
     ];
 
-    // ---- Random selection for each stage ----
-    let selectedGap = null;
-    let selectedHeading = null;
-    let selectedTF = null;
-    let selectedSyn = null;
-
+    // ---- Helper functions ----
     function getRandomItem(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    // ---- Get test type from localStorage (key "currentTest") ----
     function getCurrentTestType() {
         const stored = localStorage.getItem('currentTest');
         if (stored === 'IELTS') return 'IELTS';
@@ -568,7 +562,6 @@
         return 'IELTS';
     }
 
-    // ---- Convert percentage to IELTS band (0-9, step 0.5) ----
     function percentToIELTS(percent) {
         if (percent >= 95) return 9.0;
         if (percent >= 90) return 8.5;
@@ -584,7 +577,6 @@
         return 3.5;
     }
 
-    // ---- Convert percentage to CEFR level ----
     function percentToCEFR(percent) {
         if (percent >= 90) return "C2 (Proficient)";
         if (percent >= 75) return "C1 (Advanced)";
@@ -594,11 +586,10 @@
         return "A1 (Beginner)";
     }
 
-    // ---- Save SINGLE result to localStorage (overwrites previous reading result) ----
     function saveSingleResult(testType, scoreValue, percentCorrect, totalCorrect, totalPossible) {
         const resultObj = {
-            testType: testType,          // 'ielts' or 'cefr'
-            score: scoreValue,           // e.g., 7.5 or "B2 (Upper Intermediate)"
+            testType: testType,
+            score: scoreValue,
             percent: percentCorrect,
             totalCorrect: totalCorrect,
             totalPossible: totalPossible,
@@ -606,19 +597,18 @@
             section: 'reading'
         };
         localStorage.setItem('readingResult', JSON.stringify(resultObj));
-        console.log('Saved reading result:', resultObj);
     }
 
     // ---- Global state ----
+    let selectedGap, selectedHeading, selectedTF, selectedSyn;
     let currentStep = 0;
     let userAnswers = [];
-    let timerSeconds = 1800;   // 30 min
+    let timerSeconds = 1800;
     let timerInterval = null;
     let testFinished = false;
-    let currentTestType = 'IELTS';  // from localStorage
-    let resultSaved = false;         // ensure we save only once
+    let currentTestType = 'IELTS';
+    let resultSaved = false;
 
-    // DOM elements
     const passageArea = document.getElementById('passageArea');
     const questionsArea = document.getElementById('questionsArea');
     const nextBtn = document.getElementById('nextBtn');
@@ -657,24 +647,23 @@
         if (testFinished) return;
         testFinished = true;
         if (timerInterval) clearInterval(timerInterval);
-        progressMsgSpan.innerHTML = "⏰ TIME'S UP! The test has been automatically submitted.";
+        progressMsgSpan.innerHTML = "⏰ TIME'S UP! Your answers have been submitted.";
         finishAndShowResults(true);
     }
 
     function initAnswers() {
         userAnswers = [];
-        // Gap
-        let gapAnswers = new Array(selectedGap.gaps.length).fill(null);
-        userAnswers.push({ type: 'gap', values: gapAnswers, taskData: selectedGap });
-        // Headings
-        let headingAnswers = new Array(selectedHeading.paragraphs.length).fill('');
-        userAnswers.push({ type: 'headings', values: headingAnswers, taskData: selectedHeading });
-        // True/False
-        let tfAnswers = new Array(selectedTF.statements.length).fill(null);
-        userAnswers.push({ type: 'tf', values: tfAnswers, taskData: selectedTF });
-        // Synonyms
-        let synAnswers = new Array(selectedSyn.items.length).fill(null);
-        userAnswers.push({ type: 'syn', values: synAnswers, taskData: selectedSyn });
+        userAnswers.push({ type: 'gap', values: new Array(selectedGap.gaps.length).fill(null), taskData: selectedGap });
+        userAnswers.push({ type: 'headings', values: new Array(selectedHeading.paragraphs.length).fill(''), taskData: selectedHeading });
+        userAnswers.push({ type: 'tf', values: new Array(selectedTF.statements.length).fill(null), taskData: selectedTF });
+        userAnswers.push({ type: 'syn', values: new Array(selectedSyn.items.length).fill(null), taskData: selectedSyn });
+    }
+
+    function randomizeTasks() {
+        selectedGap = getRandomItem(gapTasks);
+        selectedHeading = getRandomItem(headingTasks);
+        selectedTF = getRandomItem(tfTasks);
+        selectedSyn = getRandomItem(synonymTasks);
     }
 
     function renderCurrentTask() {
@@ -692,9 +681,8 @@
         if (task.type === 'gap') {
             for (let i = 0; i < taskData.gaps.length; i++) {
                 const selectedVal = task.values[i] || '';
-                questionsHtml += `<div class="gap-sentence">
-                                    <strong>${i+1}.</strong> 
-                                    <select data-gap-idx="${i}" class="gap-select" style="margin-left:8px;">
+                questionsHtml += `<div class="gap-sentence"><strong>${i+1}.</strong> 
+                                    <select data-gap-idx="${i}" class="gap-select">
                                         <option value="">-- select word --</option>`;
                 taskData.optionsPerGap[i].forEach(opt => {
                     questionsHtml += `<option value="${opt}" ${selectedVal === opt ? 'selected' : ''}>${opt}</option>`;
@@ -804,9 +792,9 @@
     }
 
     function getInstruction(type) {
-        if (type === 'gap') return 'Select the correct word for each blank.';
+        if (type === 'gap') return 'Select the correct word to complete each blank.';
         if (type === 'headings') return 'Match each paragraph with the most suitable heading.';
-        if (type === 'tf') return 'Decide if each statement is TRUE or FALSE according to the passage.';
+        if (type === 'tf') return 'Decide if each statement is TRUE or FALSE based on the passage.';
         return 'Choose the word closest in meaning to the given word.';
     }
 
@@ -900,7 +888,6 @@
             scoreDisplay = `CEFR Level: ${rawScore}`;
         }
 
-        // Save result ONLY ONCE and ONLY for reading
         if (!resultSaved) {
             saveSingleResult(currentTestType, rawScore, percent, totalCorrect, totalPossible);
             resultSaved = true;
@@ -924,20 +911,9 @@
         prevBtn.disabled = true;
     }
 
-    function randomizeTasks() {
-        selectedGap = getRandomItem(gapTasks);
-        selectedHeading = getRandomItem(headingTasks);
-        selectedTF = getRandomItem(tfTasks);
-        selectedSyn = getRandomItem(synonymTasks);
-    }
-
     function init() {
         currentTestType = getCurrentTestType();
-        if (currentTestType === 'IELTS') {
-            testTypeBadgeSpan.innerText = 'IELTS Academic Reading';
-        } else {
-            testTypeBadgeSpan.innerText = 'CEFR Reading Test';
-        }
+        testTypeBadgeSpan.innerText = currentTestType === 'IELTS' ? 'IELTS Academic Reading' : 'CEFR Reading Test';
         randomizeTasks();
         initAnswers();
         startTimer();

@@ -8,8 +8,8 @@ const QUESTIONS = [];
 let currentQuestionIndex = 0;
 let completedQuestions = new Set(); // Хранит индексы отвеченных вопросов
 let isAnswering = false; // Флаг, идет ли сейчас ответ на вопрос
-let currentPrepTime = 30;
-let currentAnswerTime = 60;
+let currentPrepTime = 5;
+let currentAnswerTime = 30;
 let prepInterval = null;
 let answerInterval = null;
 let currentPhase = "idle"; // idle, prep, answer
@@ -199,9 +199,9 @@ function renderQuestions() {
 
     const hasAudio = recordings[index];
 
+    // <div class="question-card__category">${question.category}</div>
     card.innerHTML = `
             <div class="question-card__number">${index + 1}</div>
-            <div class="question-card__category">${question.category}</div>
             <div class="question-card__text">${question.question.substring(0, 60)}${question.question.length > 60 ? "..." : ""}</div>
             <div class="question-card__icons">
                 ${hasAudio ? '<span class="icon-microphone">🎙️</span>' : ""}
@@ -316,8 +316,8 @@ function startAnswerProcess() {
   // Начинаем процесс ответа
   isAnswering = true;
   currentPhase = "prep";
-  currentPrepTime = 30;
-  currentAnswerTime = 60;
+  currentPrepTime = 5;
+  currentAnswerTime = 30;
 
   updatePrepDisplay();
   updateAnswerDisplay();
@@ -327,7 +327,7 @@ function startAnswerProcess() {
   if (nextBtn) nextBtn.disabled = true;
   if (startAnswerBtn) startAnswerBtn.disabled = true;
 
-  updateRecordingStatus("⏱️ Подготовка: 30 секунд...", "prep");
+  updateRecordingStatus("⏱️ Подготовка: 5 секунд...", "prep");
 
   // Запускаем таймер подготовки
   prepInterval = setInterval(() => {
@@ -418,8 +418,8 @@ function finishCurrentQuestion() {
   );
 
   // Обновляем таймеры на экране
-  currentPrepTime = 30;
-  currentAnswerTime = 60;
+  currentPrepTime = 5;
+  currentAnswerTime = 30;
   updatePrepDisplay();
   updateAnswerDisplay();
 
@@ -458,8 +458,8 @@ function stopAllTimers() {
   }
   isAnswering = false;
   currentPhase = "idle";
-  currentPrepTime = 30;
-  currentAnswerTime = 60;
+  currentPrepTime = 5;
+  currentAnswerTime = 30;
   updatePrepDisplay();
   updateAnswerDisplay();
 }
