@@ -50,9 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const skillCards = document.querySelectorAll(".skill-card");
   const skillDescriptions = {
-    // Speaking: "Practice speaking tests",
+    Speaking: "Practice speaking tests",
     Writing: "Practice writing tests",
-    Listening: "Practice listening tests",
+    // Listening: "Practice listening tests",
     Reading: "Practice reading tests",
   };
 
