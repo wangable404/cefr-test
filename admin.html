@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Админ панель | Аудиоответы пользователей</title>
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: #f6f8fc;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Шапка */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e2a3a, #2c3e50);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .subtitle {
+            color: #5b6e8c;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Статус загрузки / ошибки */
+        .status-message {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin: 2rem 0;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #3b5b8c;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-box {
+            background: #fff5f5;
+            color: #b91c1c;
+            border-left: 4px solid #b91c1c;
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+
+        /* Сетка карточек */
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* Карточка теста */
+        .test-card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+            border: 1px solid #eef2f8;
+            overflow: hidden;
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .test-header {
+            padding: 1rem 1.5rem;
+            background: #fafcff;
+            border-bottom: 1px solid #eef2f8;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+
+        .test-type {
+            font-weight: 600;
+            font-size: 0.8rem;
+            background: #eef2ff;
+            color: #1e40af;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            letter-spacing: 0.2px;
+        }
+
+        .test-date {
+            font-size: 0.75rem;
+            color: #5b6e8c;
+            background: #f1f5f9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        .user-id {
+            font-size: 0.7rem;
+            background: #eef2ff;
+            color: #2c3e66;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+        }
+
+        /* Список аудио */
+        .audio-list {
+            padding: 1.2rem 1.2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .audio-item {
+            background: #f9fafc;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            transition: background 0.2s;
+            border: 1px solid #edf2f7;
+        }
+
+        .audio-item:hover {
+            background: #ffffff;
+            border-color: #e0e7ef;
+        }
+
+        .audio-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            font-size: 0.7rem;
+            color: #5b6e8c;
+        }
+
+        .question-num {
+            font-weight: 500;
+            color: #2d3a4e;
+            background: #eef2ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .audio-id {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.65rem;
+            background: #eef2f8;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        audio {
+            width: 100%;
+            height: 42px;
+            border-radius: 32px;
+            outline: none;
+        }
+
+        audio:focus {
+            outline: 2px solid #cbd5e1;
+        }
+
+        .no-audio {
+            padding: 1.8rem;
+            text-align: center;
+            color: #8ba0bc;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Адаптив */
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .tests-grid {
+                grid-template-columns: 1fr;
+            }
+            .test-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #8ba0bc;
+            border-top: 1px solid #eef2f8;
+            padding-top: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎧 Админ панель · Аудиоответы</h1>
+        <div class="subtitle">Прослушивание записей пользователей (IELTS Speaking)</div>
+    </div>
+
+    <div id="app-content">
+        <!-- Сюда динамически вставим карточки, лоадер или ошибку -->
+        <div class="status-message">
+            <div class="loader"></div>
+            <p>Загрузка аудиоданных...</p>
+        </div>
+    </div>
+    <footer>Административная панель — все аудиофайлы защищены. Данные с сервера: /api/v1/test/all/speaking-question</footer>
+</div>
+
+<script src="./assets/js/config.js"></script>
+<script>
+
+    // Функция форматирования даты
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    // Основная функция рендеринга
+    async function loadAndRender() {
+        const appContainer = document.getElementById('app-content');
+        
+        try {
+            const response = await axios.get(API_URL);
+            const tests = response.data;
+
+            // Если данные не массив или пусто
+            if (!Array.isArray(tests) || tests.length === 0) {
+                appContainer.innerHTML = `
+                    <div class="status-message">
+                        <p>📭 Нет данных от пользователей. Пока ни одного аудиоответа.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Генерируем HTML-карточки
+            let cardsHtml = '';
+            for (const test of tests) {
+                const testId = test.id;
+                const type = test.type || 'IELTS';
+                const createdAt = test.createdAt;
+                const userId = test.userId;
+                const questions = test.speaking_test_questions || [];
+
+                // Заголовок карточки
+                const formattedDate = formatDate(createdAt);
+                const userBlock = userId ? `<span class="user-id">👤 ID: ${escapeHtml(userId)}</span>` : '';
+
+                let audioItemsHtml = '';
+                if (questions.length === 0) {
+                    audioItemsHtml = `<div class="no-audio">🔇 Нет аудиозаписей для этого теста</div>`;
+                } else {
+                    questions.forEach((audio, idx) => {
+                        const audioPath = audio.audio_path;
+                        const fullAudioUrl = `${BASE_URL}${audioPath}`;
+                        const shortQuestionId = audio.speakingQuestionId ? audio.speakingQuestionId.slice(0, 8) : 'unknown';
+                        
+                        audioItemsHtml += `
+                            <div class="audio-item">
+                                <div class="audio-meta">
+                                    <span class="question-num">🎤 Вопрос ${idx + 1}</span>
+                                    <span class="audio-id">ID: ${escapeHtml(shortQuestionId)}…</span>
+                                </div>
+                                <audio controls preload="metadata" class="audio-player">
+                                    <source src="${escapeHtml(fullAudioUrl)}" type="audio/webm">
+                                    Ваш браузер не поддерживает аудиоплеер.
+                                </audio>
+                            </div>
+                        `;
+                    });
+                }
+
+                cardsHtml += `
+                    <div class="test-card">
+                        <div class="test-header">
+                            <span class="test-type">📌 ${escapeHtml(type)}</span>
+                            <span class="test-date">📅 ${formattedDate}</span>
+                            ${userBlock}
+                        </div>
+                        <div class="audio-list">
+                            ${audioItemsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Вставляем готовую сетку
+            appContainer.innerHTML = `<div class="tests-grid">${cardsHtml}</div>`;
+
+        } catch (error) {
+            console.error('Ошибка при загрузке:', error);
+            let errorMsg = 'Не удалось загрузить данные. Проверьте: сервер запущен на http://localhost:4000 и CORS настроен.';
+            if (error.response) {
+                errorMsg = `Ошибка сервера: ${error.response.status} — ${error.response.statusText}`;
+            } else if (error.request) {
+                errorMsg = 'Сервер не отвечает. Убедитесь, что бекенд запущен и доступен по адресу http://localhost:4000';
+            } else {
+                errorMsg = error.message;
+            }
+            appContainer.innerHTML = `
+                <div class="status-message error-box">
+                    <strong>⚠️ Ошибка загрузки</strong><br>
+                    ${escapeHtml(errorMsg)}
+                    <br><br>
+                    <button onclick="location.reload()" style="background:#eef2ff; border:none; padding:0.4rem 1rem; border-radius:2rem; cursor:pointer; margin-top:0.5rem;">⟳ Повторить</button>
+                </div>
+            `;
+        }
+    }
+
+    // Простая защита от XSS
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Запускаем загрузку при загрузке страницы
+    window.addEventListener('DOMContentLoaded', loadAndRender);
+</script>
+</body>
+</html>

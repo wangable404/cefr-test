@@ -39,15 +39,296 @@
       </div>
     </header>
 
+    <!-- Модальное окно выбора режима (Full Mock / Part Based) -->
+    <div
+      id="speakingModeModal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10003;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      "
+      onclick="closeSpeakingModeModal()"
+    >
+      <div class="modal" onclick="event.stopPropagation()">
+        <div style="font-size: 36px; margin-bottom: 6px">🎙️</div>
+        <h3 style="font-size: 20px; color: var(--brand); margin-bottom: 4px">
+          Choose Your Mode
+        </h3>
+        <p
+          id="speakingModeMockLabel"
+          style="font-size: 13px; color: var(--muted); margin-bottom: 22px"
+        >
+          IELTS Speaking Practice
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <div
+            id="fullMockSpeakingBtn"
+            style="
+              flex: 1;
+              min-width: 180px;
+              padding: 18px 16px;
+              background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+              color: white;
+              border: none;
+              border-radius: 16px;
+              font-size: 15px;
+              font-weight: 700;
+              cursor: pointer;
+              transition: all 0.2s;
+              box-shadow: 0 4px 16px rgba(3, 105, 161, 0.3);
+            "
+          >
+            <div style="font-size: 28px; margin-bottom: 6px">🎙️</div>
+            Full Speaking Mock
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 400;
+                opacity: 0.85;
+                margin-top: 4px;
+              "
+            >
+              All parts • Timed
+            </div>
+          </div>
+          <div
+            id="partBasedSpeakingBtn"
+            style="
+              flex: 1;
+              min-width: 180px;
+              padding: 18px 16px;
+              background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+              color: white;
+              border: none;
+              border-radius: 16px;
+              font-size: 15px;
+              font-weight: 700;
+              cursor: pointer;
+              transition: all 0.2s;
+              box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+            "
+          >
+            <div style="font-size: 28px; margin-bottom: 6px">🎯</div>
+            Part Based Practice
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 400;
+                opacity: 0.85;
+                margin-top: 4px;
+              "
+            >
+              Pick one part • Practice
+            </div>
+          </div>
+        </div>
+        <button onclick="closeSpeakingModeModal()" class="cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Модальное окно выбора части (Part 1/2/3) для Part Based Practice -->
+    <div
+      id="speakingPartPickerModal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10004;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      "
+      onclick="closeSpeakingPartPicker()"
+    >
+      <div class="modal" onclick="event.stopPropagation()">
+        <div style="font-size: 36px; margin-bottom: 6px">🎯</div>
+        <h3
+          id="speakingPartPickerTitle"
+          style="font-size: 20px; color: #7c3aed; margin-bottom: 4px"
+        >
+          Select an IELTS Part
+        </h3>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px">
+          Choose which part you'd like to practice
+        </p>
+        <div
+          id="speakingPartPickerButtons"
+          style="width: 100%; display: flex; flex-direction: column; gap: 10px"
+        >
+          <div
+            data-part="1"
+            class="part-picker-btn"
+            style="
+              padding: 16px 20px;
+              border: 1px solid #1f5550;
+              background: linear-gradient(145deg, #0d1a2b, #0b142a);
+              border-radius: 14px;
+              font-size: 15px;
+              font-weight: 700;
+              color: var(--ink);
+              cursor: pointer;
+              text-align: left;
+              transition: 0.2s;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            "
+          >
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #1e40af, #3b82f6);
+                color: white;
+                font-size: 14px;
+                font-weight: 800;
+                flex-shrink: 0;
+              "
+              >1</span
+            >
+            <div>
+              <div>Part 1 — Introduction & Interview</div>
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 400;
+                  color: var(--muted);
+                  margin-top: 2px;
+                "
+              >
+                General questions • 7 questions
+              </div>
+            </div>
+          </div>
+          <div
+            data-part="2"
+            class="part-picker-btn"
+            style="
+              padding: 16px 20px;
+              border: 1px solid #1f5550;
+              background: linear-gradient(145deg, #0d1a2b, #0b142a);
+              border-radius: 14px;
+              font-size: 15px;
+              font-weight: 700;
+              color: var(--ink);
+              cursor: pointer;
+              text-align: left;
+              transition: 0.2s;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            "
+          >
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #b45309, #f59e0b);
+                color: white;
+                font-size: 14px;
+                font-weight: 800;
+                flex-shrink: 0;
+              "
+              >2</span
+            >
+            <div>
+              <div>Part 2 — Long Turn & Follow-up</div>
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 400;
+                  color: var(--muted);
+                  margin-top: 2px;
+                "
+              >
+                Cue card + follow-up • 3 questions
+              </div>
+            </div>
+          </div>
+          <div
+            data-part="3"
+            class="part-picker-btn"
+            style="
+              padding: 16px 20px;
+              border: 1px solid #1f5550;
+              background: linear-gradient(145deg, #0d1a2b, #0b142a);
+              border-radius: 14px;
+              font-size: 15px;
+              font-weight: 700;
+              color: var(--ink);
+              cursor: pointer;
+              text-align: left;
+              transition: 0.2s;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            "
+          >
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #166534, #16a34a);
+                color: white;
+                font-size: 14px;
+                font-weight: 800;
+                flex-shrink: 0;
+              "
+              >3</span
+            >
+            <div>
+              <div>Part 3 — Two-way Discussion</div>
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 400;
+                  color: var(--muted);
+                  margin-top: 2px;
+                "
+              >
+                Abstract discussion • 7 questions
+              </div>
+            </div>
+          </div>
+        </div>
+        <button onclick="closeSpeakingPartPicker()" class="cancel">Back</button>
+      </div>
+    </div>
+
     <div id="notAvailableModal" class="modal-unavailable modalOverlay">
       <div class="modal">
         <div class="modal-unavailable__title">🚫 Недоступно</div>
         <div class="subtitle">
           Эта функция временно недоступна.<br />Пожалуйста, зайдите позже.
         </div>
-        <button class="cancel" id="closeNotAvailableBtn">
-          Понятно
-        </button>
+        <button class="cancel" id="closeNotAvailableBtn">Понятно</button>
       </div>
     </div>
     <div class="sidebar" id="sidebar">
@@ -64,7 +345,9 @@
           <div class="section-card">📖 Reading</div>
         </div>
 
-        <div class="exam demo-btn" data-action="fullmock">🏆 FULL MOCK EXAM</div>
+        <div class="exam demo-btn" data-action="fullmock">
+          🏆 FULL MOCK EXAM
+        </div>
       </div>
 
       <div class="section">
@@ -77,7 +360,9 @@
           <div class="section-card">📖 Reading</div>
         </div>
 
-        <div class="exam demo-btn" data-action="fullmock">🏆 FULL MOCK EXAM</div>
+        <div class="exam demo-btn" data-action="fullmock">
+          🏆 FULL MOCK EXAM
+        </div>
       </div>
 
       <div class="section help">
@@ -135,7 +420,11 @@
           <h3>Writing</h3>
         </div>
 
-        <div data-action="speaking" class="skill-card demo-btn" data-skill="Listening">
+        <div
+          data-action="speaking"
+          class="skill-card demo-btn"
+          data-skill="Listening"
+        >
           <div class="skill-icon"><i class="fas fa-headphones-alt"></i></div>
           <h3>Listening</h3>
         </div>

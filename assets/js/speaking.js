@@ -1,566 +1,359 @@
-/**
- * Speaking Practice - Автоматическая запись звука с сохранением прогресса
- */
+const type = localStorage.getItem("currentTest");
+const TOKEN = localStorage.getItem("token");
+const params = new URLSearchParams(window.location.search);
+const part = params.get("part");
 
-const QUESTIONS = [];
+document.querySelector('.header-desc').textContent = `${part ? `Part ${part}` : 'Full speaking'} - ${type}`
 
-// ========== СОСТОЯНИЕ ==========
+// Состояние приложения
+let questions = [];
 let currentQuestionIndex = 0;
-let completedQuestions = new Set(); // Хранит индексы отвеченных вопросов
-let isAnswering = false; // Флаг, идет ли сейчас ответ на вопрос
-let currentPrepTime = 5;
-let currentAnswerTime = 30;
-let prepInterval = null;
-let answerInterval = null;
-let currentPhase = "idle"; // idle, prep, answer
-
-// Голосовая запись
+let isTestActive = false;
+let currentPhase = null;
+let timerInterval = null;
+let timeLeft = 0;
 let mediaRecorder = null;
-let audioStream = null;
 let audioChunks = [];
-let isRecording = false;
-let recordings = {}; // { questionIndex: { blob, url, duration, questionText, timestamp, category } }
+let recordings = [];
+
+const PREP_TIME = 5;
+const ANSWER_TIME = 30;
 
 // DOM элементы
-let questionsGrid, prevBtn, nextBtn, startAnswerBtn;
-let prepTimerDisplay, answerTimerDisplay;
-let progressFill, progressText;
-let activeQuestionText, activeQuestionCategory, activeQuestionNumber;
-let recordingStatus, finishButtonContainer;
-let questionDots;
+const connectionReminderModal = document.getElementById(
+  "connectionReminderModal",
+);
+const tutorialModal = document.getElementById("tutorialModal");
+const micCheckModal = document.getElementById("micCheckModal");
+const connectionReminderContinue = document.getElementById(
+  "connectionReminderContinue",
+);
+const tutorialBack = document.getElementById("tutorialBack");
+const micCheckBtn = document.getElementById("micCheckBtn");
+const tutorialBegin = document.getElementById("tutorialBegin");
+const closeMicCheck = document.getElementById("closeMicCheck");
+const micTestRecordBtn = document.getElementById("micTestRecordBtn");
+const micCheckDone = document.getElementById("micCheckDone");
+const loader = document.getElementById("loader");
+const mainContent = document.getElementById("mainContent");
+const uploadSection = document.getElementById("uploadSection");
+const uploadResultsBtn = document.getElementById("uploadResultsBtn");
+const uploadStatus = document.getElementById("uploadStatus");
+const questionCategoryEl = document.getElementById("questionCategory");
+const questionTextEl = document.getElementById("questionText");
+const statusMessageEl = document.getElementById("statusMessage");
+const preparationTimerEl = document.getElementById("preparationTimer");
+const speakingTimerEl = document.getElementById("speakingTimer");
+const preparationTimeEl = document.getElementById("preparationTime");
+const speakingTimeEl = document.getElementById("speakingTime");
+const progressTextEl = document.getElementById("progressText");
+const progressFillEl = document.getElementById("progressFill");
+const recordingIndicator = document.getElementById("recordingIndicator");
 
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
-document.addEventListener("DOMContentLoaded", () => {
-  const type = localStorage.getItem("currentTest");
-
-  initElements();
-  initTheme();
-  initMobileMenu();
-  initModal();
-  attachEventListeners();
-  initMicrophone();
-
-  axios
-    .get(`${API_URL}/test/${type}/speaking-question`)
-    .then((res) => {
-      QUESTIONS.push(...res.data);
-
-      // ✅ ВАЖНО: рендер только после получения данных
-      renderQuestions();
-      updateProgress();
-      updateActiveQuestion();
-      loadSavedProgress();
-      updateUIForQuestion();
-    })
-    .catch((err) => {
-      console.log(err);
-      showMessage("Ошибка загрузки вопросов", "error");
-    });
+// Переключение языков
+document.querySelectorAll(".tab-btn").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const lang = tab.getAttribute("data-lang");
+    document
+      .querySelectorAll(".tab-btn")
+      .forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    document
+      .querySelectorAll(".t-title")
+      .forEach((title) => (title.style.display = "none"));
+    document.querySelector(`.t-title[data-title="${lang}"]`).style.display =
+      "block";
+    document
+      .querySelectorAll(".lang-pane")
+      .forEach((pane) => (pane.style.display = "none"));
+    document.querySelector(`.lang-pane[data-pane="${lang}"]`).style.display =
+      "block";
+  });
 });
 
-function initElements() {
-  questionsGrid = document.getElementById("questionsGrid");
-  prevBtn = document.getElementById("prevBtn");
-  nextBtn = document.getElementById("nextBtn");
-  startAnswerBtn = document.getElementById("startAnswerBtn");
-  prepTimerDisplay = document.getElementById("prepTime");
-  answerTimerDisplay = document.getElementById("answerTime");
-  progressFill = document.getElementById("progressFill");
-  progressText = document.getElementById("progressText");
-  activeQuestionText = document.getElementById("activeQuestionText");
-  activeQuestionCategory = document.getElementById("activeQuestionCategory");
-  activeQuestionNumber = document.getElementById("activeQuestionNumber");
-  recordingStatus = document.getElementById("recordingStatus");
-  finishButtonContainer = document.getElementById("finishButtonContainer");
-  questionDots = document.getElementById("questionDots");
+// Загрузка вопросов
+async function loadQuestionsFromBackend() {
+  try {
+    loader.style.display = "block";
+    console.log(type);
+    
+    const response = await axios.get(
+      `${API_URL}/test/${type}/speaking-question`,
+    );
+    if (
+      response.data &&
+      Array.isArray(response.data) &&
+      response.data.length > 0
+    ) {
+      questions = response.data;
+      recordings = new Array(questions.length).fill(null);
+      initUI();
+      loader.style.display = "none";
+      mainContent.style.display = "block";
+      displayQuestion(0);
+      return true;
+    } else {
+      throw new Error("Нет данных от сервера");
+    }
+  } catch (error) {
+    console.error("Ошибка загрузки вопросов:", error);
+    loader.innerHTML = `
+                    <div class="error-message">
+                        ❌ Ошибка загрузки вопросов: ${error.message}<br>
+                        <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">Повторить</button>
+                    </div>
+                `;
+    return false;
+  }
 }
 
-// ========== МИКРОФОН ==========
-async function initMicrophone() {
+function initUI() {
+  preparationTimeEl.textContent = formatTime(PREP_TIME);
+  speakingTimeEl.textContent = formatTime(ANSWER_TIME);
+}
+
+function displayQuestion(index) {
+  if (index >= questions.length) return;
+  const question = questions[index];
+  questionCategoryEl.textContent = question.category || "General";
+  questionTextEl.textContent = question.question;
+  updateProgress();
+}
+
+function speakText(text, callback) {
+  if (!window.speechSynthesis) {
+    if (callback) callback();
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.9;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+  utterance.onend = () => {
+    if (callback) callback();
+  };
+  utterance.onerror = () => {
+    if (callback) callback();
+  };
+  setTimeout(() => window.speechSynthesis.speak(utterance), 100);
+}
+
+function stopSpeaking() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+function updateProgress() {
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  progressFillEl.style.width = `${progress}%`;
+  progressTextEl.textContent = `Вопрос ${currentQuestionIndex + 1} из ${questions.length}`;
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function startTimer(duration, onTick, onComplete) {
+  stopTimer();
+  timeLeft = duration;
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      stopTimer();
+      if (onComplete) onComplete();
+    } else {
+      timeLeft--;
+      if (onTick) onTick(timeLeft);
+    }
+  }, 1000);
+}
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
+// Запись аудио
+async function startRecording(questionIndex) {
   try {
-    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    console.log("Микрофон инициализирован");
-    updateRecordingStatus("✅ Микрофон готов", "success");
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = (event) => {
+      audioChunks.push(event.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+      const question = questions[questionIndex];
+      recordings[questionIndex] = {
+        blob: audioBlob,
+        questionId: question.id,
+        question: question.question,
+        category: question.category,
+        duration: ANSWER_TIME,
+        timestamp: new Date().toISOString(),
+      };
+      stream.getTracks().forEach((track) => track.stop());
+    };
+
+    mediaRecorder.start();
+    return true;
   } catch (error) {
     console.error("Ошибка доступа к микрофону:", error);
-    updateRecordingStatus(
-      "❌ Нет доступа к микрофону. Проверьте разрешения.",
-      "error",
-    );
-  }
-}
-
-function startRecording() {
-  if (!audioStream) {
-    updateRecordingStatus("❌ Микрофон не доступен", "error");
-    return;
-  }
-
-  if (!isAnswering || currentPhase !== "answer") {
-    return;
-  }
-
-  audioChunks = [];
-  mediaRecorder = new MediaRecorder(audioStream);
-
-  mediaRecorder.ondataavailable = (event) => {
-    if (event.data.size > 0) {
-      audioChunks.push(event.data);
-    }
-  };
-
-  mediaRecorder.onstop = () => {
-    if (audioChunks.length > 0) {
-      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const duration = 60 - currentAnswerTime;
-
-      // Сохраняем запись с полной информацией
-      recordings[currentQuestionIndex] = {
-        blob: audioBlob,
-        url: audioUrl,
-        duration: Math.min(60, Math.max(0, duration)),
-        questionText: QUESTIONS[currentQuestionIndex].question,
-        questionId: QUESTIONS[currentQuestionIndex].id,
-        category: QUESTIONS[currentQuestionIndex].category,
-        timestamp: new Date().toISOString(),
-        questionNumber: currentQuestionIndex + 1,
-      };
-
-      // Сохраняем в localStorage
-      saveRecordingsToStorage();
-
-      updateRecordingStatus(
-        `✅ Запись сохранена (${Math.min(60, Math.max(0, duration))} сек)`,
-        "success",
-      );
-
-      // Отмечаем вопрос как отвеченный
-      if (!completedQuestions.has(currentQuestionIndex)) {
-        completedQuestions.add(currentQuestionIndex);
-        saveProgress();
-        updateProgress();
-        renderQuestions();
-        updateUIForQuestion();
-
-        // Автоматически переходим к следующему вопросу, если есть
-        autoMoveToNextQuestion();
-      }
-    }
-    audioChunks = [];
-  };
-
-  mediaRecorder.start();
-  isRecording = true;
-  updateRecordingStatus(
-    `🔴 Идет запись... ${currentAnswerTime} сек осталось`,
-    "recording",
-  );
-}
-
-// Автоматический переход к следующему вопросу
-function autoMoveToNextQuestion() {
-  if (currentQuestionIndex < QUESTIONS.length - 1) {
-    setTimeout(() => {
-      if (!isAnswering && !completedQuestions.has(currentQuestionIndex + 1)) {
-        currentQuestionIndex++;
-        updateActiveQuestion();
-        renderQuestions();
-        updateUIForQuestion();
-        updateNavigationButtons();
-        saveCurrentQuestion();
-        showMessage(`Переход к вопросу ${currentQuestionIndex + 1}`, "info");
-      }
-    }, 1500);
-  } else {
-    // Все вопросы отвечены
-    checkAndShowFinishButton();
+    statusMessageEl.innerHTML =
+      "❌ Ошибка доступа к микрофону! Проверьте разрешения.";
+    return false;
   }
 }
 
 function stopRecording() {
-  if (mediaRecorder && isRecording) {
+  if (mediaRecorder && mediaRecorder.state === "recording") {
     mediaRecorder.stop();
-    isRecording = false;
-    mediaRecorder = null;
   }
 }
 
-// ========== ОТОБРАЖЕНИЕ ВОПРОСОВ ==========
-function renderQuestions() {
-  if (!questionsGrid) return;
-  questionsGrid.innerHTML = "";
-
-  QUESTIONS.forEach((question, index) => {
-    const card = document.createElement("div");
-    card.className = "question-card";
-    if (index === currentQuestionIndex) card.classList.add("active");
-    if (completedQuestions.has(index)) card.classList.add("completed");
-
-    const hasAudio = recordings[index];
-
-    // <div class="question-card__category">${question.category}</div>
-    card.innerHTML = `
-            <div class="question-card__number">${index + 1}</div>
-            <div class="question-card__text">${question.question.substring(0, 60)}${question.question.length > 60 ? "..." : ""}</div>
-            <div class="question-card__icons">
-                ${hasAudio ? '<span class="icon-microphone">🎙️</span>' : ""}
-                ${completedQuestions.has(index) ? '<span class="icon-check">✓</span>' : ""}
-            </div>
-        `;
-
-    card.addEventListener("click", () => selectQuestion(index));
-    questionsGrid.appendChild(card);
-  });
-
-  // Обновляем dots навигацию
-  renderQuestionDots();
+// Фазы теста
+function startPreparationPhase() {
+  currentPhase = "preparation";
+  preparationTimerEl.classList.add("active");
+  speakingTimerEl.classList.remove("active");
+  preparationTimeEl.textContent = formatTime(PREP_TIME);
+  speakingTimeEl.textContent = formatTime(ANSWER_TIME);
+  statusMessageEl.innerHTML =
+    "⏱️ ПОДГОТОВКА... Обдумайте свой ответ (5 секунд)";
+  recordingIndicator.style.display = "none";
+  startTimer(
+    PREP_TIME,
+    (remaining) => {
+      preparationTimeEl.textContent = formatTime(remaining);
+      statusMessageEl.innerHTML = `⏱️ ПОДГОТОВКА... Осталось ${remaining} секунд`;
+    },
+    () => startSpeakingPhase(),
+  );
 }
 
-function renderQuestionDots() {
-  if (!questionDots) return;
-  questionDots.innerHTML = "";
-
-  QUESTIONS.forEach((_, index) => {
-    const dot = document.createElement("button");
-    dot.className = "question-dot";
-    if (index === currentQuestionIndex) dot.classList.add("active");
-    if (completedQuestions.has(index)) dot.classList.add("completed");
-    dot.textContent = index + 1;
-    dot.addEventListener("click", () => selectQuestion(index));
-    questionDots.appendChild(dot);
-  });
-}
-
-function selectQuestion(index) {
-  if (index === currentQuestionIndex) return;
-
-  // Если идет ответ на вопрос, нельзя переключаться
-  if (isAnswering) {
-    updateRecordingStatus(
-      "⚠️ Сначала завершите ответ на текущий вопрос",
-      "warning",
-    );
-    return;
-  }
-
-  // Останавливаем все таймеры если они есть
-  stopAllTimers();
-
-  currentQuestionIndex = index;
-  saveCurrentQuestion();
-  renderQuestions();
-  updateActiveQuestion();
-  updateUIForQuestion();
-  updateNavigationButtons();
-}
-
-function updateActiveQuestion() {
-  const question = QUESTIONS[currentQuestionIndex];
-  if (activeQuestionNumber)
-    activeQuestionNumber.textContent = `Вопрос ${currentQuestionIndex + 1}`;
-  if (activeQuestionCategory)
-    activeQuestionCategory.textContent = question.category;
-  if (activeQuestionText) activeQuestionText.textContent = question.question;
-}
-
-function updateUIForQuestion() {
-  const isCompleted = completedQuestions.has(currentQuestionIndex);
-  const hasRecording = recordings[currentQuestionIndex];
-
-  if (startAnswerBtn) {
-    if (isCompleted) {
-      startAnswerBtn.disabled = true;
-      startAnswerBtn.textContent = "✅ Вопрос завершен";
-      startAnswerBtn.classList.add("completed");
-    } else {
-      startAnswerBtn.disabled = false;
-      startAnswerBtn.textContent = "🎤 Ответить на вопрос";
-      startAnswerBtn.classList.remove("completed");
-    }
-  }
-
-  // Обновляем статус
-  if (isCompleted) {
-    updateRecordingStatus(
-      "✅ Вопрос已回答. Выберите другой вопрос или продолжите.",
-      "success",
-    );
-  } else if (hasRecording && !isCompleted) {
-    updateRecordingStatus(
-      "📁 Есть запись, но вопрос не отмечен как ответенный",
-      "info",
-    );
-  } else {
-    updateRecordingStatus(
-      '🎤 Нажмите "Ответить на вопрос" чтобы начать',
-      "info",
-    );
-  }
-}
-
-// ========== ПРОЦЕСС ОТВЕТА ==========
-function startAnswerProcess() {
-  // Проверяем, не отвечен ли уже вопрос
-  if (completedQuestions.has(currentQuestionIndex)) {
-    updateRecordingStatus("⚠️ Этот вопрос уже отвечен", "warning");
-    return;
-  }
-
-  // Проверяем, не идет ли уже ответ
-  if (isAnswering) {
-    updateRecordingStatus("⚠️ Сейчас идет ответ на вопрос", "warning");
-    return;
-  }
-
-  // Начинаем процесс ответа
-  isAnswering = true;
-  currentPhase = "prep";
-  currentPrepTime = 5;
-  currentAnswerTime = 30;
-
-  updatePrepDisplay();
-  updateAnswerDisplay();
-
-  // Отключаем навигацию
-  if (prevBtn) prevBtn.disabled = true;
-  if (nextBtn) nextBtn.disabled = true;
-  if (startAnswerBtn) startAnswerBtn.disabled = true;
-
-  updateRecordingStatus("⏱️ Подготовка: 5 секунд...", "prep");
-
-  // Запускаем таймер подготовки
-  prepInterval = setInterval(() => {
-    if (currentPrepTime > 0) {
-      currentPrepTime--;
-      updatePrepDisplay();
-      updateRecordingStatus(`⏱️ Подготовка: ${currentPrepTime} сек`, "prep");
-
-      if (currentPrepTime === 0) {
-        // Заканчиваем подготовку, начинаем ответ
-        clearInterval(prepInterval);
-        prepInterval = null;
-        startAnswerPhase();
-      }
-    }
-  }, 1000);
-}
-
-function startAnswerPhase() {
-  currentPhase = "answer";
-  updateRecordingStatus("🎤 Начинаем запись ответа...", "info");
-
-  // Начинаем запись
-  startRecording();
-
-  // Запускаем таймер ответа
-  answerInterval = setInterval(() => {
-    if (currentAnswerTime > 0) {
-      currentAnswerTime--;
-      updateAnswerDisplay();
-
-      if (isRecording) {
-        updateRecordingStatus(
-          `🔴 Запись: ${60 - currentAnswerTime} сек (осталось ${currentAnswerTime} сек)`,
-          "recording",
-        );
-      }
-
-      if (currentAnswerTime === 0) {
-        // Время ответа закончилось
-        clearInterval(answerInterval);
-        answerInterval = null;
-
-        if (isRecording) {
-          stopRecording();
-        }
-
-        // Небольшая задержка чтобы запись сохранилась
-        setTimeout(() => {
-          finishCurrentQuestion();
-        }, 500);
-      }
-    }
-  }, 1000);
+async function startSpeakingPhase() {
+  currentPhase = "speaking";
+  preparationTimerEl.classList.remove("active");
+  speakingTimerEl.classList.add("active");
+  preparationTimeEl.textContent = formatTime(PREP_TIME);
+  speakingTimeEl.textContent = formatTime(ANSWER_TIME);
+  statusMessageEl.innerHTML =
+    "🎤 ОТВЕЧАЙТЕ... Идет запись вашего ответа (30 секунд)";
+  recordingIndicator.style.display = "flex";
+  await startRecording(currentQuestionIndex);
+  startTimer(
+    ANSWER_TIME,
+    (remaining) => {
+      speakingTimeEl.textContent = formatTime(remaining);
+      statusMessageEl.innerHTML = `🎤 ОТВЕЧАЙТЕ... Осталось ${remaining} секунд`;
+    },
+    () => {
+      stopRecording();
+      finishCurrentQuestion();
+    },
+  );
 }
 
 function finishCurrentQuestion() {
-  // Отмечаем вопрос как отвеченный
-  if (!completedQuestions.has(currentQuestionIndex)) {
-    completedQuestions.add(currentQuestionIndex);
-    saveProgress();
-    updateProgress();
-    renderQuestions();
-  }
-
-  // Сбрасываем флаги
-  isAnswering = false;
-  currentPhase = "idle";
-
-  // Останавливаем таймеры
-  if (prepInterval) {
-    clearInterval(prepInterval);
-    prepInterval = null;
-  }
-  if (answerInterval) {
-    clearInterval(answerInterval);
-    answerInterval = null;
-  }
-
-  // Включаем навигацию
-  if (prevBtn) prevBtn.disabled = false;
-  if (nextBtn) nextBtn.disabled = false;
-
-  updateUIForQuestion();
-  updateRecordingStatus(
-    `✅ Вопрос ${currentQuestionIndex + 1} завершен!`,
-    "success",
-  );
-
-  // Обновляем таймеры на экране
-  currentPrepTime = 5;
-  currentAnswerTime = 30;
-  updatePrepDisplay();
-  updateAnswerDisplay();
-
-  // Проверяем, все ли вопросы отвечены
-  checkAndShowFinishButton();
-}
-
-function checkAndShowFinishButton() {
-  const completed = completedQuestions.size;
-  const total = QUESTIONS.length;
-
-  if (finishButtonContainer) {
-    if (completed === total && total > 0) {
-      finishButtonContainer.style.display = "flex";
-      updateRecordingStatus(
-        '🎉 Все вопросы отвечены! Нажмите "Завершить тест" для отправки',
-        "success",
-      );
-    } else {
-      finishButtonContainer.style.display = "none";
-    }
+  stopTimer();
+  stopSpeaking();
+  if (currentQuestionIndex + 1 < questions.length) {
+    statusMessageEl.innerHTML =
+      "✅ Вопрос завершен! Переход к следующему вопросу...";
+    recordingIndicator.style.display = "none";
+    setTimeout(() => {
+      currentQuestionIndex++;
+      loadQuestion(currentQuestionIndex);
+    }, 1500);
+  } else {
+    // Тест завершён, показываем кнопку отправки
+    finishTest();
   }
 }
 
-function stopAllTimers() {
-  if (prepInterval) {
-    clearInterval(prepInterval);
-    prepInterval = null;
-  }
-  if (answerInterval) {
-    clearInterval(answerInterval);
-    answerInterval = null;
-  }
-  if (isRecording) {
-    stopRecording();
-  }
-  isAnswering = false;
-  currentPhase = "idle";
-  currentPrepTime = 5;
-  currentAnswerTime = 30;
-  updatePrepDisplay();
-  updateAnswerDisplay();
+function loadQuestion(index) {
+  stopTimer();
+  stopSpeaking();
+  currentPhase = null;
+  const question = questions[index];
+  questionCategoryEl.textContent = question.category || "General";
+  questionTextEl.textContent = question.question;
+  updateProgress();
+  recordingIndicator.style.display = "none";
+  preparationTimeEl.textContent = formatTime(PREP_TIME);
+  speakingTimeEl.textContent = formatTime(ANSWER_TIME);
+  preparationTimerEl.classList.remove("active");
+  speakingTimerEl.classList.remove("active");
+  statusMessageEl.innerHTML =
+    "🔊 ОЗВУЧИВАНИЕ ВОПРОСА... Пожалуйста, слушайте внимательно";
+  speakText(question.question, () => {
+    statusMessageEl.innerHTML = "🎧 Вопрос озвучен! Начинается подготовка...";
+    setTimeout(startPreparationPhase, 500);
+  });
 }
 
-// ========== ТАЙМЕРЫ ДИСПЛЕЙ ==========
-function updatePrepDisplay() {
-  if (prepTimerDisplay) {
-    const mins = Math.floor(currentPrepTime / 60);
-    const secs = currentPrepTime % 60;
-    prepTimerDisplay.textContent = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-    prepTimerDisplay.style.color = currentPrepTime <= 10 ? "#dc3545" : "";
-  }
+// Завершение теста (без автоматической отправки)
+function finishTest() {
+  isTestActive = false;
+  stopTimer();
+  stopSpeaking();
+  statusMessageEl.innerHTML =
+    "🎉 ТЕСТ ЗАВЕРШЕН! 🎉 Нажмите кнопку ниже, чтобы отправить ответы.";
+  recordingIndicator.style.display = "none";
+  uploadSection.style.display = "block";
 }
 
-function updateAnswerDisplay() {
-  if (answerTimerDisplay) {
-    const mins = Math.floor(currentAnswerTime / 60);
-    const secs = currentAnswerTime % 60;
-    answerTimerDisplay.textContent = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-    answerTimerDisplay.style.color = currentAnswerTime <= 10 ? "#dc3545" : "";
-  }
-}
-
-// ========== ОТПРАВКА НА СЕРВЕР ==========
+// Функция отправки результатов (аналог вашей uploadAllRecordings)
 async function uploadAllRecordings() {
-  const totalRecordings = Object.keys(recordings).length;
-  const completedCount = completedQuestions.size;
+  const totalRecordings = recordings.filter((r) => r !== null).length;
+  const completedCount = totalRecordings;
 
   if (totalRecordings === 0) {
-    updateRecordingStatus("❌ Нет записей для отправки", "error");
-    showMessage("Нет записей для отправки", "error");
+    updateUploadStatus("❌ Нет записей для отправки", "error");
     return;
   }
 
-  if (completedCount < QUESTIONS.length) {
+  if (completedCount < questions.length) {
     const confirmSend = window.confirm(
-      `Вы ответили только на ${completedCount} из ${QUESTIONS.length} вопросов.\n\nОтправить только отвеченные вопросы?`,
+      `Вы ответили только на ${completedCount} из ${questions.length} вопросов.\n\nОтправить только отвеченные вопросы?`,
     );
     if (!confirmSend) return;
   }
 
-  // Показываем индикатор загрузки
-  const finishBtn = document.getElementById("finishTestBtn");
-  const originalBtnText = finishBtn?.textContent;
-  if (finishBtn) {
-    finishBtn.disabled = true;
-    finishBtn.textContent = "📤 Отправка...";
-  }
-
-  updateRecordingStatus(
+  // Блокируем кнопку
+  uploadResultsBtn.disabled = true;
+  uploadResultsBtn.textContent = "📤 Отправка...";
+  updateUploadStatus(
     `📤 Отправка ${totalRecordings} записей на сервер... Пожалуйста, подождите.`,
     "info",
   );
 
   const formData = new FormData();
 
-  // Добавляем метаданные
-  formData.append("total_recordings", totalRecordings);
-  formData.append("total_completed", completedCount);
-  formData.append("total_questions", QUESTIONS.length);
-  formData.append("submitted_at", new Date().toISOString());
-
-  // Сортируем записи по номеру вопроса
-  const sortedRecordings = Object.entries(recordings).sort(
-    (a, b) => parseInt(a[0]) - parseInt(b[0]),
-  );
-
-  // Добавляем каждую запись
-  for (const [index, recording] of sortedRecordings) {
-    const questionIndex = parseInt(index);
-    const question = QUESTIONS[questionIndex];
-
-    if (!recording.blob) {
-      console.warn(`Нет blob для вопроса ${questionIndex + 1}`);
-      continue;
+  // Сортируем по индексу
+  const sortedRecordings = [];
+  for (let i = 0; i < recordings.length; i++) {
+    if (recordings[i]) {
+      sortedRecordings.push({ index: i, data: recordings[i] });
     }
+  }
 
-    const fileName = `question_${questionIndex + 1}_${question.category.replace(/[^a-z0-9]/gi, "_")}_${Date.now()}.webm`;
-
-    // Добавляем аудио файл
-    formData.append(`audio_${questionIndex + 1}`, recording.blob, fileName);
-
-    // Добавляем метаданные для каждого вопроса
-    formData.append(`questions[${questionIndex}][number]`, questionIndex + 1);
-    formData.append(`questions[${questionIndex}][id]`, question.id);
-    formData.append(`questions[${questionIndex}][text]`, question.question);
-    formData.append(`questions[${questionIndex}][category]`, question.category);
-    formData.append(
-      `questions[${questionIndex}][duration]`,
-      recording.duration,
-    );
-    formData.append(
-      `questions[${questionIndex}][timestamp]`,
-      recording.timestamp,
-    );
+  for (const { index, data } of sortedRecordings) {
+    const question = questions[index];
+    const fileName = `question_${index + 1}_${(question.category || "general").replace(/[^a-z0-9]/gi, "_")}_${Date.now()}.webm`;
+    formData.append(`audio_${index + 1}`, data.blob, fileName);
+    formData.append(`questions[${index}][id]`, data.questionId);
   }
 
   try {
-    const token = localStorage.getItem("token");
-    const type = localStorage.getItem("currentTest");
-
+    const token = localStorage.getItem("token") || TOKEN;
     const response = await axios.post(
       `${API_URL}/test/${type}/upload/speaking-question`,
       formData,
@@ -569,40 +362,30 @@ async function uploadAllRecordings() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
-        timeout: 300000, // 5 минут таймаут для больших файлов
+        timeout: 300000,
         onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round(
+          const percent = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total,
           );
-          updateRecordingStatus(`📤 Отправка: ${percentCompleted}%`, "info");
+          updateUploadStatus(`📤 Отправка: ${percent}%`, "info");
         },
       },
     );
 
     if (response.data.success || response.status === 200) {
-      updateRecordingStatus(
+      updateUploadStatus(
         "✅ Все записи успешно отправлены на сервер!",
         "success",
       );
-      showMessage(
-        "Все ответы успешно отправлены! Спасибо за прохождение теста.",
-        "success",
-      );
-
-      // Опционально: очищаем локальные данные после успешной отправки
-      setTimeout(() => {
-        clearAllProgress();
-      }, 2000);
+      uploadResultsBtn.disabled = false;
+      uploadResultsBtn.textContent = "✓ Отправлено";
+      uploadResultsBtn.disabled = true;
+      // Можно скрыть кнопку через некоторое время
     } else {
       throw new Error(response.data.message || "Ошибка при отправке");
     }
-
-    if (finishButtonContainer) {
-      finishButtonContainer.style.display = "none";
-    }
   } catch (error) {
     console.error("Ошибка при отправке:", error);
-
     let errorMessage = "❌ Ошибка отправки на сервер";
     if (error.response) {
       errorMessage += `: ${error.response.data?.message || error.response.statusText}`;
@@ -612,404 +395,125 @@ async function uploadAllRecordings() {
     } else {
       errorMessage += `: ${error.message}`;
     }
+    updateUploadStatus(errorMessage, "error");
+    uploadResultsBtn.disabled = false;
+    uploadResultsBtn.textContent = "📤 Отправить результаты";
+  }
+}
 
-    updateRecordingStatus(errorMessage, "error");
-    showMessage(errorMessage, "error");
-  } finally {
-    // Восстанавливаем кнопку
-    if (finishBtn) {
-      finishBtn.disabled = false;
-      finishBtn.textContent = originalBtnText;
+function updateUploadStatus(message, type) {
+  uploadStatus.innerHTML = message;
+  uploadStatus.style.color =
+    type === "error" ? "#dc3545" : type === "success" ? "#059669" : "#666";
+}
+
+// Обработчики модальных окон
+connectionReminderContinue.addEventListener("click", () => {
+  connectionReminderModal.style.display = "none";
+  tutorialModal.style.display = "flex";
+});
+
+tutorialBack.addEventListener("click", () => {
+  tutorialModal.style.display = "none";
+  connectionReminderModal.style.display = "flex";
+});
+
+micCheckBtn.addEventListener("click", () => {
+  tutorialModal.style.display = "none";
+  micCheckModal.style.display = "flex";
+});
+
+closeMicCheck.addEventListener("click", () => {
+  micCheckModal.style.display = "none";
+  tutorialModal.style.display = "flex";
+});
+
+// Тест микрофона
+let micStream = null;
+let micRecorder = null;
+let micChunks = [];
+let isMicRecording = false;
+let micTimerInterval = null;
+
+micTestRecordBtn.addEventListener("click", async () => {
+  if (!isMicRecording) {
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      micRecorder = new MediaRecorder(micStream);
+      micChunks = [];
+      micRecorder.ondataavailable = (event) => micChunks.push(event.data);
+      micRecorder.onstop = () => {
+        const audioBlob = new Blob(micChunks, { type: "audio/webm" });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+        document.getElementById("micTestStatus").innerHTML =
+          "✅ Recording complete! Playing back...";
+        setTimeout(() => {
+          document.getElementById("micTestStatus").innerHTML =
+            "Click to test again";
+        }, 3000);
+        if (micStream) micStream.getTracks().forEach((track) => track.stop());
+        isMicRecording = false;
+        micTestRecordBtn.classList.remove("recording");
+        clearInterval(micTimerInterval);
+        document.getElementById("micTestTimer").innerHTML = "";
+      };
+      micRecorder.start();
+      isMicRecording = true;
+      micTestRecordBtn.classList.add("recording");
+      document.getElementById("micTestStatus").innerHTML =
+        "🔴 Recording... Click to stop";
+      let seconds = 0;
+      micTimerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById("micTestTimer").innerHTML =
+          `Recording: ${seconds}s`;
+      }, 1000);
+      setTimeout(() => {
+        if (
+          isMicRecording &&
+          micRecorder &&
+          micRecorder.state === "recording"
+        ) {
+          micRecorder.stop();
+        }
+      }, 5000);
+    } catch (error) {
+      console.error("Microphone error:", error);
+      document.getElementById("micTestStatus").innerHTML =
+        "❌ Microphone access denied";
+    }
+  } else {
+    if (micRecorder && micRecorder.state === "recording") {
+      micRecorder.stop();
     }
   }
-}
+});
 
-// ========== ПРОГРЕСС И ХРАНЕНИЕ ==========
-function updateProgress() {
-  const completed = completedQuestions.size;
-  const total = QUESTIONS.length;
-  const percentage = (completed / total) * 100;
+micCheckDone.addEventListener("click", async () => {
+  micCheckModal.style.display = "none";
+  await startTest();
+});
 
-  if (progressText) progressText.textContent = `${completed} / ${total}`;
-  if (progressFill) progressFill.style.width = `${percentage}%`;
+tutorialBegin.addEventListener("click", async () => {
+  tutorialModal.style.display = "none";
+  await startTest();
+});
 
-  // Показываем кнопку завершения если все вопросы отвечены
-  checkAndShowFinishButton();
-}
-
-function saveProgress() {
-  localStorage.setItem(
-    "speaking_completed_questions",
-    JSON.stringify(Array.from(completedQuestions)),
-  );
-}
-
-function saveCurrentQuestion() {
-  localStorage.setItem("speaking_current_question", currentQuestionIndex);
-}
-
-function saveRecordingsToStorage() {
-  // Сохраняем метаданные записей (без blob URL)
-  const recordingsMetadata = {};
-  for (const [index, recording] of Object.entries(recordings)) {
-    recordingsMetadata[index] = {
-      duration: recording.duration,
-      questionText: recording.questionText,
-      questionId: recording.questionId,
-      category: recording.category,
-      timestamp: recording.timestamp,
-      questionNumber: recording.questionNumber,
-      // blob не сохраняем в localStorage из-за размера
-    };
-  }
-  localStorage.setItem(
-    "speaking_recordings_metadata",
-    JSON.stringify(recordingsMetadata),
-  );
-}
-
-function loadSavedProgress() {
-  // Загружаем отвеченные вопросы
-  const savedProgress = localStorage.getItem("speaking_completed_questions");
-  if (savedProgress) {
-    completedQuestions = new Set(JSON.parse(savedProgress));
-    updateProgress();
-  }
-
-  // Загружаем текущий вопрос
-  const savedQuestion = localStorage.getItem("speaking_current_question");
-  if (savedQuestion !== null && !isAnswering) {
-    currentQuestionIndex = parseInt(savedQuestion);
-  }
-
-  // Загружаем метаданные записей (реальные blob не сохраняем при обновлении)
-  const savedMetadata = localStorage.getItem("speaking_recordings_metadata");
-  if (savedMetadata) {
-    const metadata = JSON.parse(savedMetadata);
-    for (const [index, meta] of Object.entries(metadata)) {
-      if (!recordings[index]) {
-        recordings[index] = {
-          ...meta,
-          blob: null,
-          url: null,
-        };
-      }
-    }
-  }
-
-  // Обновляем UI
-  renderQuestions();
-  updateActiveQuestion();
-  updateUIForQuestion();
-  updateNavigationButtons();
-}
-
-function clearAllProgress() {
-  completedQuestions.clear();
-  recordings = {};
+async function startTest() {
+  isTestActive = true;
   currentQuestionIndex = 0;
-  isAnswering = false;
-  stopAllTimers();
-
-  localStorage.removeItem("speaking_completed_questions");
-  localStorage.removeItem("speaking_current_question");
-  localStorage.removeItem("speaking_recordings_metadata");
-
-  renderQuestions();
-  updateProgress();
-  updateActiveQuestion();
-  updateUIForQuestion();
-  updateNavigationButtons();
-  updateRecordingStatus("🔄 Прогресс очищен. Можно начинать заново.", "info");
-  showMessage("Прогресс успешно очищен", "success");
+  recordings = new Array(questions.length).fill(null);
+  await loadQuestion(0);
 }
 
-function updateRecordingStatus(message, type = "info") {
-  if (recordingStatus) {
-    recordingStatus.textContent = message;
-    recordingStatus.className = "recording-status";
-    recordingStatus.classList.add(`status-${type}`);
-  }
+// Кнопка отправки результатов
+uploadResultsBtn.addEventListener("click", uploadAllRecordings);
+
+async function init() {
+  connectionReminderModal.style.display = "flex";
+  await loadQuestionsFromBackend();
 }
 
-// ========== НАВИГАЦИЯ ==========
-function updateNavigationButtons() {
-  if (prevBtn) prevBtn.disabled = currentQuestionIndex === 0 || isAnswering;
-  if (nextBtn)
-    nextBtn.disabled =
-      currentQuestionIndex === QUESTIONS.length - 1 || isAnswering;
-}
-
-function nextQuestion() {
-  if (isAnswering) {
-    updateRecordingStatus(
-      "⚠️ Сначала завершите ответ на текущий вопрос",
-      "warning",
-    );
-    return;
-  }
-
-  if (currentQuestionIndex < QUESTIONS.length - 1) {
-    currentQuestionIndex++;
-    updateActiveQuestion();
-    renderQuestions();
-    updateUIForQuestion();
-    updateNavigationButtons();
-    saveCurrentQuestion();
-  }
-}
-
-function prevQuestion() {
-  if (isAnswering) {
-    updateRecordingStatus(
-      "⚠️ Сначала завершите ответ на текущий вопрос",
-      "warning",
-    );
-    return;
-  }
-
-  if (currentQuestionIndex > 0) {
-    currentQuestionIndex--;
-    updateActiveQuestion();
-    renderQuestions();
-    updateUIForQuestion();
-    updateNavigationButtons();
-    saveCurrentQuestion();
-  }
-}
-
-function showMessage(text, type = "info") {
-  const message = document.createElement("div");
-  message.className = `message message-${type}`;
-  message.textContent = text;
-  message.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 20px;
-        background: ${type === "success" ? "#28a745" : type === "error" ? "#dc3545" : type === "warning" ? "#ffc107" : "#17a2b8"};
-        color: ${type === "warning" ? "#000" : "#fff"};
-        border-radius: 8px;
-        font-weight: 500;
-        z-index: 9999;
-        animation: slideInRight 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    `;
-
-  document.body.appendChild(message);
-
-  setTimeout(() => {
-    message.style.animation = "slideOutRight 0.3s ease";
-    setTimeout(() => message.remove(), 300);
-  }, 3000);
-}
-
-// ========== ТЕМА ==========
-function initTheme() {
-  const savedTheme = localStorage.getItem("speaking_theme") || "light";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute("data-theme");
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", newTheme);
-  localStorage.setItem("speaking_theme", newTheme);
-  showMessage(`🌓 ${newTheme === "dark" ? "Темная" : "Светлая"} тема`, "info");
-}
-
-// ========== МОБИЛЬНОЕ МЕНЮ ==========
-function initMobileMenu() {
-  const menuBtn = document.getElementById("menuBtn");
-  const mobileMenu = document.getElementById("mobileMenu");
-
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", () => {
-      menuBtn.classList.toggle("active");
-      mobileMenu.classList.toggle("active");
-      document.body.style.overflow = mobileMenu.classList.contains("active")
-        ? "hidden"
-        : "";
-    });
-  }
-}
-
-// ========== МОДАЛЬНОЕ ОКНО ==========
-function initModal() {
-  const instructionsBtn = document.getElementById("instructionsBtn");
-  const modal = document.getElementById("instructionsModal");
-  const modalClose = document.getElementById("modalClose");
-  const modalOverlay = document.getElementById("modalOverlay");
-  const modalGotItBtn = document.getElementById("modalGotItBtn");
-
-  if (!modal) return;
-
-  const openModal = () => {
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-  };
-
-  const closeModal = () => {
-    modal.classList.remove("active");
-    document.body.style.overflow = "";
-  };
-
-  instructionsBtn?.addEventListener("click", openModal);
-  modalClose?.addEventListener("click", closeModal);
-  modalOverlay?.addEventListener("click", closeModal);
-  modalGotItBtn?.addEventListener("click", closeModal);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("active")) {
-      closeModal();
-    }
-  });
-}
-
-// ========== CSS СТИЛИ ==========
-function addStatusStyles() {
-  const style = document.createElement("style");
-  style.textContent = `
-        .recording-status {
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 500;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-        .status-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .status-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .status-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-        .status-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        .status-recording {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            animation: pulse 1s infinite;
-        }
-        .status-prep {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-        .question-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .question-card.completed {
-            border-left: 4px solid #28a745;
-            background: rgba(40, 167, 69, 0.05);
-        }
-        .question-card .icon-microphone {
-            font-size: 14px;
-            margin-right: 5px;
-        }
-        .question-card .icon-check {
-            font-size: 14px;
-            color: #28a745;
-        }
-        .question-dots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .question-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        .question-dot.active {
-            background: #007bff;
-            border-color: #007bff;
-            color: white;
-        }
-        .question-dot.completed {
-            background: #28a745;
-            border-color: #28a745;
-            color: white;
-        }
-        .question-dot:hover:not(.active) {
-            transform: scale(1.1);
-        }
-        .btn--success.completed {
-            background: #28a745;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    `;
-  document.head.appendChild(style);
-}
-
-addStatusStyles();
-
-// ========== ОБРАБОТЧИКИ ==========
-function attachEventListeners() {
-  if (prevBtn) prevBtn.addEventListener("click", prevQuestion);
-  if (nextBtn) nextBtn.addEventListener("click", nextQuestion);
-  if (startAnswerBtn)
-    startAnswerBtn.addEventListener("click", startAnswerProcess);
-
-  const finishTestBtn = document.getElementById("finishTestBtn");
-  if (finishTestBtn)
-    finishTestBtn.addEventListener("click", uploadAllRecordings);
-
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
-
-  // Добавляем кнопку очистки прогресса (опционально)
-  const clearProgressBtn = document.getElementById("clearProgressBtn");
-  if (clearProgressBtn)
-    clearProgressBtn.addEventListener("click", clearAllProgress);
-}
+init();

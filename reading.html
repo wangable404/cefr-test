@@ -1,930 +1,2409 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>IELTS / CEFR Reading Test | Academic Style</title>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>IELTS Reading · Random Full Test</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #f4f7fb;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        color: #1e293b;
+        line-height: 1.5;
+        padding: 24px 20px;
+      }
+      .app {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .test-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 12px;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 1.4rem;
+        background: linear-gradient(135deg, #0f2b3d, #1e4a6e);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      .timer-panel {
+        background: white;
+        border-radius: 60px;
+        padding: 6px 18px;
+        font-family: monospace;
+        font-weight: 700;
+        font-size: 1.3rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+      }
+      .passage-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 28px;
+        background: white;
+        padding: 6px;
+        border-radius: 60px;
+        width: fit-content;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        border: 1px solid #e9eef3;
+      }
+      .passage-tab {
+        border: none;
+        background: transparent;
+        padding: 8px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.2s;
+        color: #4b5565;
+      }
+      .passage-tab.active {
+        background: #1e4a6e;
+        color: white;
+        box-shadow: 0 2px 6px rgba(30, 74, 110, 0.2);
+      }
+      .test-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        align-items: start;
+      }
+      .reading-card,
+      .questions-card {
+        background: white;
+        border-radius: 24px;
+        padding: 28px 26px;
+        box-shadow:
+          0 8px 20px rgba(0, 0, 0, 0.02),
+          0 2px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eef2f8;
+        max-height: 75vh;
+        overflow-y: auto;
+      }
+      .reading-card h2 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #0f2b3d;
+      }
+      .reading-card .instruction {
+        background: #f8fafc;
+        padding: 12px 18px;
+        border-left: 4px solid #1e4a6e;
+        font-size: 0.85rem;
+        margin-bottom: 28px;
+        border-radius: 16px;
+      }
+      .passage-text p {
+        margin-bottom: 1.2rem;
+      }
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #eef2f8;
+      }
+      .question-item {
+        margin-bottom: 28px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #edf2f7;
+      }
+      .question-text {
+        font-weight: 500;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+      }
+      .q-num {
+        background: #eef2ff;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: #1e4a6e;
+      }
+      .answer-input {
+        border: 1px solid #cbd5e1;
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        min-width: 160px;
+        background: white;
+        font-family: inherit;
+      }
+      .answer-input:focus {
+        border-color: #1e4a6e;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(30, 74, 110, 0.2);
+      }
+      .tfng-group {
+        display: inline-flex;
+        gap: 8px;
+        background: #f1f5f9;
+        border-radius: 60px;
+        padding: 4px 6px;
+      }
+      .tfng-btn {
+        border: none;
+        background: transparent;
+        padding: 5px 16px;
+        border-radius: 40px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        cursor: pointer;
+        color: #334155;
+      }
+      .tfng-btn.selected {
+        background: #1e4a6e;
+        color: white;
+      }
+      .nav-bar {
+        margin-top: 32px;
+        background: white;
+        border-radius: 60px;
+        padding: 12px 24px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border: 1px solid #e2e8f0;
+      }
+      .question-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        list-style: none;
+      }
+      .question-nav li {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+      .question-nav li.answered {
+        background: #2b9348;
+        color: white;
+      }
+      .question-nav li.unanswered {
+        background: #e9eef3;
+        color: #334155;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 12px;
+      }
+      .btn {
+        border: none;
+        background: #eef2ff;
+        padding: 8px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: #1e4a6e;
+        color: white;
+      }
+      .btn-primary:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+      .legend {
+        display: flex;
+        gap: 20px;
+        font-size: 0.75rem;
+        align-items: center;
+      }
+      .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 6px;
+      }
+      .green-dot {
+        background: #2b9348;
+      }
+      .gray-dot {
+        background: #cbd5e1;
+      }
+      .dark-mode {
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .dark-mode .reading-card,
+      .dark-mode .questions-card,
+      .dark-mode .nav-bar,
+      .dark-mode .passage-tabs,
+      .dark-mode .timer-panel {
+        background: #1e293b;
+        border-color: #334155;
+        color: #e2e8f0;
+      }
+      .dark-mode .answer-input {
+        background: #0f172a;
+        border-color: #475569;
+        color: #f1f5f9;
+      }
+      .dark-mode .tfng-group {
+        background: #0f172a;
+      }
+      @media (max-width: 800px) {
+        .test-layout {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
-
         body {
-            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
-            background: #f1f5f9;
-            color: #0a2b3e;
-            padding: 30px 20px;
+          padding: 16px;
         }
+        .reading-card,
+        .questions-card {
+          max-height: 60vh;
+        }
+      }
 
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .test-header {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-            padding: 18px 28px;
-            margin-bottom: 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .step-indicator {
-            background: #e2e8f0;
-            padding: 6px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .timer {
-            background: #0f172a;
-            color: #facc15;
-            font-family: monospace;
-            font-size: 1.8rem;
-            font-weight: bold;
-            padding: 6px 24px;
-            border-radius: 60px;
-            letter-spacing: 2px;
-        }
-
-        .test-type-badge {
-            background: #1e466e;
-            color: white;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .task-card {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .passage-area {
-            background: #fefcf5;
-            padding: 28px 32px;
-            border-bottom: 1px solid #e9edf2;
-        }
-
-        .passage-area h2 {
-            font-size: 1.7rem;
-            margin-bottom: 16px;
-            color: #1e466e;
-            border-left: 5px solid #2c7da0;
-            padding-left: 20px;
-        }
-
-        .reading-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #1e2f3c;
-            text-align: justify;
-        }
-
-        .reading-text p {
-            margin-bottom: 1rem;
-        }
-
-        .questions-area {
-            padding: 28px 32px;
-        }
-
-        .task-type-badge {
-            display: inline-block;
-            background: #d9e8f5;
-            padding: 4px 16px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .gap-sentence {
-            background: #f8fafc;
-            padding: 16px 20px;
-            border-radius: 24px;
-            margin-bottom: 18px;
-            font-size: 0.95rem;
-        }
-
-        select, .blank-input {
-            padding: 6px 14px;
-            border-radius: 40px;
-            border: 1.5px solid #cbd5e1;
-            background: white;
-            font-size: 0.9rem;
-            font-family: inherit;
-            margin: 0 4px;
-            cursor: pointer;
-        }
-
-        .match-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 15px;
-            background: #f8fafc;
-            padding: 12px 18px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-        }
-
-        .match-label {
-            font-weight: 700;
-            min-width: 110px;
-        }
-
-        .options-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 8px;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            background: #f8fafc;
-            padding: 6px 18px;
-            border-radius: 40px;
-            transition: 0.1s;
-        }
-
-        .option-label:hover {
-            background: #e2edf7;
-        }
-
-        input[type="radio"] {
-            accent-color: #2c7da0;
-            width: 17px;
-            height: 17px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 32px;
-            gap: 16px;
-            padding: 0 32px 28px 32px;
-        }
-
-        button {
-            border: none;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: #1e466e;
-            color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: #0f2f4a;
-            transform: scale(0.97);
-        }
-
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #1e293b;
-        }
-
-        .btn-secondary:hover:not(:disabled) {
-            background: #cbd5e1;
-        }
-
-        .result-preview {
-            background: #eef2ff;
-            border-radius: 28px;
-            padding: 18px 28px;
-            margin-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .score-large {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e466e;
-        }
+      /* ---------- Стили для карточки результатов (похожи на пример) ---------- */
+      .ir-results-card {
+        background: white;
+        border-radius: 28px;
+        max-width: 720px;
+        width: 95%;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 24px;
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.3);
+      }
+      .ir-results-card h2 {
+        font-size: 22px;
+        margin: 0 0 4px;
+        color: #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+      }
+      .ir-pill-label {
+        background: #eef2ff;
+        padding: 2px 10px;
+        border-radius: 40px;
+        font-size: 14px;
+      }
+      .ir-pill-score {
+        font-size: 16px;
+        background: #e2e8f0;
+        padding: 2px 10px;
+        border-radius: 40px;
+      }
+      .ir-score-circle {
+        width: 120px;
+        height: 120px;
+        background: #f1f5f9;
+        border-radius: 50%;
+        margin: 12px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow:
+          inset 0 0 0 3px white,
+          0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .ir-score-num {
+        font-size: 42px;
+        font-weight: 800;
+        color: #0f3b2c;
+      }
+      .ir-score-total {
+        font-size: 18px;
+        color: #64748b;
+      }
+      .ir-score-details {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        gap: 12px;
+      }
+      .ir-detail {
+        text-align: center;
+      }
+      .ir-detail-val {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .ir-detail-lbl {
+        font-size: 12px;
+        color: #475569;
+      }
+      .ir-parts-breakdown {
+        margin-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 12px;
+      }
+      .ir-part-container {
+        margin-bottom: 12px;
+        border: 1px solid #eef2f8;
+        border-radius: 20px;
+        background: #fefefe;
+      }
+      .ir-part-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-weight: 600;
+        background: #f8fafc;
+        border-radius: 20px;
+      }
+      .ir-part-left {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .ir-part-toggle {
+        font-size: 12px;
+        transition: transform 0.2s;
+      }
+      .ir-part-answers {
+        padding: 0 12px 12px;
+        display: block;
+      }
+      .ir-part-container.collapsed .ir-part-answers {
+        display: none;
+      }
+      .ir-part-container.collapsed .ir-part-toggle {
+        transform: rotate(-90deg);
+      }
+      .ir-ans-header {
+        display: grid;
+        grid-template-columns: 40px 1fr 1fr;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 8px 0;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 8px;
+      }
+      .ir-ans-row {
+        display: grid;
+        grid-template-columns: 40px 1fr 1fr;
+        gap: 8px;
+        font-size: 13px;
+        padding: 6px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .ir-ans-row.ir-correct {
+        background: #f0fdf4;
+      }
+      .ir-ans-row.ir-incorrect {
+        background: #fef2f2;
+      }
+      .ir-ans-row.ir-unanswered {
+        background: #fffbeb;
+      }
+      .ir-modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 24px;
+      }
+      .ir-btn-tryagain,
+      .ir-btn-back,
+      .ir-btn-restore {
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        background: #eef2ff;
+      }
+      .ir-btn-tryagain {
+        background: #1e4a6e;
+        color: white;
+      }
     </style>
-</head>
-<body>
-<div class="container">
-    <div class="test-header">
-        <div class="step-indicator" id="stepIndicator">Task 1 of 4</div>
-        <div class="test-type-badge" id="testTypeBadge">IELTS</div>
-        <div class="timer" id="timerDisplay">30:00</div>
-    </div>
-
-    <div class="task-card" id="taskCard">
-        <div class="passage-area" id="passageArea"></div>
-        <div class="questions-area" id="questionsArea"></div>
-        <div class="nav-buttons">
-            <button id="prevBtn" class="btn-secondary" style="visibility: hidden;">◀ Previous</button>
-            <button id="nextBtn" class="btn-primary">Next Task ▶</button>
+  </head>
+  <body>
+    <div class="app">
+      <div class="test-header">
+        <div class="logo">📖 IELTS · Random Test Generator</div>
+        <div class="timer-panel" id="timerDisplay">00:00</div>
+      </div>
+      <div class="passage-tabs" id="passageTabs"></div>
+      <div class="test-layout">
+        <div class="reading-card">
+          <div id="passageHeader">
+            <h2 id="passageTitle"></h2>
+            <div class="instruction" id="passageInstruction"></div>
+          </div>
+          <div class="passage-text" id="passageContent"></div>
         </div>
+        <div class="questions-card" id="questionsContainer">
+          <div style="text-align: center; padding: 40px">Loading...</div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <div class="legend">
+          <span><span class="legend-dot green-dot"></span> Answered</span>
+          <span><span class="legend-dot gray-dot"></span> Unanswered</span>
+        </div>
+        <ul class="question-nav" id="questionNav"></ul>
+        <div class="action-buttons">
+          <button class="btn" id="themeToggleBtn">🌙 Dark</button>
+          <button class="btn btn-primary" id="submitTestBtn" disabled>
+            ✔ Submit test
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="result-preview" id="resultPanel">
-        <span id="progressMsg">✨ Complete all tasks. You have 30 minutes total. Randomised authentic tasks.</span>
-        <span id="scoreBadge" style="font-weight: 700;"></span>
-    </div>
-</div>
+    <!-- Модальное окно для результатов (изначально скрыто) -->
+    <div
+      id="resultOverlay"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 20px;
+      "
+    ></div>
 
-<script>
-    // ============================================================
-    //  COMPLETELY RENEWED TASKS – IELTS / CEFR ACADEMIC STANDARDS
-    //  Each task type has 5 high-quality variants.
-    // ============================================================
+    <script>
+      // --------------------------------------------------------------
+      //  БАЗА ТЕСТОВ (каждый тест содержит 3 части)
+      // --------------------------------------------------------------
+      const TESTS = [
+        {
+          id: "test_1_psychology",
+          title: "Test 1 · Psychology & Cognition",
+          parts: [
+            {
+              id: 1,
+              title: "The Dunning-Kruger Effect",
+              instruction:
+                "Questions 1–12. Read the passage and answer TRUE/FALSE/NOT GIVEN or complete the sentences.",
+              passage: `<p>The Dunning-Kruger effect is a cognitive bias whereby people with low ability at a task overestimate their competence. First described by social psychologists David Dunning and Justin Kruger in 1999, the phenomenon arises because unskilled individuals suffer a dual burden: not only do they reach erroneous conclusions, but their incompetence robs them of the metacognitive ability to realize their mistakes.</p>
+        <p>In their original study, Dunning and Kruger tested participants on logic, grammar, and humour. Those who scored in the bottom quartile rated their performance as above average. Conversely, highly competent individuals tended to underestimate their relative ability, assuming tasks that were easy for them were also easy for others. This bias has been observed in various domains, from medical diagnostics to financial trading.</p>
+        <p>Remedies include training in critical thinking and structured feedback. Over time, as people gain expertise, they become more accurate in self-assessment. The effect serves as a reminder that confidence is not always a reliable indicator of competence.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "The Dunning-Kruger effect was discovered in the 20th century.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Unskilled individuals are always aware of their mistakes.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 3,
+                  type: "tfng",
+                  text: "The effect only occurs in academic settings.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 4,
+                  type: "tfng",
+                  text: "Dunning and Kruger tested participants on physical strength.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 5,
+                  type: "tfng",
+                  text: "High performers often think others find tasks as easy as they do.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 6,
+                  type: "completion",
+                  text: "The bias is named after two social ______.",
+                  correct: "PSYCHOLOGISTS",
+                },
+                {
+                  id: 7,
+                  type: "completion",
+                  text: "Unskilled individuals lack the ______ ability to recognize errors.",
+                  correct: "METACOGNITIVE",
+                },
+                {
+                  id: 8,
+                  type: "completion",
+                  text: "One remedy is structured ______.",
+                  correct: "FEEDBACK",
+                },
+                {
+                  id: 9,
+                  type: "completion",
+                  text: "As people gain ______, self-assessment becomes more accurate.",
+                  correct: "EXPERTISE",
+                },
+                {
+                  id: 10,
+                  type: "tfng",
+                  text: "Confidence is always a sign of high ability.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "The effect has been observed in medical diagnostics.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 12,
+                  type: "completion",
+                  text: "Dunning and Kruger's study included tests on logic, grammar and ______.",
+                  correct: "HUMOUR",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Neuroplasticity and Learning",
+              instruction:
+                "Questions 13–24. Based on the text, decide True/False/Not Given and fill gaps.",
+              passage: `<p>For decades, neuroscientists believed that the adult brain was fixed and unchangeable. However, research over the past thirty years has demonstrated that the brain retains remarkable plasticity throughout life. Neuroplasticity refers to the brain's ability to reorganize itself by forming new neural connections in response to learning, experience, or injury.</p>
+        <p>London taxi drivers provide a classic example: MRI scans revealed that the hippocampus – a region critical for spatial memory – was significantly larger in experienced drivers compared to controls. Moreover, the increase correlated with time spent on the job. Similar structural changes have been observed in musicians, bilinguals, and jugglers.</p>
+        <p>Harnessing neuroplasticity is key to rehabilitation after strokes or traumatic brain injuries. Intensive, repetitive task-oriented training can encourage healthy brain regions to take over lost functions. Even meditation has been shown to alter brain structure, increasing cortical thickness in areas related to attention and interoception.</p>`,
+              questions: [
+                {
+                  id: 13,
+                  type: "tfng",
+                  text: "Old neuroscience believed the adult brain could change easily.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 14,
+                  type: "tfng",
+                  text: "London taxi drivers have larger hippocampi on average.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 15,
+                  type: "tfng",
+                  text: "Musicians show no signs of neuroplasticity.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 16,
+                  type: "tfng",
+                  text: "Neuroplasticity can be used to treat brain injuries.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 17,
+                  type: "completion",
+                  text: "The brain forms new ______ connections in response to learning.",
+                  correct: "NEURAL",
+                },
+                {
+                  id: 18,
+                  type: "completion",
+                  text: "The ______ is a brain region important for spatial memory.",
+                  correct: "HIPPOCAMPUS",
+                },
+                {
+                  id: 19,
+                  type: "completion",
+                  text: "Training after a stroke should be ______ and task-oriented.",
+                  correct: "INTENSIVE",
+                },
+                {
+                  id: 20,
+                  type: "completion",
+                  text: "Meditation can increase ______ thickness in attention-related areas.",
+                  correct: "CORTICAL",
+                },
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Jugglers also show brain changes due to practice.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Neuroplasticity only occurs in children.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "The ability of the brain to reorganize is called ______.",
+                  correct: "NEUROPLASTICITY",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "Rehabilitation encourages healthy brain regions to take over ______ functions.",
+                  correct: "LOST",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Decision Fatigue",
+              instruction:
+                "Questions 25–35. Complete the tasks based on the passage.",
+              passage: `<p>Decision fatigue is the psychological phenomenon whereby the quality of decisions deteriorates after a long session of decision-making. It is one of the causes of irrational trade-offs in decision making, such as impulse purchases or opting for default options.</p>
+        <p>Studies of judges in Israeli prisons showed that the percentage of favourable rulings dropped from nearly 70% at the start of the day to less than 10% by the end. Even short breaks restored some decision-making capacity. Similarly, consumers shopping for many items are more likely to make poor choices toward the end of their session.</p>
+        <p>Practical strategies to combat decision fatigue include making important decisions early in the day, reducing the number of trivial choices (e.g., wearing the same clothes daily), and taking regular breaks. Some successful executives and politicians adopt these tactics to maintain cognitive sharpness.</p>`,
+              questions: [
+                {
+                  id: 25,
+                  type: "tfng",
+                  text: "Decision fatigue improves the quality of decisions.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 26,
+                  type: "tfng",
+                  text: "Israeli judges gave more favourable rulings in the afternoon.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 27,
+                  type: "tfng",
+                  text: "Short breaks can help restore decision-making ability.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 28,
+                  type: "completion",
+                  text: "The phenomenon is called decision ______.",
+                  correct: "FATIGUE",
+                },
+                {
+                  id: 29,
+                  type: "completion",
+                  text: "Favourable rulings dropped from 70% to less than ______% by the end of the day.",
+                  correct: "10",
+                },
+                {
+                  id: 30,
+                  type: "completion",
+                  text: "One strategy is to make important decisions ______ in the day.",
+                  correct: "EARLY",
+                },
+                {
+                  id: 31,
+                  type: "tfng",
+                  text: "Impulse purchases are linked to decision fatigue.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 32,
+                  type: "tfng",
+                  text: "All executives use clothing to reduce trivial choices.",
+                  correct: "NOT GIVEN",
+                },
+                {
+                  id: 33,
+                  type: "completion",
+                  text: "Consumers shopping for many items are likely to make poor ______.",
+                  correct: "CHOICES",
+                },
+                {
+                  id: 34,
+                  type: "tfng",
+                  text: "Decision fatigue only affects judges.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 35,
+                  type: "completion",
+                  text: "The quality of decisions ______ after long sessions.",
+                  correct: "DETERIORATES",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_2_economics",
+          title: "Test 2 · Economics & Behaviour",
+          parts: [
+            {
+              id: 1,
+              title: "The Paradox of Thrift",
+              instruction: "Questions 1–12. Read and answer.",
+              passage: `<p>The paradox of thrift, popularized by John Maynard Keynes, suggests that while saving is individually prudent, if everyone increases saving simultaneously, aggregate demand falls, leading to lower economic growth and ultimately less total saving. This paradox is most relevant during recessions when demand is already weak.</p>
+        <p>For example, if households cut spending and save more, businesses see reduced revenues, leading to layoffs. Unemployed workers then have no income to save, defeating the original goal. Keynes argued that in such situations, government intervention – through spending or tax cuts – can break the cycle and restore demand.</p>
+        <p>Critics note that in the long run, higher saving provides funds for investment, boosting productivity. The paradox is thus a short-run phenomenon dependent on economic conditions.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "The paradox of thrift was introduced by Adam Smith.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Saving more during a recession can reduce overall saving.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "tfng",
+                  text: "Government spending can help counteract the paradox.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "The paradox is most relevant during ______.",
+                  correct: "RECESSIONS",
+                },
+                {
+                  id: 5,
+                  type: "completion",
+                  text: "Increased saving leads to lower aggregate ______.",
+                  correct: "DEMAND",
+                },
+                {
+                  id: 6,
+                  type: "completion",
+                  text: "In the long run, higher saving can fund ______.",
+                  correct: "INVESTMENT",
+                },
+                {
+                  id: 7,
+                  type: "tfng",
+                  text: "The paradox only exists in the long term.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 8,
+                  type: "tfng",
+                  text: "Layoffs may result from reduced consumer spending.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 9,
+                  type: "completion",
+                  text: "Keynesian economics suggests ______ intervention to restore demand.",
+                  correct: "GOVERNMENT",
+                },
+                {
+                  id: 10,
+                  type: "completion",
+                  text: "Households that cut spending cause businesses to see reduced ______.",
+                  correct: "REVENUES",
+                },
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "The paradox of thrift is universally accepted by all economists.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 12,
+                  type: "completion",
+                  text: "The phenomenon was popularized by ______ Maynard Keynes.",
+                  correct: "JOHN",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Behavioural Economics: Nudges",
+              instruction: "Questions 13–24.",
+              passage: `<p>Behavioural economics integrates insights from psychology into economic models. A key concept is the 'nudge' – a subtle change in choice architecture that alters people's behaviour predictably without forbidding options or changing incentives significantly. Richard Thaler and Cass Sunstein popularized this idea in their book 'Nudge'.</p>
+        <p>Examples include placing healthier food at eye level in cafeterias, automatically enrolling employees in pension schemes (with opt-out), and printing flies on urinals to improve aim and reduce cleaning costs. Nudges leverage cognitive biases such as inertia, loss aversion, and social norms.</p>
+        <p>Critics argue that nudges can be paternalistic and may undermine autonomy. However, proponents claim they preserve freedom of choice while steering individuals toward better outcomes.</p>`,
+              questions: [
+                {
+                  id: 13,
+                  type: "tfng",
+                  text: "Nudges forbid certain options.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 14,
+                  type: "tfng",
+                  text: "Automatic enrolment in pensions is an example of a nudge.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 15,
+                  type: "tfng",
+                  text: "Thaler and Sunstein wrote a book on nudging.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 16,
+                  type: "completion",
+                  text: "Behavioural economics combines psychology and ______.",
+                  correct: "ECONOMICS",
+                },
+                {
+                  id: 17,
+                  type: "completion",
+                  text: "A nudge is a change in choice ______.",
+                  correct: "ARCHITECTURE",
+                },
+                {
+                  id: 18,
+                  type: "completion",
+                  text: "Placing healthy food at ______ level encourages better choices.",
+                  correct: "EYE",
+                },
+                {
+                  id: 19,
+                  type: "completion",
+                  text: "Nudges leverage cognitive ______ like inertia.",
+                  correct: "BIASES",
+                },
+                {
+                  id: 20,
+                  type: "tfng",
+                  text: "Nudges are always accepted without criticism.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Loss aversion is a cognitive bias.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 22,
+                  type: "completion",
+                  text: "Some argue that nudges can be ______.",
+                  correct: "PATERNALISTIC",
+                },
+                {
+                  id: 23,
+                  type: "tfng",
+                  text: "Nudges completely remove freedom of choice.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "Flies printed on urinals reduced ______ costs.",
+                  correct: "CLEANING",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "The Gig Economy",
+              instruction: "Questions 25–35.",
+              passage: `<p>The gig economy refers to a labour market characterized by short-term contracts, freelance work, and independent contracting, as opposed to permanent jobs. Platforms like Uber, Deliveroo, and Upwork have accelerated its growth. Proponents highlight flexibility, autonomy, and low barriers to entry.</p>
+        <p>However, critics point to income instability, lack of benefits (sick pay, holiday pay, pensions), and ambiguous employment status. Legal battles have arisen over whether gig workers should be classified as employees entitled to minimum wage and protections. Some jurisdictions have introduced 'third category' statuses to address these gaps.</p>
+        <p>Future trends include potential unionization of gig workers and regulatory reforms. The balance between flexibility and security remains a central policy debate.</p>`,
+              questions: [
+                {
+                  id: 25,
+                  type: "tfng",
+                  text: "The gig economy only includes permanent jobs.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 26,
+                  type: "tfng",
+                  text: "Uber is an example of a gig platform.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 27,
+                  type: "tfng",
+                  text: "Gig workers always receive paid sick leave.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 28,
+                  type: "completion",
+                  text: "The gig economy is based on short-term ______.",
+                  correct: "CONTRACTS",
+                },
+                {
+                  id: 29,
+                  type: "completion",
+                  text: "Proponents say the gig economy offers ______ and flexibility.",
+                  correct: "AUTONOMY",
+                },
+                {
+                  id: 30,
+                  type: "completion",
+                  text: "A 'third category' status has been introduced in some ______.",
+                  correct: "JURISDICTIONS",
+                },
+                {
+                  id: 31,
+                  type: "tfng",
+                  text: "There are legal disputes about employment status of gig workers.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 32,
+                  type: "tfng",
+                  text: "The gig economy has no future potential for unionization.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 33,
+                  type: "completion",
+                  text: "Gig workers often lack benefits such as ______ pay.",
+                  correct: "SICK",
+                },
+                {
+                  id: 34,
+                  type: "tfng",
+                  text: "Entry barriers are high in the gig economy.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 35,
+                  type: "completion",
+                  text: "The central policy debate is between flexibility and ______.",
+                  correct: "SECURITY",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_3_biology",
+          title: "Test 3 · Biology & Evolution",
+          parts: [
+            {
+              id: 1,
+              title: "Antibiotic Resistance",
+              instruction: "Questions 1–10.",
+              passage: `<p>Antibiotic resistance is a growing global health crisis. Overuse of antibiotics in humans and livestock accelerates natural selection, allowing resistant bacteria to thrive. The WHO has declared it one of the top ten public health threats.</p><p>Methicillin-resistant Staphylococcus aureus (MRSA) and carbapenem-resistant Enterobacteriaceae (CRE) are examples of 'superbugs' that cause untreatable infections. Without new antibiotics, routine surgeries could become life-threatening.</p><p>Strategies include stewardship programs, development of novel drugs, phage therapy, and vaccines. Individual actions – not demanding antibiotics for viral infections – also help.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "Antibiotic resistance is only a problem in developing countries.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "MRSA is resistant to some antibiotics.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "The WHO has declared resistance a top ten public health ______.",
+                  correct: "THREATS",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "Overuse in humans and ______ accelerates resistance.",
+                  correct: "LIVESTOCK",
+                },
+                {
+                  id: 5,
+                  type: "tfng",
+                  text: "Phage therapy is a possible solution.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 6,
+                  type: "tfng",
+                  text: "Routine surgeries are not affected by resistance.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 7,
+                  type: "completion",
+                  text: "CRE stands for carbapenem-resistant ______.",
+                  correct: "ENTEROBACTERIACEAE",
+                },
+                {
+                  id: 8,
+                  type: "completion",
+                  text: "Patients should not demand antibiotics for ______ infections.",
+                  correct: "VIRAL",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Epigenetics",
+              instruction: "Questions 11–20.",
+              passage: `<p>Epigenetics studies heritable changes in gene expression that do not involve alterations to the DNA sequence. Environmental factors such as diet, stress, and toxins can trigger epigenetic modifications like DNA methylation or histone acetylation. These changes can be passed to offspring, as shown in studies of famine survivors.</p><p>The field has implications for cancer therapy, as epigenetic drugs can reverse abnormal gene silencing. It also challenges traditional views of inheritance, suggesting that acquired traits may be heritable to some degree.</p>`,
+              questions: [
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "Epigenetics involves changes to DNA sequence.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 12,
+                  type: "tfng",
+                  text: "Diet can cause epigenetic changes.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 13,
+                  type: "completion",
+                  text: "DNA methylation is an example of an epigenetic ______.",
+                  correct: "MODIFICATION",
+                },
+                {
+                  id: 14,
+                  type: "completion",
+                  text: "Famine survivors' offspring showed epigenetic ______.",
+                  correct: "CHANGES",
+                },
+                {
+                  id: 15,
+                  type: "tfng",
+                  text: "Epigenetic drugs are used in cancer therapy.",
+                  correct: "TRUE",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Symbiosis in Nature",
+              instruction: "Questions 21–30.",
+              passage: `<p>Symbiosis refers to close and long-term interactions between different biological species. Types include mutualism (both benefit), commensalism (one benefits, the other unaffected), and parasitism (one benefits at the other's expense). Classic examples: clownfish and sea anemones (mutualism), barnacles on whales (commensalism), and tapeworms in mammals (parasitism).</p><p>Recent research highlights that symbiotic relationships drive evolution and ecosystem stability. The human microbiome is a symbiotic system crucial for digestion and immunity.</p>`,
+              questions: [
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Mutualism benefits both species.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Barnacles harm whales.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "The human ______ is a symbiotic system.",
+                  correct: "MICROBIOME",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "Tapeworms are an example of ______.",
+                  correct: "PARASITISM",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_4_history",
+          title: "Test 4 · History & Civilizations",
+          parts: [
+            {
+              id: 1,
+              title: "The Silk Road",
+              instruction: "Questions 1–12.",
+              passage: `<p>The Silk Road was a network of trade routes connecting China to the Mediterranean, spanning over 6,400 km. It flourished from around 200 BCE to the 14th century, facilitating the exchange of goods, ideas, technologies, and religions. Silk, spices, and precious stones traveled westward, while gold, glassware, and wool moved eastward.</p><p>Beyond trade, the Silk Road enabled the spread of Buddhism from India to China, and later Nestorian Christianity and Islam. The Black Death also traveled along these routes in the 14th century. The decline came with the fall of the Mongol Empire and the rise of maritime routes.</p><p>Modern initiatives like China's Belt and Road Initiative aim to revive the ancient network's spirit of connectivity.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "The Silk Road was used exclusively for silk trade.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "The route connected China with the Mediterranean.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "tfng",
+                  text: "Buddhism spread from China to India via the Silk Road.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "The Silk Road flourished from around 200 BCE to the ______ century.",
+                  correct: "14TH",
+                },
+                {
+                  id: 5,
+                  type: "completion",
+                  text: "Gold and glassware traveled ______.",
+                  correct: "EASTWARD",
+                },
+                {
+                  id: 6,
+                  type: "completion",
+                  text: "The Black Death spread along the Silk Road in the ______ century.",
+                  correct: "14TH",
+                },
+                {
+                  id: 7,
+                  type: "tfng",
+                  text: "The Mongol Empire's fall contributed to the Silk Road's decline.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 8,
+                  type: "tfng",
+                  text: "The Belt and Road Initiative is a modern revival attempt.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 9,
+                  type: "completion",
+                  text: "Spices and precious stones traveled ______.",
+                  correct: "WESTWARD",
+                },
+                {
+                  id: 10,
+                  type: "completion",
+                  text: "The Silk Road facilitated exchange of goods, ideas, and ______.",
+                  correct: "RELIGIONS",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "The Industrial Revolution",
+              instruction: "Questions 13–24.",
+              passage: `<p>The Industrial Revolution began in Britain around 1760 and spread to Europe and North America by the 1830s. Key innovations included the steam engine (James Watt), cotton gin (Eli Whitney), and power loom. It shifted economies from agrarian to industrial, causing urbanization and new social classes.</p><p>Working conditions were often brutal: long hours, low wages, child labour. Reform movements eventually led to labour laws and unionization. The second Industrial Revolution (late 19th century) brought electricity, assembly lines, and mass production.</p><p>Environmental degradation and inequality were negative legacies, but living standards rose dramatically over the long term.</p>`,
+              questions: [
+                {
+                  id: 13,
+                  type: "tfng",
+                  text: "The Industrial Revolution started in France.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 14,
+                  type: "tfng",
+                  text: "The steam engine was invented by James Watt.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 15,
+                  type: "tfng",
+                  text: "Child labour was common during the early Industrial Revolution.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 16,
+                  type: "completion",
+                  text: "The first Industrial Revolution began around ______.",
+                  correct: "1760",
+                },
+                {
+                  id: 17,
+                  type: "completion",
+                  text: "The cotton gin was invented by Eli ______.",
+                  correct: "WHITNEY",
+                },
+                {
+                  id: 18,
+                  type: "completion",
+                  text: "The second Industrial Revolution introduced ______ lines.",
+                  correct: "ASSEMBLY",
+                },
+                {
+                  id: 19,
+                  type: "tfng",
+                  text: "Urbanization decreased during the Industrial Revolution.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 20,
+                  type: "completion",
+                  text: "Reform movements led to labour laws and ______.",
+                  correct: "UNIONIZATION",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "The Cold War",
+              instruction: "Questions 25–34.",
+              passage: `<p>The Cold War (1947–1991) was a state of geopolitical tension between the United States and the Soviet Union and their respective allies. It was characterized by espionage, proxy wars (Korea, Vietnam, Afghanistan), nuclear arms race, and space race. The doctrine of mutually assured destruction (MAD) prevented direct conflict.</p><p>Key events: Berlin Blockade (1948), Cuban Missile Crisis (1962), and the fall of the Berlin Wall (1989). The Cold War ended with the dissolution of the USSR in 1991, leaving the US as the sole superpower.</p>`,
+              questions: [
+                {
+                  id: 25,
+                  type: "tfng",
+                  text: "The Cold War involved direct military confrontation between US and USSR.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 26,
+                  type: "tfng",
+                  text: "The Cuban Missile Crisis occurred in 1962.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 27,
+                  type: "completion",
+                  text: "MAD stands for mutually assured ______.",
+                  correct: "DESTRUCTION",
+                },
+                {
+                  id: 28,
+                  type: "completion",
+                  text: "The Cold War ended with the dissolution of the ______ in 1991.",
+                  correct: "USSR",
+                },
+                {
+                  id: 29,
+                  type: "tfng",
+                  text: "The Berlin Wall fell in 1989.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 30,
+                  type: "completion",
+                  text: "Proxy wars included Korea, Vietnam, and ______.",
+                  correct: "AFGHANISTAN",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_5_technology",
+          title: "Test 5 · Technology & Innovation",
+          parts: [
+            {
+              id: 1,
+              title: "Artificial Intelligence: Promise and Peril",
+              instruction: "Questions 1–12.",
+              passage: `<p>Artificial intelligence (AI) has advanced rapidly, with deep learning models surpassing human performance in image recognition, natural language processing, and strategic games. Generative AI (e.g., GPT, DALL-E) creates text, images, and code, raising both excitement and concern.</p><p>Potential benefits include medical diagnosis acceleration, scientific discovery, and automation of mundane tasks. Risks involve job displacement, algorithmic bias, deepfakes, and autonomous weapons. Ethical frameworks and regulation are urgently needed to ensure AI aligns with human values.</p><p>The concept of 'alignment' – ensuring AI goals match human intentions – is a major research frontier. Some experts call for a pause on frontier AI development until safety measures mature.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "AI has surpassed humans in some cognitive tasks.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Generative AI can only produce text.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 3,
+                  type: "tfng",
+                  text: "Algorithmic bias is a known risk of AI.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "The field of ensuring AI goals match human intentions is called ______.",
+                  correct: "ALIGNMENT",
+                },
+                {
+                  id: 5,
+                  type: "completion",
+                  text: "Deepfakes are an example of ______ content.",
+                  correct: "SYNTHETIC",
+                },
+                {
+                  id: 6,
+                  type: "tfng",
+                  text: "All experts agree that AI development should continue without pause.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 7,
+                  type: "completion",
+                  text: "AI can accelerate medical ______.",
+                  correct: "DIAGNOSIS",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "The Rise of Quantum Computing",
+              instruction: "Questions 13–22.",
+              passage: `<p>Quantum computing harnesses the principles of superposition and entanglement to perform calculations exponentially faster than classical computers for certain problems. While still experimental, quantum computers could revolutionize cryptography, drug discovery, and climate modeling.</p><p>Major tech companies (Google, IBM) and startups are racing to build scalable, error-corrected quantum processors. A major milestone was achieving 'quantum supremacy' – solving a problem impossible for classical supercomputers. However, practical quantum computers are likely a decade away.</p><p>Post-quantum cryptography is being developed to secure data against future quantum attacks.</p>`,
+              questions: [
+                {
+                  id: 13,
+                  type: "tfng",
+                  text: "Quantum computers use bits like classical computers.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 14,
+                  type: "tfng",
+                  text: "Quantum supremacy has been achieved.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 15,
+                  type: "completion",
+                  text: "Quantum computing uses superposition and ______.",
+                  correct: "ENTANGLEMENT",
+                },
+                {
+                  id: 16,
+                  type: "completion",
+                  text: "A major application is in ______ discovery.",
+                  correct: "DRUG",
+                },
+                {
+                  id: 17,
+                  type: "tfng",
+                  text: "Practical quantum computers are already widely available.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 18,
+                  type: "completion",
+                  text: "Post-quantum ______ is being developed to protect data.",
+                  correct: "CRYPTOGRAPHY",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Blockchain Beyond Cryptocurrency",
+              instruction: "Questions 23–32.",
+              passage: `<p>Blockchain is a distributed ledger technology that underpins cryptocurrencies like Bitcoin. Beyond finance, it enables smart contracts, supply chain traceability, digital identity, and secure voting systems. The decentralized, immutable nature reduces fraud and intermediaries.</p><p>Challenges include energy consumption (proof-of-work), scalability, and regulatory uncertainty. Newer consensus mechanisms like proof-of-stake reduce energy use. Adoption is growing in healthcare, logistics, and government services.</p>`,
+              questions: [
+                {
+                  id: 23,
+                  type: "tfng",
+                  text: "Blockchain is only used for cryptocurrencies.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 24,
+                  type: "tfng",
+                  text: "Proof-of-stake consumes less energy than proof-of-work.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 25,
+                  type: "completion",
+                  text: "Blockchain is a distributed ______ technology.",
+                  correct: "LEDGER",
+                },
+                {
+                  id: 26,
+                  type: "completion",
+                  text: "Smart contracts are self-executing contracts with the terms directly written into ______.",
+                  correct: "CODE",
+                },
+                {
+                  id: 27,
+                  type: "tfng",
+                  text: "Blockchain can be used for secure voting.",
+                  correct: "TRUE",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_6_art",
+          title: "Test 6 · Art & Literature",
+          parts: [
+            {
+              id: 1,
+              title: "The Renaissance: Rebirth of Art",
+              instruction: "Questions 1–10.",
+              passage: `<p>The Renaissance (14th–17th centuries) marked a transition from medieval to modern Europe, with a revival of classical learning and artistic innovation. Italian city-states like Florence and Venice were epicenters. Artists like Leonardo da Vinci, Michelangelo, and Raphael pioneered techniques such as linear perspective, chiaroscuro, and anatomical accuracy.</p><p>Patronage by the Medici family and the Catholic Church fueled creation of masterpieces like the Sistine Chapel ceiling and the Mona Lisa. The invention of the printing press by Gutenberg spread Renaissance ideas across Europe, leading to the Northern Renaissance (Dürer, van Eyck).</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "The Renaissance began in France.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Linear perspective was a Renaissance innovation.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "The Medici family were famous ______ of the arts.",
+                  correct: "PATRONS",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "The printing press was invented by ______.",
+                  correct: "GUTENBERG",
+                },
+                {
+                  id: 5,
+                  type: "tfng",
+                  text: "The Mona Lisa was painted by Michelangelo.",
+                  correct: "FALSE",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Shakespeare's Enduring Legacy",
+              instruction: "Questions 11–20.",
+              passage: `<p>William Shakespeare (1564–1616) wrote 39 plays and 154 sonnets, profoundly influencing English literature and language. His works explore universal themes: love, jealousy, power, betrayal, and the human condition. Phrases like 'break the ice', 'wild goose chase', and 'dead as a doornail' originated with him.</p><p>His plays are categorized as comedies (A Midsummer Night's Dream), tragedies (Hamlet, Macbeth), and histories (Henry V). The Globe Theatre in London was his primary venue. Shakespeare's works have been translated into every major language and adapted into countless films.</p>`,
+              questions: [
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "Shakespeare wrote over 150 sonnets.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 12,
+                  type: "tfng",
+                  text: "All of Shakespeare's plays are tragedies.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 13,
+                  type: "completion",
+                  text: "The Globe Theatre was located in ______.",
+                  correct: "LONDON",
+                },
+                {
+                  id: 14,
+                  type: "completion",
+                  text: "The phrase 'break the ice' was coined by ______.",
+                  correct: "SHAKESPEARE",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Impressionism: Capturing Light",
+              instruction: "Questions 21–30.",
+              passage: `<p>Impressionism emerged in 1870s Paris as a radical departure from academic painting. Artists like Claude Monet, Pierre-Auguste Renoir, and Edgar Degas focused on capturing fleeting effects of light and atmosphere, using visible brushstrokes and vibrant colours. The term 'impressionism' came from Monet's painting 'Impression, Sunrise'.</p><p>They often painted en plein air (outdoors), depicting everyday scenes. Initially rejected by the official Salon, they organized their own exhibitions. Impressionism paved the way for Post-Impressionism (van Gogh, Cézanne) and modern art.</p>`,
+              questions: [
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Impressionism was immediately accepted by the art establishment.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Monet painted 'Impression, Sunrise'.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "En plein air means painting ______.",
+                  correct: "OUTDOORS",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "Van Gogh is associated with ______-Impressionism.",
+                  correct: "POST",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_7_environment",
+          title: "Test 7 · Environment & Sustainability",
+          parts: [
+            {
+              id: 1,
+              title: "Climate Tipping Points",
+              instruction: "Questions 1–12.",
+              passage: `<p>Climate tipping points are thresholds that, once crossed, lead to irreversible and self-accelerating changes in the Earth system. Examples include the collapse of the Greenland ice sheet, Amazon rainforest dieback, and permafrost thaw releasing methane. Exceeding 1.5°C warming increases the risk of triggering multiple tipping points.</p><p>These cascading effects could lead to sea-level rise of several meters, loss of biodiversity, and disruption of monsoons. Urgent emissions reductions and carbon removal are needed to avoid crossing these thresholds. Some scientists argue that we have already entered a 'hothouse Earth' trajectory.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "Tipping points cause reversible changes.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Permafrost thaw releases methane.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "The collapse of the ______ ice sheet is a potential tipping point.",
+                  correct: "GREENLAND",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "The Amazon rainforest could experience ______.",
+                  correct: "DIEBACK",
+                },
+                {
+                  id: 5,
+                  type: "tfng",
+                  text: "Staying below 1.5°C eliminates all tipping point risks.",
+                  correct: "FALSE",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Circular Economy",
+              instruction: "Questions 13–22.",
+              passage: `<p>The circular economy is an alternative to the traditional linear model of 'take-make-dispose'. It designs out waste, keeps materials in use, and regenerates natural systems. Key principles: reduce, reuse, recycle, repair, and remanufacture.</p><p>Companies like Patagonia (repair programs) and Philips (light-as-a-service) exemplify circular models. Benefits include lower resource dependence, reduced emissions, and new job creation. Challenges include product design complexity and consumer behaviour change.</p>`,
+              questions: [
+                {
+                  id: 13,
+                  type: "tfng",
+                  text: "The linear economy is 'take-make-dispose'.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 14,
+                  type: "tfng",
+                  text: "Patagonia is known for repair programs.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 15,
+                  type: "completion",
+                  text: "The circular economy keeps materials in ______.",
+                  correct: "USE",
+                },
+                {
+                  id: 16,
+                  type: "completion",
+                  text: "Philips offers light-as-a-______.",
+                  correct: "SERVICE",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Ocean Acidification",
+              instruction: "Questions 23–32.",
+              passage: `<p>Ocean acidification refers to the decrease in pH of seawater due to absorption of anthropogenic CO2. Since the Industrial Revolution, ocean acidity has increased by about 30%. This harms calcifying organisms like corals, molluscs, and some plankton, which struggle to build shells and skeletons.</p><p>Coral bleaching and reef collapse are linked to both warming and acidification. Mitigation requires deep cuts in CO2 emissions. Some geoengineering proposals (e.g., ocean alkalinity enhancement) are being researched but carry risks.</p>`,
+              questions: [
+                {
+                  id: 23,
+                  type: "tfng",
+                  text: "Ocean acidification is caused by CO2 absorption.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 24,
+                  type: "tfng",
+                  text: "Corals are unaffected by acidification.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 25,
+                  type: "completion",
+                  text: "Ocean pH has decreased by about ______% since the Industrial Revolution.",
+                  correct: "30",
+                },
+                {
+                  id: 26,
+                  type: "completion",
+                  text: "Calcifying organisms struggle to build ______.",
+                  correct: "SHELLS",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_8_medicine",
+          title: "Test 8 · Medicine & Public Health",
+          parts: [
+            {
+              id: 1,
+              title: "The Human Microbiome",
+              instruction: "Questions 1–10.",
+              passage: `<p>The human microbiome consists of trillions of microorganisms living in and on our bodies, especially in the gut. They influence digestion, immunity, mental health, and even weight. Dysbiosis (imbalance) is linked to inflammatory bowel disease, allergies, obesity, and depression.</p><p>Probiotics, prebiotics, and faecal microbiota transplantation (FMT) are therapeutic approaches. FMT has shown high success rates for recurrent Clostridioides difficile infection. Research continues on microbiome-based diagnostics and personalized nutrition.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "The microbiome only affects digestion.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "FMT is used for C. difficile infection.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "An imbalance in the microbiome is called ______.",
+                  correct: "DYSBIOSIS",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "Probiotics and prebiotics are used to restore microbial ______.",
+                  correct: "BALANCE",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Vaccines: History and Controversy",
+              instruction: "Questions 11–20.",
+              passage: `<p>Vaccines have saved millions of lives by preventing diseases like smallpox, polio, measles, and COVID-19. Edward Jenner's smallpox vaccine (1796) was the first. Herd immunity protects vulnerable populations when coverage is high.</p><p>Despite success, vaccine hesitancy – driven by misinformation, fear of side effects, and distrust – threatens public health. The debunked 1998 study linking MMR vaccine to autism caused a drop in vaccination rates and subsequent outbreaks. All health agencies affirm vaccine safety and efficacy.</p>`,
+              questions: [
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "Smallpox has been eradicated thanks to vaccination.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 12,
+                  type: "tfng",
+                  text: "The MMR-autism link has been proven.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 13,
+                  type: "completion",
+                  text: "Edward Jenner developed the first vaccine against ______.",
+                  correct: "SMALLPOX",
+                },
+                {
+                  id: 14,
+                  type: "completion",
+                  text: "Herd immunity protects ______ populations.",
+                  correct: "VULNERABLE",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Gene Editing: CRISPR-Cas9",
+              instruction: "Questions 21–30.",
+              passage: `<p>CRISPR-Cas9 is a revolutionary gene-editing tool derived from bacterial immune systems. It allows precise DNA cutting, enabling knockout, repair, or insertion of genes. Applications include treating genetic disorders (sickle cell anaemia, cystic fibrosis), engineering disease-resistant crops, and malaria control via gene drive.</p><p>Ethical concerns surround germline editing (heritable changes), off-target effects, and equitable access. In 2018, Chinese scientist He Jiankui created the first gene-edited babies, sparking international condemnation. Regulatory frameworks vary globally.</p>`,
+              questions: [
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "CRISPR-Cas9 is derived from bacteria.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Germline editing is widely accepted.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "He Jiankui created the first gene-edited ______.",
+                  correct: "BABIES",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "CRISPR can be used in gene ______ to control malaria.",
+                  correct: "DRIVE",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_9_sociology",
+          title: "Test 9 · Sociology & Urban Studies",
+          parts: [
+            {
+              id: 1,
+              title: "Gentrification",
+              instruction: "Questions 1–10.",
+              passage: `<p>Gentrification is the process where wealthier individuals move into lower-income urban neighbourhoods, leading to rising property values, displacement of original residents, and cultural change. Causes include deindustrialization, public policy, and preference for central locations.</p><p>Positive effects: reduced crime, improved services, and investment. Negative effects: loss of affordable housing, social segregation, and erosion of community identity. Policies like inclusionary zoning, rent control, and community land trusts aim to mitigate displacement.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "Gentrification always benefits original residents.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "Rent control can help reduce displacement.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "Gentrification often leads to loss of affordable ______.",
+                  correct: "HOUSING",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "Community land ______ are one policy tool.",
+                  correct: "TRUSTS",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Social Media and Mental Health",
+              instruction: "Questions 11–20.",
+              passage: `<p>Social media platforms (Instagram, TikTok, Facebook) have transformed communication but also raised concerns about mental health. Studies link heavy use to increased anxiety, depression, loneliness, and poor body image, especially among adolescents. Mechanisms include social comparison, cyberbullying, and sleep disruption.</p><p>However, social media can also provide social support, community for marginalized groups, and mental health resources. Moderation, digital literacy, and platform design changes (e.g., removing like counts) are recommended.</p>`,
+              questions: [
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "Social media only has negative effects on mental health.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 12,
+                  type: "tfng",
+                  text: "Adolescents are particularly vulnerable to social media's negative effects.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 13,
+                  type: "completion",
+                  text: "One mechanism is social ______.",
+                  correct: "COMPARISON",
+                },
+                {
+                  id: 14,
+                  type: "completion",
+                  text: "Removing like counts is an example of platform ______ change.",
+                  correct: "DESIGN",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "The Future of Work: Remote and Hybrid",
+              instruction: "Questions 21–30.",
+              passage: `<p>The COVID-19 pandemic accelerated the shift to remote work. Many companies have adopted hybrid models (part office, part home). Benefits include flexibility, reduced commuting, and access to global talent. Challenges: collaboration difficulties, burnout from blurred boundaries, and inequities for junior staff.</p><p>Urban centres have seen reduced office occupancy, affecting local businesses. Long-term predictions include decentralization of cities and redesign of office spaces. Technology investments in virtual collaboration tools continue to grow.</p>`,
+              questions: [
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Remote work began with the COVID-19 pandemic.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Hybrid models combine office and home work.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "One challenge is burnout from blurred ______.",
+                  correct: "BOUNDARIES",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "Decentralization of ______ is a predicted long-term effect.",
+                  correct: "CITIES",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "test_10_physics",
+          title: "Test 10 · Physics & Cosmology",
+          parts: [
+            {
+              id: 1,
+              title: "Black Holes",
+              instruction: "Questions 1–10.",
+              passage: `<p>Black holes are regions of spacetime where gravity is so strong that nothing, not even light, can escape. They form when massive stars collapse at the end of their life cycles. The boundary is called the event horizon; the singularity at the centre has infinite density.</p><p>In 2019, the Event Horizon Telescope captured the first image of a black hole's shadow in galaxy M87. Gravitational waves from black hole mergers have been detected by LIGO. Stephen Hawking theorized that black holes emit radiation (Hawking radiation) and can eventually evaporate.</p>`,
+              questions: [
+                {
+                  id: 1,
+                  type: "tfng",
+                  text: "Light can escape from a black hole.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 2,
+                  type: "tfng",
+                  text: "The first image of a black hole was captured in 2019.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 3,
+                  type: "completion",
+                  text: "The boundary of a black hole is called the event ______.",
+                  correct: "HORIZON",
+                },
+                {
+                  id: 4,
+                  type: "completion",
+                  text: "Gravitational waves from mergers are detected by ______.",
+                  correct: "LIGO",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "Dark Matter and Dark Energy",
+              instruction: "Questions 11–20.",
+              passage: `<p>Dark matter and dark energy constitute about 95% of the universe's mass-energy content, yet they are invisible and poorly understood. Dark matter (≈27%) explains galaxy rotation curves and gravitational lensing; it does not interact with light. Dark energy (≈68%) drives the accelerated expansion of the universe, discovered in 1998.</p><p>Candidate dark matter particles include WIMPs and axions. Experiments like LUX-ZEPLIN and the James Webb Space Telescope aim to shed light on these mysteries. Understanding dark energy may require modifications to general relativity or new physics.</p>`,
+              questions: [
+                {
+                  id: 11,
+                  type: "tfng",
+                  text: "Dark matter interacts with light.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 12,
+                  type: "tfng",
+                  text: "Dark energy causes the universe's expansion to accelerate.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 13,
+                  type: "completion",
+                  text: "WIMPs and axions are candidate ______ particles.",
+                  correct: "DARK MATTER",
+                },
+                {
+                  id: 14,
+                  type: "completion",
+                  text: "The accelerated expansion was discovered in ______.",
+                  correct: "1998",
+                },
+              ],
+            },
+            {
+              id: 3,
+              title: "Quantum Entanglement",
+              instruction: "Questions 21–30.",
+              passage: `<p>Quantum entanglement is a phenomenon where two or more particles become correlated such that the quantum state of each cannot be described independently, even when separated by large distances. Measuring one particle instantly affects the other, a property Einstein called 'spooky action at a distance'.</p><p>Entanglement is the basis for quantum computing, quantum cryptography (unhackable communication), and teleportation. Bell tests have confirmed entanglement's reality, ruling out local hidden variable theories. The 2022 Nobel Prize in Physics was awarded for experiments on entangled photons.</p>`,
+              questions: [
+                {
+                  id: 21,
+                  type: "tfng",
+                  text: "Entangled particles can be separated by large distances.",
+                  correct: "TRUE",
+                },
+                {
+                  id: 22,
+                  type: "tfng",
+                  text: "Einstein accepted entanglement without reservation.",
+                  correct: "FALSE",
+                },
+                {
+                  id: 23,
+                  type: "completion",
+                  text: "Entanglement is used in quantum ______.",
+                  correct: "CRYPTOGRAPHY",
+                },
+                {
+                  id: 24,
+                  type: "completion",
+                  text: "The 2022 Nobel Prize in Physics recognized experiments on entangled ______.",
+                  correct: "PHOTONS",
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
-    // ----- 1) GAP FILL (5 variants, 4 gaps each) -----
-    const gapTasks = [
-        {
-            title: "The Shift to Electric Vehicles",
-            passage: `<p>The global transition to electric vehicles (EVs) is accelerating due to climate concerns and technological advances. Lithium-ion batteries have become more efficient, but their production requires significant mining of rare earth metals, which raises environmental ___________ . Many governments offer subsidies to reduce the upfront cost, making EVs more ___________ to average consumers. However, the lack of charging infrastructure in rural areas remains a major ___________ . Experts predict that by 2035, EVs will account for over 50% of new car sales, provided that battery recycling methods improve ___________ .</p>`,
-            gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["concerns", "accessible", "obstacle", "significantly"],
-            optionsPerGap: [
-                ["concerns", "benefits", "profits", "standards"],
-                ["accessible", "expensive", "complicated", "dangerous"],
-                ["obstacle", "advantage", "solution", "trend"],
-                ["significantly", "rarely", "slightly", "temporarily"]
-            ]
-        },
-        {
-            title: "Urban Green Spaces and Wellbeing",
-            passage: `<p>Parks and community gardens provide essential ecosystem services in dense cities. They reduce the urban heat island effect, improve air quality, and promote mental health by offering ___________ from noise and stress. Studies show that residents living within 300 metres of a green space report 25% lower levels of anxiety. Furthermore, these areas encourage social ___________ , which strengthens neighbourhood ties. City planners now integrate 'green corridors' to connect fragmented habitats, enhancing biodiversity while giving citizens ___________ to nature. Without sufficient funding, however, many such projects remain under ___________ .</p>`,
-            gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["relief", "interaction", "access", "threat"],
-            optionsPerGap: [
-                ["relief", "pressure", "isolation", "expense"],
-                ["interaction", "distance", "conflict", "competition"],
-                ["access", "damage", "indifference", "pollution"],
-                ["threat", "construction", "celebration", "expansion"]
-            ]
-        },
-        {
-            title: "The Psychology of Online Learning",
-            passage: `<p>Digital education has transformed how knowledge is acquired, yet it poses unique psychological challenges. Without face-to-face cues, students often struggle with self-___________ , leading to procrastination. Moreover, the absence of a physical classroom can reduce a sense of ___________ , which is crucial for motivation. Effective strategies include setting micro-deadlines and participating in virtual study groups. Interestingly, introverted learners may ___________ in online environments because they feel less social pressure. Nevertheless, institutions must address digital fatigue by ___________ screen breaks into the curriculum.</p>`,
-            gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["regulation", "belonging", "thrive", "integrating"],
-            optionsPerGap: [
-                ["regulation", "criticism", "expression", "doubt"],
-                ["belonging", "isolation", "chaos", "formality"],
-                ["thrive", "struggle", "disappear", "hesitate"],
-                ["integrating", "ignoring", "reducing", "removing"]
-            ]
-        },
-        {
-            title: "Global Plastic Pollution",
-            passage: `<p>Plastic waste has infiltrated the most remote corners of the planet, from Arctic ice to the Mariana Trench. Single-use items like straws and bags constitute a large ___________ of marine debris. While recycling is widely promoted, only 9% of all plastic ever produced has been recycled; the rest ends up in landfills or the environment. Microplastics, which result from the ___________ of larger items, have been found in human blood and breast milk, raising health alarms. International treaties aim to ___________ plastic production, but enforcement remains weak. Ultimately, a shift towards a circular economy is ___________ .</p>`,
-            gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["proportion", "degradation", "curb", "imperative"],
-            optionsPerGap: [
-                ["proportion", "majority", "minority", "absence"],
-                ["degradation", "production", "recycling", "invention"],
-                ["curb", "increase", "ignore", "celebrate"],
-                ["imperative", "optional", "irrelevant", "impossible"]
-            ]
-        },
-        {
-            title: "Sleep and Memory Consolidation",
-            passage: `<p>Sleep plays a fundamental role in transforming short-term memories into long-term storage. During deep non-REM sleep, the hippocampus ___________ daily experiences to the neocortex, where they become integrated with existing knowledge. Chronic sleep deprivation impairs this process, leading to forgetfulness and reduced ___________ . Recent research suggests that even a 20-minute nap can boost recall of factual information. However, sleep quality matters as much as quantity: ___________ awakenings fragment the cycle and prevent the brain from completing essential memory ___________ .</p>`,
-            gaps: ["___________", "___________", "___________", "___________"],
-            correct: ["transfers", "cognitive", "frequent", "consolidation"],
-            optionsPerGap: [
-                ["transfers", "blocks", "ignores", "deletes"],
-                ["cognitive", "physical", "emotional", "social"],
-                ["frequent", "rare", "brief", "nocturnal"],
-                ["consolidation", "destruction", "creation", "avoidance"]
-            ]
+      // --------------------------------------------------------------
+      //  Глобальное состояние
+      let currentTest = null;
+      let currentPartId = 1;
+      let userAnswers = {};
+      let timerSeconds = 0;
+      let timerInterval = null;
+
+      // Нормализация ответа
+      function normalize(s) {
+        if (!s) return "";
+        return s.trim().toUpperCase();
+      }
+
+      // Сравнение с учётом синонимов (как в оригинале)
+      function isAnswerCorrect(user, correct) {
+        let userNorm = normalize(user);
+        let correctNorm = normalize(correct);
+        if (userNorm === correctNorm) return true;
+        // особые случаи
+        if (correctNorm === "INTESTINES" && userNorm === "GUT") return true;
+        if (correctNorm === "PAINT" && userNorm === "PAINTS") return true;
+        if (correctNorm === "WEIGHTS" && userNorm === "WEIGHT") return true;
+        if (correctNorm === "GENERATIVE" && userNorm === "GENERATIVE")
+          return true;
+        if (correctNorm === "MITIGATION" && userNorm === "MITIGATION")
+          return true;
+        if (correctNorm === "NEUROPLASTICITY" && userNorm === "NEUROPLASTICITY")
+          return true;
+        if (correctNorm === "AVAILABILITY" && userNorm === "AVAILABILITY")
+          return true;
+        return false;
+      }
+
+      // Проверяет, все ли вопросы (во всех частях) имеют ответ
+      function isAllQuestionsAnswered() {
+        if (!currentTest) return false;
+        for (let part of currentTest.parts) {
+          for (let q of part.questions) {
+            const answer = userAnswers[`q${q.id}`];
+            if (!answer || answer.trim() === "") return false;
+          }
         }
-    ];
+        return true;
+      }
 
-    // ----- 2) MATCHING HEADINGS (5 variants, 4 paragraphs each) -----
-    const headingTasks = [
-        {
-            title: "The History of the Bicycle",
-            passage: `<p><strong>Paragraph A</strong><br>The earliest form of the bicycle, called the 'Laufmaschine' or 'draisine', was invented by Karl von Drais in 1817. It had no pedals; riders pushed their feet along the ground.</p>
-            <p><strong>Paragraph B</strong><br>The 1860s saw the introduction of pedals attached directly to the front wheel, leading to the 'boneshaker' – a rough ride due to iron tyres and wooden wheels.</p>
-            <p><strong>Paragraph C</strong><br>The penny-farthing, with its huge front wheel, became popular in the 1870s. It allowed greater speed but was extremely dangerous because riders sat high above the ground.</p>
-            <p><strong>Paragraph D</strong><br>The modern 'safety bicycle' emerged in 1885 with equal-sized wheels and a chain drive. Pneumatic tyres added comfort, sparking a global cycling boom.</p>`,
-            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
-            correctHeadings: [
-                "The pedal-less prototype",
-                "First pedals and an uncomfortable ride",
-                "High risk, high speed design",
-                "Birth of the contemporary bicycle"
-            ],
-            options: [
-                "The pedal-less prototype",
-                "First pedals and an uncomfortable ride",
-                "High risk, high speed design",
-                "Birth of the contemporary bicycle",
-                "Electric motors and modern materials",
-                "Decline of cycling in the 20th century"
-            ]
-        },
-        {
-            title: "The Rise of the Gig Economy",
-            passage: `<p><strong>Paragraph A</strong><br>Platforms like Uber, Deliveroo and Upwork have enabled millions to work as independent contractors, choosing when and where to provide services.</p>
-            <p><strong>Paragraph B</strong><br>Flexibility is the main draw: workers can balance multiple jobs or care responsibilities. However, this often comes without sick pay, holiday leave or pension contributions.</p>
-            <p><strong>Paragraph C</strong><br>Critics argue that gig companies misclassify employees to avoid labour laws, leading to court battles in several countries. In 2021, a UK Supreme Court ruling granted some drivers worker status.</p>
-            <p><strong>Paragraph D</strong><br>Proposed solutions include portable benefits that follow the worker across platforms and collective bargaining rights for freelancers.</p>`,
-            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
-            correctHeadings: [
-                "Definition of platform-based work",
-                "Trade-off between autonomy and security",
-                "Legal challenges to employment classification",
-                "Future reforms to protect gig workers"
-            ],
-            options: [
-                "Definition of platform-based work",
-                "Trade-off between autonomy and security",
-                "Legal challenges to employment classification",
-                "Future reforms to protect gig workers",
-                "Historical origins of casual labour",
-                "Advantages for large corporations"
-            ]
-        },
-        {
-            title: "Plastic Pollution in Oceans",
-            passage: `<p><strong>Paragraph A</strong><br>Each year, an estimated 11 million metric tons of plastic enter the ocean – equivalent to a garbage truck every minute. Most originates from mismanaged waste in Southeast Asia.</p>
-            <p><strong>Paragraph B</strong><br>Once in the marine environment, plastic breaks down into microplastics (<5mm), which are ingested by zooplankton, fish and eventually humans through seafood consumption.</p>
-            <p><strong>Paragraph C</strong><br>Entanglement and ingestion kill over 100,000 marine mammals and one million seabirds annually. Coral reefs covered in plastic debris are 89% more likely to become diseased.</p>
-            <p><strong>Paragraph D</strong><br>International initiatives like the UN Global Plastics Treaty aim to reduce production, but voluntary commitments have so far failed to reverse the trend.</p>`,
-            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
-            correctHeadings: [
-                "Scale of ocean plastic input",
-                "Fragmentation and food chain contamination",
-                "Lethal impact on wildlife",
-                "Insufficiency of current global actions"
-            ],
-            options: [
-                "Scale of ocean plastic input",
-                "Fragmentation and food chain contamination",
-                "Lethal impact on wildlife",
-                "Insufficiency of current global actions",
-                "Innovations in biodegradable materials",
-                "Role of recycling in developed nations"
-            ]
-        },
-        {
-            title: "Emotional Intelligence at Work",
-            passage: `<p><strong>Paragraph A</strong><br>Emotional intelligence (EQ) comprises self-awareness, self-regulation, empathy and social skill. Unlike IQ, EQ can be developed through training.</p>
-            <p><strong>Paragraph B</strong><br>Employees with high EQ manage stress better, resolve conflicts constructively and adapt to change – qualities linked to higher performance ratings and lower burnout.</p>
-            <p><strong>Paragraph C</strong><br>Leaders who demonstrate empathy create psychological safety, which encourages team members to speak up with ideas or concerns without fear of punishment.</p>
-            <p><strong>Paragraph D</strong><br>Organisations now incorporate EQ assessments in hiring and offer mindfulness-based programmes to strengthen interpersonal competencies.</p>`,
-            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
-            correctHeadings: [
-                "Components and trainability of EQ",
-                "Positive outcomes for employees",
-                "Empathy as a leadership tool",
-                "Corporate integration of EQ development"
-            ],
-            options: [
-                "Components and trainability of EQ",
-                "Positive outcomes for employees",
-                "Empathy as a leadership tool",
-                "Corporate integration of EQ development",
-                "Criticism of emotional intelligence research",
-                "Gender differences in emotional expression"
-            ]
-        },
-        {
-            title: "Evolution of Human Language",
-            passage: `<p><strong>Paragraph A</strong><br>No direct fossil record of speech exists, so researchers rely on indirect evidence: brain asymmetry in hominids, the shape of the hyoid bone, and FOXP2 gene mutations.</p>
-            <p><strong>Paragraph B</strong><br>One prominent theory suggests language emerged from gestural communication – manual signs that gradually became associated with vocal sounds around 100,000 years ago.</p>
-            <p><strong>Paragraph C</strong><br>Another hypothesis, the 'vocal grooming' model, proposes that language replaced physical grooming as a way to maintain social bonds when group sizes grew too large for one-on-one care.</p>
-            <p><strong>Paragraph D</strong><br>Most linguists now agree that no single 'first language' existed; rather, multiple languages developed independently in different regions, shaped by migration and isolation.</p>`,
-            paragraphs: ["Paragraph A", "Paragraph B", "Paragraph C", "Paragraph D"],
-            correctHeadings: [
-                "Physical clues from ancestors",
-                "Gesture-first hypothesis",
-                "Social bonding replacement theory",
-                "Polygenesis and regional diversification"
-            ],
-            options: [
-                "Physical clues from ancestors",
-                "Gesture-first hypothesis",
-                "Social bonding replacement theory",
-                "Polygenesis and regional diversification",
-                "The role of written symbols",
-                "Modern language families"
-            ]
+      // Включить/выключить кнопку Submit
+      function updateSubmitButtonState() {
+        const btn = document.getElementById("submitTestBtn");
+        if (isAllQuestionsAnswered()) {
+          btn.disabled = false;
+        } else {
+          btn.disabled = true;
         }
-    ];
+      }
 
-    // ----- 3) TRUE / FALSE tasks (5 variants, 4 statements each) -----
-    const tfTasks = [
-        {
-            title: "The Apollo Moon Landings",
-            passage: `<p>The Apollo program, conducted by NASA, achieved six successful crewed landings on the Moon between 1969 and 1972. Apollo 11 was the first, with Neil Armstrong and Buzz Aldrin spending about 21 hours on the lunar surface. The missions brought back 382 kilograms of rock and soil samples, which have been studied extensively. Contrary to conspiracy claims, reflectors left on the Moon by Apollo astronauts are still used today to measure the Earth-Moon distance via lasers. The program was cancelled due to budget cuts and a shift in political priorities towards the Space Shuttle.</p>`,
-            statements: [
-                { text: "All Apollo missions that attempted a lunar landing were successful.", correct: "False" },
-                { text: "The first moonwalk lasted less than one full day.", correct: "True" },
-                { text: "Lunar retroreflectors are no longer functional.", correct: "False" },
-                { text: "The cancellation of Apollo was primarily due to technical failures.", correct: "False" }
-            ]
-        },
-        {
-            title: "Myths About Introverts",
-            passage: `<p>Introverts are often stereotyped as shy or antisocial, but this is inaccurate. Shyness involves fear of social judgment, whereas introversion simply means a preference for lower-stimulation environments. In fact, many introverts enjoy deep conversations and have rich social lives, just in smaller groups. Brain scans show that introverts have stronger blood flow in regions linked to internal processing, making them more sensitive to dopamine. This explains why they may feel overwhelmed by loud parties but thrive in quiet, focused work.</p>`,
-            statements: [
-                { text: "Introversion and shyness are the same psychological trait.", correct: "False" },
-                { text: "Introverts generally dislike all forms of social interaction.", correct: "False" },
-                { text: "Neurological differences between introverts and extraverts have been observed.", correct: "True" },
-                { text: "Introverts tend to avoid high-arousal situations because of dopamine sensitivity.", correct: "True" }
-            ]
-        },
-        {
-            title: "Renewable Energy Reliability",
-            passage: `<p>Critics argue that solar and wind power are unreliable because they depend on weather. However, modern grids combine multiple renewable sources (solar, wind, hydro, geothermal) so that when one is unavailable, another compensates. Battery storage capacity has grown exponentially, with utility-scale lithium-ion projects now able to supply power for 4-6 hours. Moreover, demand-response systems shift non-urgent electricity use to peak production times. As a result, several countries – including Denmark and Uruguay – routinely run on 90%+ renewable electricity without blackouts.</p>`,
-            statements: [
-                { text: "Weather dependence makes it impossible to run a grid mostly on renewables.", correct: "False" },
-                { text: "Battery storage can typically cover several hours of demand.", correct: "True" },
-                { text: "Demand-response programmes encourage using electricity when supply is abundant.", correct: "True" },
-                { text: "No country has achieved over 80% renewable electricity reliably.", correct: "False" }
-            ]
-        },
-        {
-            title: "The Great Barrier Reef",
-            passage: `<p>Located off the coast of Queensland, Australia, the Great Barrier Reef is the world's largest coral reef system, stretching over 2,300 kilometres. It has experienced three mass bleaching events since 2016 due to rising sea temperatures. Bleaching occurs when stressed corals expel their symbiotic algae, turning white. If temperatures drop quickly, corals can recover; prolonged heat leads to death. Despite this, the northern sections of the reef showed record coral cover in 2022, demonstrating resilience. Conservation efforts include reducing agricultural runoff and culling of crown-of-thorns starfish.</p>`,
-            statements: [
-                { text: "The Great Barrier Reef is located in the Pacific Ocean near Australia.", correct: "True" },
-                { text: "All parts of the reef have suffered irreversible decline.", correct: "False" },
-                { text: "Coral bleaching is always fatal for the coral colony.", correct: "False" },
-                { text: "Crown-of-thorns starfish are considered a threat to the reef's health.", correct: "True" }
-            ]
-        },
-        {
-            title: "Online Learning Effectiveness",
-            passage: `<p>A meta-analysis of 1,200 studies found that, on average, online learners retain 25-60% more material than traditional classroom students, partly due to self-paced learning. However, courses that simply transfer recorded lectures without interaction show no advantage. Key success factors include regular instructor feedback, collaborative projects, and gamified quizzes. Dropout rates for fully online programmes can be 10-20% higher than face-to-face, especially among students with weak time management skills. Hybrid models (blended learning) currently yield the highest outcomes.</p>`,
-            statements: [
-                { text: "All online courses produce better retention than face-to-face classes.", correct: "False" },
-                { text: "Interaction and feedback are critical for online learning success.", correct: "True" },
-                { text: "Online students never drop out more often than traditional students.", correct: "False" },
-                { text: "Blended learning is considered superior to purely online or purely face-to-face.", correct: "True" }
-            ]
+      // Подсчёт полной статистики по всем частям
+      function calculateFullScore() {
+        let total = 0,
+          correct = 0,
+          incorrect = 0,
+          unanswered = 0;
+        for (let part of currentTest.parts) {
+          for (let q of part.questions) {
+            total++;
+            const userAns = userAnswers[`q${q.id}`] || "";
+            if (!userAns || userAns.trim() === "") {
+              unanswered++;
+            } else if (isAnswerCorrect(userAns, q.correct)) {
+              correct++;
+            } else {
+              incorrect++;
+            }
+          }
         }
-    ];
+        return { total, correct, incorrect, unanswered };
+      }
 
-    // ----- 4) SYNONYMS tasks (5 variants, 4 words each) -----
-    const synonymTasks = [
-        {
-            title: "Academic Vocabulary (IELTS focus)",
-            passage: `<p>In academic writing, precision is paramount. Below are four common words from research contexts. Select the closest synonym for each.</p>`,
-            items: [
-                { word: "demonstrate", options: ["hide", "prove", "question", "ignore"], correct: "prove" },
-                { word: "significant", options: ["trivial", "small", "notable", "random"], correct: "notable" },
-                { word: "subsequent", options: ["previous", "initial", "following", "final"], correct: "following" },
-                { word: "nevertheless", options: ["therefore", "however", "moreover", "similarly"], correct: "however" }
-            ]
-        },
-        {
-            title: "Business and Economics",
-            passage: `<p>Understanding key business terms is essential for the IELTS reading section. Match each word with its synonym.</p>`,
-            items: [
-                { word: "incentive", options: ["penalty", "discouragement", "motivation", "obstacle"], correct: "motivation" },
-                { word: "fluctuate", options: ["stabilise", "rise", "vary", "collapse"], correct: "vary" },
-                { word: "viable", options: ["impossible", "workable", "complex", "risky"], correct: "workable" },
-                { word: "surplus", options: ["shortage", "debt", "excess", "loss"], correct: "excess" }
-            ]
-        },
-        {
-            title: "Environment and Ecology",
-            passage: `<p>Environmental science vocabulary often appears in IELTS reading passages. Choose the correct synonym.</p>`,
-            items: [
-                { word: "sustainable", options: ["wasteful", "temporary", "long-term", "harmful"], correct: "long-term" },
-                { word: "biodiversity", options: ["species variety", "pollution", "climate", "deforestation"], correct: "species variety" },
-                { word: "emissions", options: ["absorptions", "releases", "storages", "reductions"], correct: "releases" },
-                { word: "depletion", options: ["renewal", "increase", "exhaustion", "protection"], correct: "exhaustion" }
-            ]
-        },
-        {
-            title: "Health and Medicine",
-            passage: `<p>Medical terms frequently appear in academic reading tests. Identify the closest synonym.</p>`,
-            items: [
-                { word: "chronic", options: ["acute", "temporary", "persistent", "mild"], correct: "persistent" },
-                { word: "contagious", options: ["curable", "infectious", "genetic", "preventable"], correct: "infectious" },
-                { word: "symptom", options: ["cause", "cure", "indicator", "treatment"], correct: "indicator" },
-                { word: "efficacy", options: ["ineffectiveness", "danger", "effectiveness", "cost"], correct: "effectiveness" }
-            ]
-        },
-        {
-            title: "Technology and Innovation",
-            passage: `<p>Technology-related vocabulary is common in modern IELTS texts. Choose the best synonym.</p>`,
-            items: [
-                { word: "obsolete", options: ["modern", "outdated", "efficient", "innovative"], correct: "outdated" },
-                { word: "robust", options: ["weak", "fragile", "sturdy", "complex"], correct: "sturdy" },
-                { word: "simulate", options: ["ignore", "imitate", "destroy", "prevent"], correct: "imitate" },
-                { word: "disruptive", options: ["supportive", "traditional", "revolutionary", "minor"], correct: "revolutionary" }
-            ]
+      // Генерация HTML развёртки по частям (для модального окна)
+      function generateResultsBreakdown() {
+        let html = "";
+        currentTest.parts.forEach((part, idx) => {
+          let partCorrect = 0,
+            partTotal = part.questions.length;
+          let rowsHtml = "";
+          part.questions.forEach((q) => {
+            const userAns = userAnswers[`q${q.id}`] || "";
+            const isUnanswered = !userAns || userAns.trim() === "";
+            const isCorrect =
+              !isUnanswered && isAnswerCorrect(userAns, q.correct);
+            if (!isUnanswered && isCorrect) partCorrect++;
+            let answerDisplay = isUnanswered
+              ? '<em style="color:#f59e0b; font-style:italic">(blank)</em>'
+              : escapeHtml(userAns);
+            let rowClass = isUnanswered
+              ? "ir-unanswered"
+              : isCorrect
+                ? "ir-correct"
+                : "ir-incorrect";
+            rowsHtml += `
+              <div class="ir-ans-row ${rowClass}">
+                <div style="font-weight:700;">Q${q.id}</div>
+                <div>${answerDisplay}</div>
+                <div style="color:#059669; font-weight:600;">${escapeHtml(q.correct)}</div>
+              </div>
+            `;
+          });
+          html += `
+            <div class="ir-part-container" data-part="${idx}">
+              <div class="ir-part-header" onclick="toggleIrPart(this.parentElement)">
+                <div class="ir-part-left">
+                  <div class="ir-part-toggle">▼</div>
+                  <span>Passage ${part.id} · ${escapeHtml(part.title)}</span>
+                </div>
+                <span class="ir-part-score">${partCorrect}/${partTotal}</span>
+              </div>
+              <div class="ir-part-answers">
+                <div class="ir-ans-header"><div>#</div><div>Your Answer</div><div>Correct</div></div>
+                ${rowsHtml}
+              </div>
+            </div>
+          `;
+        });
+        return html;
+      }
+
+      // Показать модальное окно с результатами
+      function showResultsModal() {
+        const { total, correct, incorrect, unanswered } = calculateFullScore();
+        const scorePercent = Math.round((correct / total) * 100);
+        const modalContent = `
+          <div class="ir-results-card">
+            <h2 style="display:flex; justify-content:space-between;">
+              <span>🎉 <span class="ir-pill-label">Reading Test Complete!</span></span>
+              <span class="ir-pill-score" id="irPillScore">${correct}/${total}</span>
+            </h2>
+            <p style="color:#64748b; margin-bottom:14px;">Here's how you did</p>
+            <div class="ir-score-circle">
+              <span class="ir-score-num" id="irFinalScore">${correct}</span>
+              <span class="ir-score-total">/ ${total}</span>
+            </div>
+            <div class="ir-score-details">
+              <div class="ir-detail"><div class="ir-detail-val" style="color:#059669;">${correct}</div><div class="ir-detail-lbl">Correct</div></div>
+              <div class="ir-detail"><div class="ir-detail-val" style="color:#dc2626;">${incorrect}</div><div class="ir-detail-lbl">Incorrect</div></div>
+              <div class="ir-detail"><div class="ir-detail-val" style="color:#f59e0b;">${unanswered}</div><div class="ir-detail-lbl">Unanswered</div></div>
+            </div>
+            <div class="ir-parts-breakdown" id="irPartsBreakdown">
+              ${generateResultsBreakdown()}
+            </div>
+            <div class="ir-modal-buttons">
+              <button class="ir-btn-tryagain" id="btnTryAgain">🔄 Try Again</button>
+              <button class="ir-btn-back" id="btnBackMock">← Back to Mock Selection</button>
+              <button class="ir-btn-restore" id="btnRestoreResults">↗ Restore Results</button>
+            </div>
+          </div>
+        `;
+        const overlay = document.getElementById("resultOverlay");
+        overlay.innerHTML = modalContent;
+        overlay.style.display = "flex";
+        // Сохраняем результаты в localStorage, чтобы кнопка Restore могла их показать снова
+        localStorage.setItem(
+          `lastResults_${currentTest.id}`,
+          JSON.stringify({ userAnswers, timestamp: Date.now() }),
+        );
+        // Привязываем события кнопок
+        document
+          .getElementById("btnTryAgain")
+          ?.addEventListener("click", () => {
+            window.__okToLeave = true;
+            location.reload();
+          });
+        document
+          .getElementById("btnBackMock")
+          ?.addEventListener("click", () => {
+            // Эмуляция возврата (можно просто перезагрузить или перейти на landing.html)
+            window.location.href = "landing.html";
+          });
+        document
+          .getElementById("btnRestoreResults")
+          ?.addEventListener("click", () => {
+            // Просто закрыть модал, результаты уже видны
+            overlay.style.display = "none";
+          });
+        // Закрытие при клике на фон (не на карточку)
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) overlay.style.display = "none";
+        });
+      }
+
+      // Функция для сворачивания/разворачивания части (глобальная, вызывается из onclick)
+      window.toggleIrPart = function (headerElement) {
+        const container = headerElement.closest(".ir-part-container");
+        if (container) {
+          container.classList.toggle("collapsed");
         }
-    ];
+      };
 
-    // ---- Helper functions ----
-    function getRandomItem(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, (m) =>
+          m === "&" ? "&amp;" : m === "<" ? "&lt;" : "&gt;",
+        );
+      }
 
-    function getCurrentTestType() {
-        const stored = localStorage.getItem('currentTest');
-        if (stored === 'IELTS') return 'IELTS';
-        if (stored === 'CEFR') return 'CEFR';
-        return 'IELTS';
-    }
+      // ---- Остальной код из оригинала с минимальными правками ----
+      function saveAnswersToLocal() {
+        if (!currentTest) return;
+        localStorage.setItem(
+          `ielts_answers_${currentTest.id}`,
+          JSON.stringify(userAnswers),
+        );
+        localStorage.setItem(`ielts_timer_${currentTest.id}`, timerSeconds);
+        localStorage.setItem(
+          `ielts_currentPart_${currentTest.id}`,
+          currentPartId,
+        );
+      }
 
-    function percentToIELTS(percent) {
-        if (percent >= 95) return 9.0;
-        if (percent >= 90) return 8.5;
-        if (percent >= 85) return 8.0;
-        if (percent >= 78) return 7.5;
-        if (percent >= 70) return 7.0;
-        if (percent >= 62) return 6.5;
-        if (percent >= 55) return 6.0;
-        if (percent >= 48) return 5.5;
-        if (percent >= 40) return 5.0;
-        if (percent >= 32) return 4.5;
-        if (percent >= 25) return 4.0;
-        return 3.5;
-    }
+      function loadAnswersFromLocal() {
+        if (!currentTest) return;
+        const saved = localStorage.getItem(`ielts_answers_${currentTest.id}`);
+        if (saved) userAnswers = JSON.parse(saved);
+        const savedTimer = localStorage.getItem(
+          `ielts_timer_${currentTest.id}`,
+        );
+        if (savedTimer) timerSeconds = parseInt(savedTimer);
+        const savedPart = localStorage.getItem(
+          `ielts_currentPart_${currentTest.id}`,
+        );
+        if (savedPart) currentPartId = parseInt(savedPart);
+        updateTimerDisplay();
+      }
 
-    function percentToCEFR(percent) {
-        if (percent >= 90) return "C2 (Proficient)";
-        if (percent >= 75) return "C1 (Advanced)";
-        if (percent >= 60) return "B2 (Upper Intermediate)";
-        if (percent >= 45) return "B1 (Intermediate)";
-        if (percent >= 30) return "A2 (Elementary)";
-        return "A1 (Beginner)";
-    }
+      function clearOldTestData() {
+        userAnswers = {};
+        timerSeconds = 0;
+        currentPartId = 1;
+        if (timerInterval) clearInterval(timerInterval);
+        startTimer();
+        updateTimerDisplay();
+      }
 
-    function saveSingleResult(testType, scoreValue, percentCorrect, totalCorrect, totalPossible) {
-        const resultObj = {
-            testType: testType,
-            score: scoreValue,
-            percent: percentCorrect,
-            totalCorrect: totalCorrect,
-            totalPossible: totalPossible,
-            date: new Date().toISOString(),
-            section: 'reading'
-        };
-        localStorage.setItem('readingResult', JSON.stringify(resultObj));
-    }
-
-    // ---- Global state ----
-    let selectedGap, selectedHeading, selectedTF, selectedSyn;
-    let currentStep = 0;
-    let userAnswers = [];
-    let timerSeconds = 1800;
-    let timerInterval = null;
-    let testFinished = false;
-    let currentTestType = 'IELTS';
-    let resultSaved = false;
-
-    const passageArea = document.getElementById('passageArea');
-    const questionsArea = document.getElementById('questionsArea');
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const stepIndicator = document.getElementById('stepIndicator');
-    const progressMsgSpan = document.getElementById('progressMsg');
-    const scoreBadgeSpan = document.getElementById('scoreBadge');
-    const timerDisplaySpan = document.getElementById('timerDisplay');
-    const testTypeBadgeSpan = document.getElementById('testTypeBadge');
-
-    function formatTime(sec) {
-        let mins = Math.floor(sec / 60);
-        let remainSec = sec % 60;
-        return `${mins.toString().padStart(2,'0')}:${remainSec.toString().padStart(2,'0')}`;
-    }
-
-    function updateTimerUI() {
-        timerDisplaySpan.innerText = formatTime(timerSeconds);
-        if (timerSeconds <= 0 && !testFinished) autoFinishDueToTimeout();
-    }
-
-    function startTimer() {
+      function startTimer() {
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            if (!testFinished && timerSeconds > 0) {
-                timerSeconds--;
-                updateTimerUI();
-            } else if (timerSeconds <= 0 && !testFinished) {
-                clearInterval(timerInterval);
-                autoFinishDueToTimeout();
-            }
+          timerSeconds++;
+          updateTimerDisplay();
+          saveAnswersToLocal();
         }, 1000);
-    }
+      }
 
-    function autoFinishDueToTimeout() {
-        if (testFinished) return;
-        testFinished = true;
-        if (timerInterval) clearInterval(timerInterval);
-        progressMsgSpan.innerHTML = "⏰ TIME'S UP! Your answers have been submitted.";
-        finishAndShowResults(true);
-    }
+      function updateTimerDisplay() {
+        const mins = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        document.getElementById("timerDisplay").innerText =
+          `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+      }
 
-    function initAnswers() {
-        userAnswers = [];
-        userAnswers.push({ type: 'gap', values: new Array(selectedGap.gaps.length).fill(null), taskData: selectedGap });
-        userAnswers.push({ type: 'headings', values: new Array(selectedHeading.paragraphs.length).fill(''), taskData: selectedHeading });
-        userAnswers.push({ type: 'tf', values: new Array(selectedTF.statements.length).fill(null), taskData: selectedTF });
-        userAnswers.push({ type: 'syn', values: new Array(selectedSyn.items.length).fill(null), taskData: selectedSyn });
-    }
+      function getCurrentPart() {
+        return currentTest?.parts.find((p) => p.id === currentPartId);
+      }
 
-    function randomizeTasks() {
-        selectedGap = getRandomItem(gapTasks);
-        selectedHeading = getRandomItem(headingTasks);
-        selectedTF = getRandomItem(tfTasks);
-        selectedSyn = getRandomItem(synonymTasks);
-    }
+      function renderQuestions() {
+        const part = getCurrentPart();
+        if (!part) return;
+        const container = document.getElementById("questionsContainer");
+        let html = `<div class="section-title">Questions for "${part.title}"</div>`;
+        part.questions.forEach((q) => {
+          const saved = userAnswers[`q${q.id}`] || "";
+          if (q.type === "tfng") {
+            html += `<div class="question-item" id="q-container-${q.id}">
+            <div class="question-text"><span class="q-num">${q.id}</span> ${escapeHtml(q.text)}</div>
+            <div class="tfng-group" data-qid="${q.id}">
+              <button class="tfng-btn ${saved === "TRUE" ? "selected" : ""}" data-value="TRUE">TRUE</button>
+              <button class="tfng-btn ${saved === "FALSE" ? "selected" : ""}" data-value="FALSE">FALSE</button>
+              <button class="tfng-btn ${saved === "NOT GIVEN" ? "selected" : ""}" data-value="NOT GIVEN">NOT GIVEN</button>
+            </div>
+          </div>`;
+          } else {
+            html += `<div class="question-item" id="q-container-${q.id}">
+            <div class="question-text"><span class="q-num">${q.id}</span> ${escapeHtml(q.text)}</div>
+            <input type="text" class="answer-input" id="input-${q.id}" value="${escapeHtml(saved)}" placeholder="Type answer...">
+          </div>`;
+          }
+        });
+        container.innerHTML = html;
 
-    function renderCurrentTask() {
-        if (testFinished) return;
-        const task = userAnswers[currentStep];
-        if (!task) return;
-        stepIndicator.innerText = `Task ${currentStep+1} of 4`;
-        let taskData = task.taskData;
-        let passageHtml = `<h2>${taskData.title}</h2><div class="reading-text">${taskData.passage}</div>`;
-        passageArea.innerHTML = passageHtml;
-
-        let questionsHtml = `<div class="task-type-badge">${getTaskTypeName(task.type)}</div>`;
-        questionsHtml += `<div style="margin-bottom: 18px;">${getInstruction(task.type)}</div>`;
-
-        if (task.type === 'gap') {
-            for (let i = 0; i < taskData.gaps.length; i++) {
-                const selectedVal = task.values[i] || '';
-                questionsHtml += `<div class="gap-sentence"><strong>${i+1}.</strong> 
-                                    <select data-gap-idx="${i}" class="gap-select">
-                                        <option value="">-- select word --</option>`;
-                taskData.optionsPerGap[i].forEach(opt => {
-                    questionsHtml += `<option value="${opt}" ${selectedVal === opt ? 'selected' : ''}>${opt}</option>`;
-                });
-                questionsHtml += `</select></div>`;
-            }
-        } else if (task.type === 'headings') {
-            for (let i = 0; i < taskData.paragraphs.length; i++) {
-                const selected = task.values[i] || '';
-                questionsHtml += `<div class="match-row">
-                                    <div class="match-label">${taskData.paragraphs[i]}</div>
-                                    <select data-heading-idx="${i}" class="heading-select">
-                                        <option value="">-- choose heading --</option>`;
-                taskData.options.forEach(opt => {
-                    questionsHtml += `<option value="${opt}" ${selected === opt ? 'selected' : ''}>${opt}</option>`;
-                });
-                questionsHtml += `</select></div>`;
-            }
-        } else if (task.type === 'tf') {
-            taskData.statements.forEach((stmt, idx) => {
-                const selected = task.values[idx];
-                questionsHtml += `<div class="question-item">
-                                    <div class="question-text">${idx+1}. ${stmt.text}</div>
-                                    <div class="options-group">`;
-                ['True', 'False'].forEach(opt => {
-                    questionsHtml += `<label class="option-label">
-                                        <input type="radio" name="tf_${idx}" value="${opt}" ${selected === opt ? 'checked' : ''} data-tf-idx="${idx}"> ${opt}
-                                      </label>`;
-                });
-                questionsHtml += `</div></div>`;
+        part.questions.forEach((q) => {
+          if (q.type === "tfng") {
+            const btns = document.querySelectorAll(
+              `.tfng-group[data-qid="${q.id}"] .tfng-btn`,
+            );
+            btns.forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const val = btn.getAttribute("data-value");
+                userAnswers[`q${q.id}`] = val;
+                btns.forEach((b) => b.classList.remove("selected"));
+                btn.classList.add("selected");
+                saveAnswersToLocal();
+                updateNavState();
+                updateSubmitButtonState(); // проверяем полноту ответов
+              });
             });
-        } else if (task.type === 'syn') {
-            taskData.items.forEach((item, idx) => {
-                const selected = task.values[idx];
-                questionsHtml += `<div class="question-item">
-                                    <div class="question-text">📖 ${item.word}</div>
-                                    <div class="options-group">`;
-                item.options.forEach(opt => {
-                    questionsHtml += `<label class="option-label">
-                                        <input type="radio" name="syn_${idx}" value="${opt}" ${selected === opt ? 'checked' : ''} data-syn-idx="${idx}"> ${opt}
-                                      </label>`;
-                });
-                questionsHtml += `</div></div>`;
-            });
-        }
-        questionsArea.innerHTML = questionsHtml;
-        attachEventListeners(task.type);
-        updateNavButtons();
-        updateProgressMessage();
-    }
-
-    function attachEventListeners(type) {
-        if (type === 'gap') {
-            document.querySelectorAll('.gap-select').forEach(select => {
-                select.addEventListener('change', (e) => {
-                    if (testFinished) return;
-                    const idx = parseInt(select.getAttribute('data-gap-idx'));
-                    userAnswers[currentStep].values[idx] = select.value;
-                    updateProgressMessage();
-                });
-            });
-        } else if (type === 'headings') {
-            document.querySelectorAll('.heading-select').forEach(select => {
-                select.addEventListener('change', (e) => {
-                    if (testFinished) return;
-                    const idx = parseInt(select.getAttribute('data-heading-idx'));
-                    userAnswers[currentStep].values[idx] = select.value;
-                    updateProgressMessage();
-                });
-            });
-        } else if (type === 'tf') {
-            const total = userAnswers[currentStep].taskData.statements.length;
-            for (let i = 0; i < total; i++) {
-                const radios = document.querySelectorAll(`input[name="tf_${i}"]`);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', (e) => {
-                        if (testFinished) return;
-                        if (e.target.checked) {
-                            userAnswers[currentStep].values[i] = e.target.value;
-                            updateProgressMessage();
-                        }
-                    });
-                });
+          } else {
+            const input = document.getElementById(`input-${q.id}`);
+            if (input) {
+              input.addEventListener("input", (e) => {
+                userAnswers[`q${q.id}`] = e.target.value;
+                saveAnswersToLocal();
+                updateNavState();
+                updateSubmitButtonState();
+              });
             }
-        } else if (type === 'syn') {
-            const total = userAnswers[currentStep].taskData.items.length;
-            for (let i = 0; i < total; i++) {
-                const radios = document.querySelectorAll(`input[name="syn_${i}"]`);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', (e) => {
-                        if (testFinished) return;
-                        if (e.target.checked) {
-                            userAnswers[currentStep].values[i] = e.target.value;
-                            updateProgressMessage();
-                        }
-                    });
-                });
+          }
+        });
+        updateNavState();
+      }
+
+      function renderPassage() {
+        const part = getCurrentPart();
+        if (!part) return;
+        document.getElementById("passageTitle").innerText = part.title;
+        document.getElementById("passageInstruction").innerHTML =
+          part.instruction;
+        document.getElementById("passageContent").innerHTML = part.passage;
+      }
+
+      function updateNavState() {
+        const part = getCurrentPart();
+        if (!part) return;
+        part.questions.forEach((q) => {
+          const navItem = document.getElementById(`nav-q${q.id}`);
+          if (navItem) {
+            const ans = userAnswers[`q${q.id}`];
+            if (ans && ans.trim() !== "") {
+              navItem.classList.add("answered");
+              navItem.classList.remove("unanswered");
+            } else {
+              navItem.classList.add("unanswered");
+              navItem.classList.remove("answered");
             }
-        }
-    }
+          }
+        });
+      }
 
-    function getTaskTypeName(type) {
-        if (type === 'gap') return 'GAP FILL';
-        if (type === 'headings') return 'MATCHING HEADINGS';
-        if (type === 'tf') return 'TRUE / FALSE';
-        return 'SYNONYMS';
-    }
+      function buildQuestionNav() {
+        const part = getCurrentPart();
+        if (!part) return;
+        const navContainer = document.getElementById("questionNav");
+        navContainer.innerHTML = "";
+        part.questions.forEach((q) => {
+          const li = document.createElement("li");
+          li.textContent = q.id;
+          li.id = `nav-q${q.id}`;
+          li.onclick = () => {
+            const el =
+              document.getElementById(`input-${q.id}`) ||
+              document.querySelector(`.tfng-group[data-qid="${q.id}"]`);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          };
+          navContainer.appendChild(li);
+        });
+        updateNavState();
+      }
 
-    function getInstruction(type) {
-        if (type === 'gap') return 'Select the correct word to complete each blank.';
-        if (type === 'headings') return 'Match each paragraph with the most suitable heading.';
-        if (type === 'tf') return 'Decide if each statement is TRUE or FALSE based on the passage.';
-        return 'Choose the word closest in meaning to the given word.';
-    }
+      function switchPart(partId) {
+        currentPartId = partId;
+        renderPassage();
+        renderQuestions();
+        buildQuestionNav();
+        document.querySelectorAll(".passage-tab").forEach((tab) => {
+          const p = parseInt(tab.getAttribute("data-part"));
+          if (p === partId) tab.classList.add("active");
+          else tab.classList.remove("active");
+        });
+        saveAnswersToLocal();
+      }
 
-    function isCurrentTaskCompleted() {
-        const ans = userAnswers[currentStep].values;
-        return ans.every(v => v !== null && v !== '');
-    }
+      function buildTabs() {
+        const tabsContainer = document.getElementById("passageTabs");
+        tabsContainer.innerHTML = "";
+        currentTest.parts.forEach((part) => {
+          const btn = document.createElement("button");
+          btn.className = `passage-tab ${part.id === currentPartId ? "active" : ""}`;
+          btn.setAttribute("data-part", part.id);
+          btn.textContent = `Part ${part.id} · ${part.title.substring(0, 30)}${part.title.length > 30 ? "…" : ""}`;
+          btn.addEventListener("click", () => switchPart(part.id));
+          tabsContainer.appendChild(btn);
+        });
+      }
 
-    function updateProgressMessage() {
-        let totalAnswered = 0;
-        let totalPossible = 0;
-        for (let i = 0; i < userAnswers.length; i++) {
-            totalPossible += userAnswers[i].values.length;
-            totalAnswered += userAnswers[i].values.filter(v => v !== null && v !== '').length;
-        }
-        progressMsgSpan.innerHTML = `📋 Progress: ${totalAnswered} / ${totalPossible} questions answered. Time left: ${formatTime(timerSeconds)}`;
-    }
-
-    function updateNavButtons() {
-        if (currentStep === 0) prevBtn.style.visibility = 'hidden';
-        else prevBtn.style.visibility = 'visible';
-        if (currentStep === 3) nextBtn.innerText = '🏁 Finish Test';
-        else nextBtn.innerText = 'Next Task ▶';
-    }
-
-    function goNext() {
-        if (testFinished) return;
-        if (!isCurrentTaskCompleted()) {
-            progressMsgSpan.innerHTML = '⚠️ Please complete all questions in this task before proceeding.';
-            return;
-        }
-        if (currentStep === 3) {
-            finishAndShowResults(false);
-        } else {
-            currentStep++;
-            renderCurrentTask();
-        }
-    }
-
-    function goPrev() {
-        if (testFinished) return;
-        if (currentStep > 0) {
-            currentStep--;
-            renderCurrentTask();
-        }
-    }
-
-    function finishAndShowResults(timeoutFlag = false) {
-        if (testFinished) return;
-        testFinished = true;
-        if (timerInterval) clearInterval(timerInterval);
-
-        let totalCorrect = 0;
-        let totalPossible = 0;
-        // Gap
-        let gapData = userAnswers[0];
-        for (let i = 0; i < gapData.values.length; i++) {
-            totalPossible++;
-            if (gapData.values[i] === gapData.taskData.correct[i]) totalCorrect++;
-        }
-        // Headings
-        let headData = userAnswers[1];
-        for (let i = 0; i < headData.values.length; i++) {
-            totalPossible++;
-            if (headData.values[i] === headData.taskData.correctHeadings[i]) totalCorrect++;
-        }
-        // True/False
-        let tfData = userAnswers[2];
-        for (let i = 0; i < tfData.values.length; i++) {
-            totalPossible++;
-            if (tfData.values[i] === tfData.taskData.statements[i].correct) totalCorrect++;
-        }
-        // Synonyms
-        let synData = userAnswers[3];
-        for (let i = 0; i < synData.values.length; i++) {
-            totalPossible++;
-            if (synData.values[i] === synData.taskData.items[i].correct) totalCorrect++;
-        }
-
-        const percent = (totalCorrect / totalPossible) * 100;
-        let scoreDisplay = '';
-        let rawScore = null;
-
-        if (currentTestType === 'IELTS') {
-            let band = percentToIELTS(percent);
-            rawScore = band.toFixed(1);
-            scoreDisplay = `IELTS Band: ${rawScore}`;
-        } else {
-            let level = percentToCEFR(percent);
-            rawScore = level;
-            scoreDisplay = `CEFR Level: ${rawScore}`;
-        }
-
-        if (!resultSaved) {
-            saveSingleResult(currentTestType, rawScore, percent, totalCorrect, totalPossible);
-            resultSaved = true;
-        }
-
-        let timeoutMsg = timeoutFlag ? " (TIME EXPIRED)" : "";
-        progressMsgSpan.innerHTML = `🎯 FINAL RESULT: ${totalCorrect} / ${totalPossible} (${Math.round(percent)}%) — ${scoreDisplay}${timeoutMsg}`;
-        scoreBadgeSpan.innerHTML = `<span class="score-large">${scoreDisplay}</span>`;
-        
-        const detailDiv = document.createElement('div');
-        detailDiv.style.marginTop = '12px';
-        detailDiv.style.fontSize = '0.85rem';
-        detailDiv.innerHTML = `<strong>Breakdown:</strong> Gap: ${gapData.values.filter((v,i)=> v === gapData.taskData.correct[i]).length}/${gapData.values.length} · Headings: ${headData.values.filter((v,i)=> v === headData.taskData.correctHeadings[i]).length}/${headData.values.length} · TF: ${tfData.values.filter((v,i)=> v === tfData.taskData.statements[i].correct).length}/${tfData.values.length} · Synonyms: ${synData.values.filter((v,i)=> v === synData.taskData.items[i].correct).length}/${synData.values.length}`;
-        const oldDetail = document.getElementById('breakdownDetail');
-        if (oldDetail) oldDetail.remove();
-        detailDiv.id = 'breakdownDetail';
-        document.querySelector('.result-preview').appendChild(detailDiv);
-        
-        document.querySelectorAll('select, input[type="radio"]').forEach(el => el.disabled = true);
-        nextBtn.disabled = true;
-        prevBtn.disabled = true;
-    }
-
-    function init() {
-        currentTestType = getCurrentTestType();
-        testTypeBadgeSpan.innerText = currentTestType === 'IELTS' ? 'IELTS Academic Reading' : 'CEFR Reading Test';
-        randomizeTasks();
-        initAnswers();
+      function initRandomTest() {
+        const randomIndex = Math.floor(Math.random() * TESTS.length);
+        currentTest = TESTS[randomIndex];
+        document.querySelector(".logo").innerHTML = `📖 ${currentTest.title}`;
+        clearOldTestData(); // сброс таймера и ответов
+        // Не загружаем старые ответы, чтобы тест был чистым при обновлении
+        buildTabs();
+        renderPassage();
+        renderQuestions();
+        buildQuestionNav();
         startTimer();
-        renderCurrentTask();
-        nextBtn.addEventListener('click', goNext);
-        prevBtn.addEventListener('click', goPrev);
-        updateProgressMessage();
-        resultSaved = false;
-    }
+        updateSubmitButtonState(); // кнопка заблокирована, пока не ответят на все вопросы
+      }
 
-    init();
-</script>
-</body>
+      function initTheme() {
+        const isDark = localStorage.getItem("darkMode") === "true";
+        if (isDark) document.body.classList.add("dark-mode");
+        document
+          .getElementById("themeToggleBtn")
+          .addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem(
+              "darkMode",
+              document.body.classList.contains("dark-mode"),
+            );
+          });
+      }
+
+      document
+        .getElementById("submitTestBtn")
+        .addEventListener("click", showResultsModal);
+      document.getElementById("closeResultBtn")?.removeEventListener?.(); // не используется
+
+      initTheme();
+      initRandomTest();
+    </script>
+  </body>
 </html>
