@@ -270,7 +270,7 @@
         const appContainer = document.getElementById('app-content');
         
         try {
-            const response = await axios.get(API_URL);
+            const response = await axios.get(`${API_URL}/test/all/speaking-question`);
             const tests = response.data;
 
             // Если данные не массив или пусто
