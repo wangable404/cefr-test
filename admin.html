@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <footer>Административная панель — данные с сервера: /api/v1/user и /api/v1/:userId/speaking-question</footer>
+    <footer>Административная панель — данные с сервера: /api/v1/user и /api/v1/user/:userId/speaking-question</footer>
 </div>
 
 <script src="./assets/js/config.js"></script>
@@ -388,7 +388,7 @@
         appContainer.innerHTML = `<div class="status-message"><div class="loader"></div><p>Загрузка тестов пользователя...</p></div>`;
         
         try {
-            const url = `${API_URL}/test/${userId}/speaking-question`;
+            const url = `${API_URL}/test/user/${userId}/speaking-question`;
             const response = await axios.get(url);
             let tests = response.data;
             if (!Array.isArray(tests)) tests = [];
