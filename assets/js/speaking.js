@@ -1,5 +1,4 @@
 const type = localStorage.getItem("currentTest");
-const TOKEN = localStorage.getItem("token");
 const params = new URLSearchParams(window.location.search);
 const part = params.get("part");
 
@@ -353,7 +352,7 @@ async function uploadAllRecordings() {
   }
 
   try {
-    const token = localStorage.getItem("token") || TOKEN;
+    const token = localStorage.getItem("token");
     const response = await axios.post(
       `${API_URL}/test/${type}/upload/speaking-question`,
       formData,

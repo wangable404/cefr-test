@@ -21,16 +21,14 @@
             padding: 2rem 1.5rem;
         }
 
-        /* Контейнер */
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Шапка */
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
@@ -47,10 +45,160 @@
             color: #5b6e8c;
             margin-top: 0.5rem;
             font-size: 0.95rem;
-            font-weight: 400;
         }
 
-        /* Статус загрузки / ошибки */
+        /* Навигация (хлебные крошки + кнопки) */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1e293b;
+        }
+
+        .nav-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .breadcrumb span {
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        /* Сетка карточек (пользователи / тесты) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .user-card, .test-card {
+            background: white;
+            border-radius: 1.25rem;
+            border: 1px solid #eef2f8;
+            padding: 1.2rem 1.2rem 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .user-card:hover, .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: #0f172a;
+        }
+
+        .user-email {
+            font-size: 0.8rem;
+            color: #5b6e8c;
+            word-break: break-all;
+        }
+
+        .user-id {
+            font-size: 0.7rem;
+            font-family: monospace;
+            background: #f1f5f9;
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            margin-top: 0.6rem;
+        }
+
+        .test-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .test-type {
+            font-weight: 600;
+            font-size: 0.8rem;
+            background: #eef2ff;
+            color: #1e40af;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        .test-date {
+            font-size: 0.7rem;
+            color: #5b6e8c;
+        }
+
+        .test-questions-count {
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        /* Аудио-список */
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .audio-item {
+            background: #f9fafc;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #edf2f7;
+        }
+
+        .audio-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            font-size: 0.7rem;
+            color: #5b6e8c;
+        }
+
+        .question-num {
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        audio {
+            width: 100%;
+            height: 42px;
+            border-radius: 32px;
+            outline: none;
+        }
+
         .status-message {
             text-align: center;
             padding: 3rem;
@@ -83,143 +231,21 @@
             border-radius: 1rem;
         }
 
-        /* Сетка карточек */
-        .tests-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
-            gap: 1.8rem;
-        }
-
-        /* Карточка теста */
-        .test-card {
-            background: #ffffff;
-            border-radius: 1.25rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: all 0.2s ease;
-            border: 1px solid #eef2f8;
-            overflow: hidden;
-        }
-
-        .test-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.08);
-        }
-
-        .test-header {
-            padding: 1rem 1.5rem;
-            background: #fafcff;
-            border-bottom: 1px solid #eef2f8;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.75rem;
-        }
-
-        .test-type {
-            font-weight: 600;
-            font-size: 0.8rem;
-            background: #eef2ff;
-            color: #1e40af;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            letter-spacing: 0.2px;
-        }
-
-        .test-date {
-            font-size: 0.75rem;
-            color: #5b6e8c;
-            background: #f1f5f9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-        }
-
-        .user-id {
-            font-size: 0.7rem;
-            background: #eef2ff;
-            color: #2c3e66;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-        }
-
-        /* Список аудио */
-        .audio-list {
-            padding: 1.2rem 1.2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .audio-item {
-            background: #f9fafc;
-            border-radius: 1rem;
-            padding: 0.75rem 1rem;
-            transition: background 0.2s;
-            border: 1px solid #edf2f7;
-        }
-
-        .audio-item:hover {
-            background: #ffffff;
-            border-color: #e0e7ef;
-        }
-
-        .audio-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.6rem;
-            font-size: 0.7rem;
-            color: #5b6e8c;
-        }
-
-        .question-num {
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: none;
+            border: none;
+            color: #3b5b8c;
             font-weight: 500;
-            color: #2d3a4e;
-            background: #eef2ff;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
         }
 
-        .audio-id {
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.65rem;
-            background: #eef2f8;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-        }
-
-        audio {
-            width: 100%;
-            height: 42px;
-            border-radius: 32px;
-            outline: none;
-        }
-
-        audio:focus {
-            outline: 2px solid #cbd5e1;
-        }
-
-        .no-audio {
-            padding: 1.8rem;
-            text-align: center;
-            color: #8ba0bc;
-            font-size: 0.85rem;
-            font-style: italic;
-        }
-
-        /* Адаптив */
-        @media (max-width: 680px) {
-            body {
-                padding: 1rem;
-            }
-            .tests-grid {
-                grid-template-columns: 1fr;
-            }
-            .test-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header h1 {
-                font-size: 1.5rem;
-            }
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         footer {
@@ -230,30 +256,56 @@
             border-top: 1px solid #eef2f8;
             padding-top: 1.8rem;
         }
+
+        @media (max-width: 680px) {
+            body { padding: 1rem; }
+            .grid { grid-template-columns: 1fr; }
+            .nav-bar { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>🎧 Админ панель · Аудиоответы</h1>
-        <div class="subtitle">Прослушивание записей пользователей (IELTS Speaking)</div>
+        <div class="subtitle">Управление записями пользователей (IELTS Speaking)</div>
+    </div>
+
+    <!-- Панель навигации (хлебные крошки + кнопки) -->
+    <div class="nav-bar" id="navBar">
+        <button class="nav-btn" id="backToUsersBtn" style="display: none;">← К списку пользователей</button>
+        <button class="nav-btn" id="backToTestsBtn" style="display: none;">← К тестам пользователя</button>
+        <div class="breadcrumb" id="breadcrumb"></div>
     </div>
 
     <div id="app-content">
-        <!-- Сюда динамически вставим карточки, лоадер или ошибку -->
         <div class="status-message">
             <div class="loader"></div>
-            <p>Загрузка аудиоданных...</p>
+            <p>Загрузка списка пользователей...</p>
         </div>
     </div>
-    <footer>Административная панель — все аудиофайлы защищены. Данные с сервера: /api/v1/test/all/speaking-question</footer>
+
+    <footer>Административная панель — данные с сервера: /api/v1/user и /api/v1/:userId/speaking-question</footer>
 </div>
 
 <script src="./assets/js/config.js"></script>
 <script>
+    // ---------- Глобальные переменные состояния ----------
+    let currentView = 'users';      // 'users', 'tests', 'audio'
+    let usersList = [];              // все пользователи
+    let selectedUserId = null;
+    let selectedTest = null;         // объект теста, для которого показываем аудио
+    let userTests = [];              // тесты выбранного пользователя
 
-    // Функция форматирования даты
+    // DOM элементы
+    const appContainer = document.getElementById('app-content');
+    const backToUsersBtn = document.getElementById('backToUsersBtn');
+    const backToTestsBtn = document.getElementById('backToTestsBtn');
+    const breadcrumbDiv = document.getElementById('breadcrumb');
+
+    // Вспомогательные функции
     function formatDate(dateString) {
+        if (!dateString) return '—';
         const date = new Date(dateString);
         if (isNaN(date.getTime())) return dateString;
         return date.toLocaleString('ru-RU', {
@@ -265,112 +317,262 @@
         });
     }
 
-    // Основная функция рендеринга
-    async function loadAndRender() {
-        const appContainer = document.getElementById('app-content');
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // Обновление навигационной панели (видимость кнопок и хлебные крошки)
+    function updateNavigation() {
+        if (currentView === 'users') {
+            backToUsersBtn.style.display = 'none';
+            backToTestsBtn.style.display = 'none';
+            breadcrumbDiv.innerHTML = '📋 Все пользователи';
+        } 
+        else if (currentView === 'tests') {
+            backToUsersBtn.style.display = 'inline-flex';
+            backToTestsBtn.style.display = 'none';
+            const user = usersList.find(u => u.id === selectedUserId);
+            const userName = user ? (user.username || user.email) : selectedUserId;
+            breadcrumbDiv.innerHTML = `👤 ${escapeHtml(userName)} → Тесты speaking`;
+        } 
+        else if (currentView === 'audio') {
+            backToUsersBtn.style.display = 'inline-flex';
+            backToTestsBtn.style.display = 'inline-flex';
+            const user = usersList.find(u => u.id === selectedUserId);
+            const userName = user ? (user.username || user.email) : selectedUserId;
+            const testLabel = selectedTest ? `${selectedTest.type || 'IELTS'} (${formatDate(selectedTest.createdAt)})` : 'Тест';
+            breadcrumbDiv.innerHTML = `👤 ${escapeHtml(userName)} → 🧪 ${escapeHtml(testLabel)} → Аудио`;
+        }
+    }
+
+    // Отрисовка списка пользователей
+    function renderUsers() {
+        if (!usersList.length) {
+            appContainer.innerHTML = `<div class="status-message"><p>📭 Пользователи не найдены.</p></div>`;
+            return;
+        }
+        let html = `<div class="grid">`;
+        for (const user of usersList) {
+            const displayName = user.username || user.email || 'Без имени';
+            const email = user.email || '—';
+            const userIdShort = user.id ? user.id.slice(0, 8) : '';
+            html += `
+                <div class="user-card" data-user-id="${escapeHtml(user.id)}">
+                    <div class="user-name">${escapeHtml(displayName)}</div>
+                    <div class="user-email">${escapeHtml(email)}</div>
+                    <div class="user-id">ID: ${escapeHtml(userIdShort)}…</div>
+                </div>
+            `;
+        }
+        html += `</div>`;
+        appContainer.innerHTML = html;
+
+        // Навесить обработчики кликов на карточки пользователей
+        document.querySelectorAll('.user-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const userId = card.getAttribute('data-user-id');
+                if (userId) loadTestsForUser(userId);
+            });
+        });
+    }
+
+    // Загрузка тестов для выбранного пользователя
+    async function loadTestsForUser(userId) {
+        if (!userId) return;
+        selectedUserId = userId;
+        currentView = 'tests';
+        updateNavigation();
+        
+        // Показываем лоадер внутри app-container
+        appContainer.innerHTML = `<div class="status-message"><div class="loader"></div><p>Загрузка тестов пользователя...</p></div>`;
         
         try {
-            const response = await axios.get(`${API_URL}/test/all/speaking-question`);
-            const tests = response.data;
-
-            // Если данные не массив или пусто
-            if (!Array.isArray(tests) || tests.length === 0) {
-                appContainer.innerHTML = `
-                    <div class="status-message">
-                        <p>📭 Нет данных от пользователей. Пока ни одного аудиоответа.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Генерируем HTML-карточки
-            let cardsHtml = '';
-            for (const test of tests) {
-                const testId = test.id;
-                const type = test.type || 'IELTS';
-                const createdAt = test.createdAt;
-                const userId = test.userId;
-                const questions = test.speaking_test_questions || [];
-
-                // Заголовок карточки
-                const formattedDate = formatDate(createdAt);
-                const userBlock = userId ? `<span class="user-id">👤 ID: ${escapeHtml(userId)}</span>` : '';
-
-                let audioItemsHtml = '';
-                if (questions.length === 0) {
-                    audioItemsHtml = `<div class="no-audio">🔇 Нет аудиозаписей для этого теста</div>`;
-                } else {
-                    questions.forEach((audio, idx) => {
-                        const audioPath = audio.audio_path;
-                        const fullAudioUrl = `${BASE_URL}${audioPath}`;
-                        const shortQuestionId = audio.speakingQuestionId ? audio.speakingQuestionId.slice(0, 8) : 'unknown';
-                        
-                        audioItemsHtml += `
-                            <div class="audio-item">
-                                <div class="audio-meta">
-                                    <span class="question-num">🎤 Вопрос ${idx + 1}</span>
-                                    <span class="audio-id">ID: ${escapeHtml(shortQuestionId)}…</span>
-                                </div>
-                                <audio controls preload="metadata" class="audio-player">
-                                    <source src="${escapeHtml(fullAudioUrl)}" type="audio/webm">
-                                    Ваш браузер не поддерживает аудиоплеер.
-                                </audio>
-                            </div>
-                        `;
-                    });
-                }
-
-                cardsHtml += `
-                    <div class="test-card">
-                        <div class="test-header">
-                            <span class="test-type">📌 ${escapeHtml(type)}</span>
-                            <span class="test-date">📅 ${formattedDate}</span>
-                            ${userBlock}
-                        </div>
-                        <div class="audio-list">
-                            ${audioItemsHtml}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Вставляем готовую сетку
-            appContainer.innerHTML = `<div class="tests-grid">${cardsHtml}</div>`;
-
+            const url = `${API_URL}/test/${userId}/speaking-question`;
+            const response = await axios.get(url);
+            let tests = response.data;
+            if (!Array.isArray(tests)) tests = [];
+            userTests = tests;
+            renderTestsList();
         } catch (error) {
-            console.error('Ошибка при загрузке:', error);
-            let errorMsg = 'Не удалось загрузить данные. Проверьте: сервер запущен на http://localhost:4000 и CORS настроен.';
+            console.error('Ошибка загрузки тестов:', error);
+            let errorMsg = `Не удалось загрузить тесты пользователя.`;
+            if (error.response) {
+                errorMsg = `Ошибка ${error.response.status}: ${error.response.statusText}`;
+            } else if (error.request) {
+                errorMsg = 'Сервер не отвечает. Проверьте бекенд.';
+            } else {
+                errorMsg = error.message;
+            }
+            appContainer.innerHTML = `<div class="status-message error-box"><strong>⚠️ Ошибка</strong><br>${escapeHtml(errorMsg)}<br><br><button class="nav-btn" onclick="location.reload()">⟳ Повторить</button></div>`;
+        }
+    }
+
+    // Отрисовка списка тестов (для выбранного пользователя)
+    function renderTestsList() {
+        if (!userTests.length) {
+            appContainer.innerHTML = `<div class="status-message"><p>📭 У этого пользователя нет тестов speaking.</p></div>`;
+            return;
+        }
+        let html = `<div class="grid">`;
+        for (const test of userTests) {
+            const testId = test.id;
+            const type = test.type || 'IELTS';
+            const createdAt = test.createdAt;
+            const questionsCount = test.speaking_test_questions?.length || 0;
+            html += `
+                <div class="test-card" data-test-id="${escapeHtml(testId)}">
+                    <div class="test-meta">
+                        <span class="test-type">📌 ${escapeHtml(type)}</span>
+                        <span class="test-date">📅 ${formatDate(createdAt)}</span>
+                    </div>
+                    <div class="test-questions-count">🎙️ Аудио: ${questionsCount} записей</div>
+                    <div style="font-size:0.7rem; color:#6c86a3; margin-top:0.5rem;">ID теста: ${escapeHtml(testId.slice(0, 12))}…</div>
+                </div>
+            `;
+        }
+        html += `</div>`;
+        appContainer.innerHTML = html;
+
+        // Навесить обработчики на карточки тестов
+        document.querySelectorAll('.test-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const testId = card.getAttribute('data-test-id');
+                const foundTest = userTests.find(t => t.id === testId);
+                if (foundTest) {
+                    selectedTest = foundTest;
+                    renderAudioForTest();
+                }
+            });
+        });
+    }
+
+    // Отображение аудио для выбранного теста (без доп. запроса, данные уже в selectedTest)
+    function renderAudioForTest() {
+        if (!selectedTest) {
+            appContainer.innerHTML = `<div class="status-message error-box">Ошибка: тест не выбран</div>`;
+            return;
+        }
+        currentView = 'audio';
+        updateNavigation();
+
+        const questions = selectedTest.speaking_test_questions || [];
+        const testType = selectedTest.type || 'IELTS';
+        const testDate = formatDate(selectedTest.createdAt);
+
+        if (!questions.length) {
+            appContainer.innerHTML = `
+                <div class="status-message">
+                    <p>🔇 В этом тесте нет аудиозаписей.</p>
+                    <button class="nav-btn" id="backToTestsFromEmpty" style="margin-top:1rem;">← Вернуться к тестам</button>
+                </div>
+            `;
+            document.getElementById('backToTestsFromEmpty')?.addEventListener('click', () => {
+                if (selectedUserId) loadTestsForUser(selectedUserId);
+                else goToUsers();
+            });
+            return;
+        }
+
+        let audioHtml = `<div style="background: white; border-radius: 1.5rem; padding: 1.5rem; border:1px solid #eef2f8;">
+            <div style="margin-bottom: 1rem;">
+                <h3 style="font-weight: 500;">🧪 Тест: ${escapeHtml(testType)}</h3>
+                <div style="font-size:0.8rem; color:#5b6e8c;">📅 ${testDate} | 🆔 ${escapeHtml(selectedTest.id.slice(0, 12))}…</div>
+            </div>
+            <div class="audio-list">
+        `;
+        questions.forEach((audio, idx) => {
+            const audioPath = audio.audio_path;
+            let fullAudioUrl = '';
+            if (audioPath) {
+                // Если audio_path начинается с /, используем BASE_URL (который обычно равен http://localhost:4000)
+                fullAudioUrl = audioPath.startsWith('/') ? `${BASE_URL}${audioPath}` : `${BASE_URL}/${audioPath}`;
+            }
+            const shortId = audio.id ? audio.id.slice(0, 8) : '...';
+            audioHtml += `
+                <div class="audio-item">
+                    <div class="audio-meta">
+                        <span class="question-num">🎤 Вопрос ${idx + 1}</span>
+                        <span class="audio-id">ID: ${escapeHtml(shortId)}…</span>
+                    </div>
+                    ${fullAudioUrl ? `<audio controls preload="metadata" style="width:100%">
+                        <source src="${escapeHtml(fullAudioUrl)}" type="audio/webm">
+                        <source src="${escapeHtml(fullAudioUrl)}" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудиоплеер.
+                    </audio>` : `<div style="color:#b91c1c; font-size:0.8rem;">❌ Аудиофайл отсутствует (путь: ${escapeHtml(audioPath)})</div>`}
+                </div>
+            `;
+        });
+        audioHtml += `</div></div>`;
+        appContainer.innerHTML = audioHtml;
+    }
+
+    // Возврат к списку пользователей (сброс состояния)
+    function goToUsers() {
+        currentView = 'users';
+        selectedUserId = null;
+        selectedTest = null;
+        userTests = [];
+        updateNavigation();
+        renderUsers();
+    }
+
+    // Возврат к списку тестов (если известен userId)
+    function goToTests() {
+        if (selectedUserId) {
+            loadTestsForUser(selectedUserId);
+        } else {
+            goToUsers();
+        }
+    }
+
+    // Первоначальная загрузка всех пользователей
+    async function loadUsers() {
+        try {
+            const response = await axios.get(`${API_URL}/user`);
+            let users = response.data;
+            if (!Array.isArray(users)) users = [];
+            usersList = users;
+            renderUsers();
+        } catch (error) {
+            console.error('Ошибка загрузки пользователей:', error);
+            let errorMsg = 'Не удалось загрузить список пользователей.';
             if (error.response) {
                 errorMsg = `Ошибка сервера: ${error.response.status} — ${error.response.statusText}`;
             } else if (error.request) {
-                errorMsg = 'Сервер не отвечает. Убедитесь, что бекенд запущен и доступен по адресу http://localhost:4000';
+                errorMsg = 'Сервер не отвечает. Убедитесь, что бекенд запущен на http://localhost:4000 и CORS настроен.';
             } else {
                 errorMsg = error.message;
             }
             appContainer.innerHTML = `
                 <div class="status-message error-box">
-                    <strong>⚠️ Ошибка загрузки</strong><br>
+                    <strong>⚠️ Ошибка загрузки пользователей</strong><br>
                     ${escapeHtml(errorMsg)}
                     <br><br>
-                    <button onclick="location.reload()" style="background:#eef2ff; border:none; padding:0.4rem 1rem; border-radius:2rem; cursor:pointer; margin-top:0.5rem;">⟳ Повторить</button>
+                    <button onclick="location.reload()" style="background:#eef2ff; border:none; padding:0.4rem 1rem; border-radius:2rem; cursor:pointer;">⟳ Повторить</button>
                 </div>
             `;
         }
     }
 
-    // Простая защита от XSS
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
+    // Инициализация обработчиков кнопок навигации
+    function bindNavButtons() {
+        backToUsersBtn.addEventListener('click', () => {
+            goToUsers();
+        });
+        backToTestsBtn.addEventListener('click', () => {
+            if (selectedUserId) goToTests();
+            else goToUsers();
+        });
     }
 
-    // Запускаем загрузку при загрузке страницы
-    window.addEventListener('DOMContentLoaded', loadAndRender);
+    // Старт приложения
+    function init() {
+        bindNavButtons();
+        loadUsers();
+    }
+
+    init();
 </script>
 </body>
 </html>
